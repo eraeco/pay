@@ -1,0 +1,728 @@
+<body>
+	<style>
+		html, body {
+			padding: 0;
+			margin: 0;
+		}
+		body {
+			background: black;
+			color: skyblue;
+		}
+		div {
+			position: relative;
+			box-sizing: border-box;
+		}
+		div, ul, li, form, p, span, input, textarea {
+			-webkit-transition: all 0.3s;
+			transition: all 0.3s;
+			box-sizing: border-box;
+		}
+		@media print {
+			html, body {
+				background:  white;
+			}
+		}
+		.none {
+			display: none;
+		}
+		.say {
+			height: 25%;
+			text-align: center;
+		}
+		.envelope {
+			height: 25em;
+		}
+		.check {
+			width: 50em;
+			margin: 1em auto;
+			padding: 0.4em;
+			background: skyblue;
+			color: black;
+		}
+		.paper {
+			width: 100%;
+			p-adding-bottom: 40%;
+			position: relative;
+			border: solid black 0.3em;
+		}
+		.back .check {
+			background: white;
+		}
+		.back .paper {
+			border: solid #EEE 0.3em;
+		}
+		.row {
+			height: 2.6em;
+		}
+		div[contenteditable] {
+			white-space: pre;
+		}
+		div[contenteditable="true"]:hover {
+			outline: solid gold 0.1em;
+		}
+
+		
+		.flipit:hover .vertical, .flipit.hover .flipit {
+			-ms-transform: rotateX(-180deg);
+			transform: rotateX(-180deg);
+		}
+		.flip {
+			-ms-perspective: 1000px;
+			perspective: 1000px;
+			position: relative;
+			height: 22em;
+			width: 90%;
+			margin: 0 auto;
+		}
+		.vertical {
+			height: 2em;
+			width: 50em;
+			margin: 0 auto;
+		}
+		.vertical {
+			position: relative;
+			-ms-transition: 1.2s;
+			transition: 1.2s;
+			-ms-transform-style: preserve-3d;
+			transform-style: preserve-3d;
+			-ms-transform-origin: 100% 11em; /* half of height */
+			transform-origin: 100% 11em; /* half of height */
+		}
+		.front, .back {
+			-ms-backface-visibility: hidden;
+			backface-visibility: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		.front {
+			z-index: 2;
+			-ms-transform: rotateX(0deg);
+			transform: rotateX(0deg);
+		}
+		.back {
+			-ms-transform: rotateX(-180deg);
+			transform: rotateX(-180deg);
+		}
+
+
+
+		.what {
+			font-size: 0.8em;
+			float: left;
+		}
+		.address {
+			float: left;
+			height: 4em;
+			width: 40%;
+			margin: 1em 0 0 1.5em;
+		}
+		.number {
+			float: right;
+			padding: 1.25em 2em 0 0;
+		}
+		.number img {
+			height: 1em;
+		}
+		.number:hover img {
+			outline: solid gold 1px;
+		}
+		.number img {
+			height: 1em;
+			margin: 0 0.1em;
+		}
+		.innumber {
+			float: right;
+			font-size: 1em;
+			padding: 1em 2em 0 0;
+		}
+		.numbers:hover .number {
+			display: none;
+		}
+		.innumber {
+			display: none;
+		}
+		.innumber input {
+			font-size: 1em;
+			width: 3em;
+		}
+		.numbers:hover .innumber {
+			display: inline;
+		}
+		.flipit .numbers:hover .innumber {
+			display: none;
+		}
+		.when {
+			float: right;
+			padding: 0 10em 0 0;
+			text-align: right;
+			margin-top: -0.5em;
+		}
+		.when .what {
+			float: right;
+		}
+		.date {
+			padding: 0.1em;
+			width: 10em;
+			font-size: 1.2em;
+			text-align: center;
+			border-bottom: solid black 1px;
+		}
+		.who .what {
+			width: 7em;
+			padding-left: 1em;
+		}
+		.payee {
+			float: left;
+			width: 60%;
+			font-size: 1.4em;
+			padding-left: 2%;
+			border-bottom: solid black 1px;
+			border-right: solid black 1px;
+		}
+		.currency {
+			float: left;
+			padding: 0 0.5em 0 0.5em;
+			font-size: 1.5em;
+		}
+		.amount {
+			float: left;
+			width: 20%;
+			font-size: 1.4em;
+			background: white;
+			border: solid black 1px;
+			padding: 0 0.2em 0 0.2em;
+		}
+		.amounts {
+			float: left;
+			width: 80%;
+			font-size: 1.4em;
+			margin-left: 0.7em;
+			padding-left: 2%;
+			border-bottom: solid black 1px;
+		}
+		.moneys .what {
+			padding-top: 1em;
+			padding-left: 0.5em;
+		}
+		.moneys .details {
+			font-size: 0.5em;
+			width: 7em;
+			padding-top: 0em;
+			padding-left: 1em;
+		}
+		.bank {
+			float: left;
+			height: 3.6em;
+			width: 40%;
+			margin: 0 0 0 1.5em;
+		}
+		.why {
+			clear: both;
+		}
+		.why .what {
+			padding-left: 1em;
+			margin-top: 1em;
+		}
+		.memo {
+			float: left;
+			width: 40%;
+			font-size: 1.4em;
+			margin-left: 0.2em;
+			padding-left: 1%;
+			border-bottom: solid black 1px;
+		}
+		.signature {
+			float: right;
+			width: 45%;
+			font-size: 1.5em;
+			margin-top: -0.2em;
+			margin-right: 1em;
+			padding-left: 2%;
+			text-align: center;
+			border-bottom: solid black 1px;
+			font-family: 'Yellowtail', cursive;
+		}
+		.scan {
+			height: 3.6em;
+		}
+		.MICR {
+			float: left;
+			padding: 1em 0 0 0.5em;
+		}
+		.MICR img {
+			height: 1.4em;
+			margin: 0 0.4em;
+		}
+		.routing {
+		}
+		.routing:hover img {
+			outline: solid gold 1px;
+		}
+		.MICR:hover .routing {
+			display: none;
+		}
+		.inroute {
+			display: none;
+		}
+		.inroute input {
+			margin-top: -0.3em;
+			font-size: 1.4em;
+			width: 12.1em;
+		}
+		.MICR:hover .inroute {
+			display: inline;
+		}
+		.flipit .MICR:hover .inroute {
+			display: none;
+		}
+		.account {
+			padding: 0 0.5em;
+		}
+		.account:hover img {
+			outline: solid gold 1px;
+		}
+		.MICR:hover .account {
+			display: none;
+		}
+		.inaccount {
+			display: none;
+		}
+		.inaccount input {
+			margin-top: -0.3em;
+			font-size: 1.4em;
+			width: 12.1em;
+		}
+		.MICR:hover .inaccount {
+			display: inline;
+		}
+		.flipit .MICR:hover .inaccount {
+			display: none;
+		}
+
+
+
+
+
+
+		.back {
+			font-family: Arial;
+		}
+		.back .height {
+			height: 21em;
+			position: relative;
+		}
+		.back .side {
+			position: absolute;
+			top: 100%;
+			width: 21em;
+			height: 5em;
+			padding: 0.5em;
+			transform-origin: 0em 0em;
+			transform: rotateZ(-90deg);
+		}
+		.back .accept {
+			position: relative;
+			float: left;
+			width: 30%;
+			height: 100%;
+		}
+		.back .original {
+			position: relative;
+			float: left;
+			width: 50%;
+			height: 100%;
+			background: #EEE;
+		}
+		.back .security {
+			position: relative;
+			float: left;
+			width: 20%;
+			height: 100%;
+			background: #EEE;
+			border: solid black 1px;
+		}
+		.back .what {
+			float: none;
+			color: #AAA;
+		}
+		.back .endorse {
+			font-size: 2.2em;
+			font-family: 'Yellowtail', cursive;
+			border-bottom: solid black 1px;
+		}
+
+		.back .institution {
+			text-align: center;
+			margin-top: -3em;
+		}
+		.back .institution .small {
+			font-size: 90%;
+		}
+
+		.back .document {
+			text-align: center;
+			color: white;
+			font-size: 4em;
+		}
+		.back .security a {
+			color: #999;
+		}
+
+		.send, .help {
+			font-family: Arial;
+			clear: both;
+			margin: 0 auto;
+			padding: 0 2%;
+			text-align: center;
+			color: #444;
+		}
+		.send input, button {
+			width: 15em;
+			height: 3em;
+			font-size: 1.2em;
+			border: 0em;
+			padding: 0;
+			text-align: center;
+			b-order-bottom: solid #3BCE76 0.3em;
+		}
+		.send input {
+			height: 1.3em;
+			color: white;
+			background: black;
+			font-family: Arial;
+			border-bottom: dashed #AAA 0.1em;
+			padding-left: 0.75em;
+		}
+		.send input:hover {
+			color: goldenrod;
+		}
+		.send button {
+			width: 4.4em;
+			color: white;
+			background-color: #3BCE76;
+			background: black;
+			-webkit-transition: color 1s;
+			transition: color 1s;
+		}
+		.send button:hover {
+			color: #3BCE76;
+			-webkit-transition: color 1s;
+			transition: color 1s;
+		}
+		.notice {
+			width: 80%;
+			margin: 0 auto;
+			text-align: justify;
+		}
+		.help p, ol, li {
+			margin: 0.3em auto;
+		}
+		.help {
+			transition: all 1s;
+			overflow: hidden;
+		}
+		.help:hover {
+			font-size: 18pt;
+			color: white;
+			transition: all 0.2s;
+		}
+
+		.open {
+			text-align: center;
+			color:  white;
+		}
+		.open img {
+			height: 3em;
+			margin: 0 1em;
+		}
+
+		.error {
+			outline:  red 3px solid;
+			transition: all 0.5s;
+		}
+	</style>
+	<div class="say">
+	</div>
+	<div class="envelope">
+		<div class="flip">
+			<div class="vertical">
+				<div class="front">
+					<div class="check">
+						<div class="paper">
+							<div class="row">
+								<div class="address" contenteditable="true">Your Name</br>At Address St.</br>City, STATE ZIP</div>
+								<div class="numbers">
+									<div class="number">
+										<img src="MICR/1.png">
+										<img src="MICR/0.png">
+										<img src="MICR/0.png">
+									</div>
+									<div class="innumber">
+										<input for="number">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="when">
+									<div class="date" contenteditable="true">&nbsp;</div>
+									<span class="what">DATE</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="who">
+									<div class="what">PAY TO THE ORDER OF</div>
+									<div class="payee" contenteditable="true">Payee</div>
+									<div class="currency">
+										$
+									</div>
+									<div class="amount" contenteditable="true">00.00</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="moneys">
+									<div class="amounts" contenteditable="true">Zero and 0/100 *****************</div>
+									<span class="what">AMOUNT</span>
+									<span class="what details">Security Features detailed on back</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="bank" contenteditable="true">Your Bank</br>Their Address St.</br>City, STATE ZIP</div>
+							</div>
+							<div class="row">
+								<div class="why">
+									<div class="what">For</div>
+									<div class="memo" contenteditable="true">&nbsp;</div>
+									<div class="signature" contenteditable="true">&nbsp;</div>
+								</div>
+							</div>
+							<div class="scan row">
+								<div class="MICR">
+									<img src="MICR/c.png"> 
+									<span class="routing">
+										<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png"> 
+									</span>
+									<div class="inroute">
+										<input for="routing">
+									</div>
+									<img src="MICR/c.png">
+									<span class="account">
+										<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png"> 
+									</span>
+									<div class="inaccount">
+										<input for="account">
+									</div>
+									<img src="MICR/p.png">
+								</div>
+								<div class="numbers">
+									<span class="number">
+										<img src="MICR/1.png">
+										<img src="MICR/0.png">
+										<img src="MICR/0.png">
+									</span>
+									<div class="innumber">
+										<input for="number">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="back">
+					<div class="check">
+						<div class="paper">
+							<div class="height">
+								<div class="accept">
+									<div class="side">
+										<div class="what">
+											ENDORSE HERE
+										</div>
+										<div class="endorse" contenteditable="true"></div>
+										<div class="endorse" contenteditable="true"></div>
+									</div>
+								</div>
+								<div class="original">
+									<div class="side">
+										<div class="what institution">
+											<span>DO NOT WRITE, STAMP OR SIGN BELOW THIS LINE</span>
+											<span class="small">RESERVED FOR FINANCIAL INSTITUTION USE</span>
+										</div>
+									</div>
+									<div class="document">
+										</br>ORIGINAL DOCUMENT
+									</div>
+								</div>
+								<div class="security">
+									<div class="side">
+										<div class="what features">
+											<span>Security Features listed below:</span>
+											<ul>
+												<li>Government grade encryption (AES)</li>
+												<li>Data loaded over secure channels (HTTPS)</li>
+												<li>Decryption keys are never sent to the servers</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="send none">
+		<div class="submit">
+			<input value="person.to.pay@example.com"><button>send</button>
+		</div>
+		<div class="open none">
+			choose:<br/><br/>
+			<a class="email" href="#"><img src="./email.png"></a>
+			<a class="gmail" href="#"><img src="./gmail.png"></a>
+		</div>
+		<div class="notice">
+			<p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and the decryption key is never transmitted to the servers. Only the email you are sending the check to will have access to the decryption key. Checks may be void after 30 days, as data may be deleted for added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
+			<p class="what">Instructions: To pay someone, fill in the digital check by copying information from your physical check. Then type in their email address, hit send, and choose your email provider.</p>
+		</div>
+	</div>
+	<div class="help none">
+		<div class="notice">
+			<p class="what">Checkard is powered by the US Federal Check 21 Act passed by Congress. It is safe, legal, and secure using military grade (AES) end-to-end encrypted peer-to-peer transfer.</p>
+			<p class="what">Instructions: Checkard is in beta! If the check data does not load, ask the payer to open the link from the email they sent you while you are both online at the same time, then hit refresh. If things still do not work contact us at help@checkard.com, or have them mail it. ;)</p>
+			<ol class="what">
+				<li>Open this check on your laptop, then hover over the check and fill in your endorsement signature.</li>
+				<li>On your phone, open your mobile banking app and take pictures of the check using the deposit feature.</li>
+			</ol>
+			<p class="what">Some banking apps might reject the pictures due to the "checkered" pattern that happens when taking pictures of screens. To fix this try printing this page, or, put a piece of paper over your laptop screen in a pitch dark room and try taking the pictures again.</p>
+		</div>
+	</div>
+	<div class="end">
+		
+	</div>
+	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+	<script>
+		;(function(){
+			//localStorage.clear();
+			var hash = location.hash.split(':'), key, code;
+
+			key = hash[0].slice(1);
+			code = hash[1];
+			//var gun = GUN(location.origin + '/gun');
+			var gun = GUN(['https://peer.era.eco/gun','http://localhost:8765/gun']); // CHECKARD parent company is ERA, localhost is your machine.
+
+			if(key && code){
+				$('.help').removeClass('none');
+				$('.flip').toggleClass('flipit');
+				$("[contenteditable]:not(.endorse)").attr('contenteditable', false);
+				gun.get(key).once(async function(data){
+					var msg = data.en;
+					var check = await de(msg, code);
+					if(!check){
+						return;
+					}
+					$('.address').text(check.address);
+					$('.date').text(check.date);
+					$('.payee').text(check.payee);
+					$('.amount').text(check.amount);
+					$('.amounts').text(check.amounts);
+					$('.bank').text(check.bank);
+					$('.memo').text(check.memo);
+					$('.signature').text(check.signature);
+					$('.inroute input').val(check.routing);
+					$('.inaccount input').val(check.account);
+					$('.innumber input').val(check.number);
+					micr.call($('.inroute input'));
+					micr.call($('.inaccount input'));
+					micr.call($('.innumber input'));
+				});
+				return;
+			}
+
+			$('.inroute input').on('keyup', micr);
+			$('.inaccount input').on('keyup', micr);
+			$('.innumber input').on('keyup', micr);
+			function micr(eve){
+				code += eve.timeStamp / eve.which; // increase entropy
+				var chars = $(this).val();
+				chars = (chars||'').replace(/\D/ig, '').split('');
+				var as = $('.' + $(this).attr('for')).empty();
+				$.each(chars, function(i, c){
+					as.append($('<img> ').attr('src', './MICR/' + c + '.png'));
+				});
+			}
+
+			code = Math.random(); // mix with keystrokes to increase random
+			$('.send').removeClass('none');
+			$('.send button').on('click', async function(){
+				$("[contenteditable]").attr('contenteditable', false);
+				var check = {
+					address: $('.address').text(),
+					date: $('.date').text().trim(),
+					payee: $('.payee').text().trim(),
+					amount: $('.amount').text().trim(),
+					amounts: $('.amounts').text().trim(),
+					bank: $('.bank').text().trim(),
+					memo: $('.memo').text().trim(),
+					signature: $('.signature').text().trim(),
+					routing: $('.inroute input').val(),
+					account: $('.inaccount input').val(),
+					number: $('.innumber input').first().val() || $('.innumber input').last().val()
+				};
+				if(!check.account || !check.routing){
+					$('.MICR').addClass('error')
+					setTimeout(function(){ $('.MICR').removeClass('error') }, 5000);
+					return;
+				}
+				code = ((code||Math.random()) - Math.random()).toString(32).replace('.','');
+				var msg = await en(check, code);
+				key = Math.random().toString(32).slice(2);
+				gun.get(key).put({en: msg});
+				var email = $('.submit input').val();
+				var subject = "$" + check.amount + (
+					check.memo.match(/\w/ig)?
+					" for " + check.memo
+					: " Payment!");
+				var body = "You've got money! You can immediately deposit it at this link:%0D%0A%0D%0A"
+				+ "https://checkard.com/%23" + key + ':' + code
+				+ "%0D%0A%0D%0AInstructions: Open the link on your computer and endorse the check, then on your phone open your bank's official app and use it to take a picture of the front and back of the check to mobile deposit it."
+				+ "%0D%0A%0D%0AWarning: Do not forward this email to anyone, as it contains the decryption keys for confidential information. The encrypted check may be deleted and become void after 30 days for security reasons."
+				+ "%0D%0A%0D%0AEnjoy!";
+				$('.gmail').attr('href', "https://mail.google.com/mail/?view=cm&fs=1&to="
+					+ email
+					+ "&su="
+					+ subject
+					+ "&body="
+					+ body
+				);
+				$('.email').attr('href', "mailto:"
+					+ email
+					+ "?subject="
+					+ subject
+					+ "&body="
+					+ body
+				);
+				$('.submit').addClass('none');
+				$('.open').removeClass('none');
+				code = null;
+			});
+
+			async function en(m, p){
+				return await SEA.encrypt(m, p);
+			};
+			async function de(m, p){
+				return await SEA.decrypt(m, p);
+			};
+			var text = $.prototype.text;
+			$.prototype.text = function(a){
+				if(a){ return text.call(this, a) }
+				var html = this.html();
+				html = html.replace(/\<div\>/ig, '\n').replace(/\<\/div\>/ig,'').replace(/\<br\>/ig, '\n').replace(/\<\/br\>/ig, '\n').replace(/[<=:]/ig,'').replace(/&#/ig,'');
+				this.html(html); // THIS IS SAFE, because its only reusing HTML it already had, not remote.
+				return text.call(this);
+			}
+		}());
+	</script>
+</body>

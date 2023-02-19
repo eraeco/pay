@@ -32,14 +32,16 @@
 			display: none;
 		}
 		.say {
-			height: 25%;
 			text-align: center;
+			margin-top: 10%;
 		}
 		.envelope {
 			height: 25em;
+			overflow-x: scroll;
 		}
 		.check {
 			width: 50em;
+			max-width: 50em;
 			margin: 1em auto;
 			padding: 0.4em;
 			background: skyblue;
@@ -83,6 +85,7 @@
 		.vertical {
 			height: 2em;
 			width: 50em;
+			max-width: 50em;
 			margin: 0 auto;
 		}
 		.vertical {
@@ -420,6 +423,7 @@
 			width: 80%;
 			margin: 0 auto;
 			text-align: justify;
+			overflow: hidden;
 		}
 		.help p, ol, li {
 			margin: 0.3em auto;
@@ -428,7 +432,7 @@
 			transition: all 1s;
 			overflow: hidden;
 		}
-		.help:hover {
+		.notice:hover {
 			font-size: 18pt;
 			color: white;
 			transition: all 0.2s;

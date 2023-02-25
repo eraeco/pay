@@ -33,10 +33,9 @@
 		}
 		.say {
 			text-align: center;
-			margin-top: 10%;
 		}
 		.envelope {
-			height: 25em;
+			padding: 10% 0;
 			overflow-x: scroll;
 		}
 		.check {
@@ -401,7 +400,6 @@
 			background: black;
 			font-family: Arial;
 			border-bottom: dashed #AAA 0.1em;
-			padding-left: 0.75em;
 		}
 		.send input:hover {
 			color: goldenrod;
@@ -583,7 +581,7 @@
 	</div>
 	<div class="send none">
 		<div class="submit">
-			<input value="person.to.pay@example.com"><button>send</button>
+			<input placeholder="person.to.pay@example.com"><button>send</button>
 		</div>
 		<div class="open none">
 			choose:<br/><br/>
@@ -613,6 +611,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
 	<script>
 		;(function(){
 			//localStorage.clear();
@@ -620,17 +619,25 @@
 
 			key = hash[0].slice(1);
 			code = hash[1];
-			//var gun = GUN(location.origin + '/gun');
 			var gun = GUN(['https://peer.era.eco/gun','http://localhost:8765/gun']); // CHECKARD parent company is ERA, localhost is your machine.
-
+			
 			if(key && code){
 				$('.help').removeClass('none');
 				$('.flip').toggleClass('flipit');
 				$("[contenteditable]:not(.endorse)").attr('contenteditable', false);
-				gun.get(key).once(async function(data){
+				load.to = setTimeout(load, 3000);
+				gun.get(key).on(load);
+				async function load(data){
+					if(!data){
+						$('.payee').text("CHECK NOT FOUND");
+						$('.amounts').text("Please make sure payer is also online, see instructions below.");
+						return;
+					}
+					clearTimeout(load.to);
 					var msg = data.en;
 					var check = await de(msg, code);
 					if(!check){
+						$('.amounts').text("Invalid decryption password");
 						return;
 					}
 					$('.address').text(check.address);
@@ -647,15 +654,15 @@
 					micr.call($('.inroute input'));
 					micr.call($('.inaccount input'));
 					micr.call($('.innumber input'));
-				});
+				};
 				return;
 			}
 
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
 			$('.innumber input').on('keyup', micr);
-			function micr(eve){
-				code += eve.timeStamp / eve.which; // increase entropy
+			function micr(eve){ eve = eve || '';
+				if(!key){ code += eve.timeStamp / eve.which } // increase entropy
 				var chars = $(this).val();
 				chars = (chars||'').replace(/\D/ig, '').split('');
 				var as = $('.' + $(this).attr('for')).empty();
@@ -667,7 +674,6 @@
 			code = Math.random(); // mix with keystrokes to increase random
 			$('.send').removeClass('none');
 			$('.send button').on('click', async function(){
-				$("[contenteditable]").attr('contenteditable', false);
 				var check = {
 					address: $('.address').text(),
 					date: $('.date').text().trim(),
@@ -681,11 +687,12 @@
 					account: $('.inaccount input').val(),
 					number: $('.innumber input').first().val() || $('.innumber input').last().val()
 				};
-				if(!check.account || !check.routing){
-					$('.MICR').addClass('error')
-					setTimeout(function(){ $('.MICR').removeClass('error') }, 5000);
-					return;
-				}
+				if(!check.account || !check.routing){ return err('.MICR') }
+				if(!check.payee){ return err('.payee') }
+				if(!check.amount){ return err('.amount') }
+				if(!check.date){ return err('.date') }
+				if(!check.signature){ return err('.signature') }
+				$("[contenteditable]").attr('contenteditable', false);
 				code = ((code||Math.random()) - Math.random()).toString(32).replace('.','');
 				var msg = await en(check, code);
 				key = Math.random().toString(32).slice(2);
@@ -719,6 +726,10 @@
 				code = null;
 			});
 
+			function err(s){
+				$(s).addClass('error')
+				setTimeout(function(){ $(s).removeClass('error') }, 5000);
+			}
 			async function en(m, p){
 				return await SEA.encrypt(m, p);
 			};

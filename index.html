@@ -585,8 +585,8 @@
 		</div>
 		<div class="open none">
 			choose:<br/><br/>
-			<a class="email" href="#"><img src="./email.png"></a>
-			<a class="gmail" href="#"><img src="./gmail.png"></a>
+			<a class="email" href="#" target="_blank"><img src="./email.png"></a>
+			<a class="gmail" href="#" target="_blank"><img src="./gmail.png"></a>
 		</div>
 		<div class="notice">
 			<p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and the decryption key is never transmitted to the servers. Only the email you are sending the check to will have access to the decryption key. Checks may be void after 30 days, as data may be deleted for added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
@@ -688,6 +688,7 @@
 					number: $('.innumber input').first().val() || $('.innumber input').last().val()
 				};
 				if(!check.account || !check.routing){ return err('.MICR') }
+				if(!check.number){ return err('.number') }
 				if(!check.payee){ return err('.payee') }
 				if(!check.amount){ return err('.amount') }
 				if(!check.date){ return err('.date') }

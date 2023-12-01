@@ -28,6 +28,19 @@
 				background:  white;
 			}
 		}
+		@font-face {
+			font-family: 'Lace';
+			src: url('fonts/Lace.ttf') format('truetype');
+			font-style: normal;
+		}
+		@font-face {
+			font-family: 'HomemadeApple';
+			src: url('fonts/HomemadeApple.ttf') format('truetype');
+			font-style: normal;
+		}
+		.Lace {
+			font-family: Lace;
+		}
 		.none {
 			display: none;
 		}
@@ -125,9 +138,11 @@
 			width: 40%;
 			margin: 1em 0 0 1.5em;
 		}
-		.number {
+		.top .number {
+			font-size: 16pt;
+			padding: 0.5em 2em 0 0;
+			font-family: Arial;
 			float: right;
-			padding: 1.25em 2em 0 0;
 		}
 		.number img {
 			height: 1em;
@@ -144,7 +159,7 @@
 			font-size: 1em;
 			padding: 1em 2em 0 0;
 		}
-		.numbers:hover .number {
+		.scan .numbers:hover .number {
 			display: none;
 		}
 		.innumber {
@@ -162,7 +177,7 @@
 		}
 		.when {
 			float: right;
-			padding: 0 10em 0 0;
+			padding: 0 0em 0 0;
 			text-align: right;
 			margin-top: -0.5em;
 		}
@@ -176,6 +191,20 @@
 			text-align: center;
 			border-bottom: solid black 1px;
 		}
+		.date .font {
+			transform: scale(1.7) translate(0.8em, -0.2em) rotate(-1.6deg);
+			letter-spacing: 0.1em;
+			width: 70%;
+		}
+		.fractional {
+			width:  9em;
+			float: right;
+			text-align: center;
+		}
+		.fractional .numbers {
+			font-family: Arial;
+			font-size: 8pt;
+		}
 		.who .what {
 			width: 7em;
 			padding-left: 1em;
@@ -187,6 +216,11 @@
 			padding-left: 2%;
 			border-bottom: solid black 1px;
 			border-right: solid black 1px;
+		}
+		.payee .font {
+			transform: scale(2) translate(3em, -2px) rotate(-1.1deg);
+			letter-spacing: 0.1em;
+			width:  50%;
 		}
 		.currency {
 			float: left;
@@ -201,6 +235,11 @@
 			border: solid black 1px;
 			padding: 0 0.2em 0 0.2em;
 		}
+		.amount .font {
+			transform: scale(1.7) translate(0.8em);
+			letter-spacing: 0.1em;
+			width: 60%;
+		}
 		.amounts {
 			float: left;
 			width: 80%;
@@ -209,15 +248,23 @@
 			padding-left: 2%;
 			border-bottom: solid black 1px;
 		}
+		.amounts .font {
+			transform: scale(1.5) translate(3em) rotate(0.9deg);
+			letter-spacing: 0.1em;
+			width: 70%;
+		}
 		.moneys .what {
 			padding-top: 1em;
-			padding-left: 0.5em;
 		}
 		.moneys .details {
 			font-size: 0.5em;
 			width: 7em;
 			padding-top: 0em;
-			padding-left: 1em;
+		}
+		.moneys .lock {
+			float: left;
+			width: 1.25em;
+			padding: 0.5em;
 		}
 		.bank {
 			float: left;
@@ -240,6 +287,12 @@
 			padding-left: 1%;
 			border-bottom: solid black 1px;
 		}
+		.memo .font {
+			text-align: center;
+			transform: scale(1.5) translate(0.8em) rotate(-2deg);
+			letter-spacing: 0.1em;
+			width: 90%;
+		}
 		.signature {
 			float: right;
 			width: 45%;
@@ -249,7 +302,23 @@
 			padding-left: 2%;
 			text-align: center;
 			border-bottom: solid black 1px;
+			height: 1.5em;
+		}
+		.signature .font {
+			position: absolute;
 			font-family: 'Yellowtail', cursive;
+			font-family: 'HomemadeApple', cursive;
+			transform: scale(1.3,1) translate(1.5em, 0.15em) rotate(-2deg);
+			font-style: italic;
+		}
+		.mp {
+			font-family: Arial;
+			text-decoration: bold;
+			font-weight: 800;
+			letter-spacing: -0.25em;
+			font-size: 25%;
+			float: right;
+			transform: translate(0px, 4em);
 		}
 		.scan {
 			height: 3.6em;
@@ -306,6 +375,10 @@
 		}
 		.flipit .MICR:hover .inaccount {
 			display: none;
+		}
+		.MICR .numbers {
+			float:  right;
+			padding: 0 0 0 2em;
 		}
 
 
@@ -460,37 +533,36 @@
 						<div class="paper">
 							<div class="row">
 								<div class="address" contenteditable="true">Your Name</br>At Address St.</br>City, STATE ZIP</div>
-								<div class="numbers">
-									<div class="number">
-										<img src="MICR/1.png">
-										<img src="MICR/0.png">
-										<img src="MICR/0.png">
-									</div>
-									<div class="innumber">
-										<input for="number">
-									</div>
+								<div class="numbers top">
+									<div class="number" contenteditable="true" for="numbera">5000</div>
 								</div>
 							</div>
 							<div class="row">
+								<div class="fractional">
+									<div class="numbers">
+										<span class="fraction" contenteditable="true">XX-YYYY/ZZZZ</span>
+									</div>
+								</div>
 								<div class="when">
-									<div class="date" contenteditable="true">&nbsp;</div>
+									<div class="date"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
 									<span class="what">DATE</span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="who">
 									<div class="what">PAY TO THE ORDER OF</div>
-									<div class="payee" contenteditable="true">Payee</div>
+									<div class="payee"><div class="font Lace" contenteditable="true">Payee</div></div>
 									<div class="currency">
 										$
 									</div>
-									<div class="amount" contenteditable="true">00.00</div>
+									<div class="amount"><div class="font Lace" contenteditable="true">00.00</div></div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="moneys">
-									<div class="amounts" contenteditable="true">Zero and 0/100 *****************</div>
-									<span class="what">AMOUNT</span>
+									<div class="amounts"><div class="font Lace" contenteditable="true">Zero and 0/100 --------------</div></div>
+									<span class="what">Dollars</span>
+									<div><img class="lock" src="./lock.png"></div>
 									<span class="what details">Security Features detailed on back</span>
 								</div>
 							</div>
@@ -500,8 +572,11 @@
 							<div class="row">
 								<div class="why">
 									<div class="what">For</div>
-									<div class="memo" contenteditable="true">&nbsp;</div>
-									<div class="signature" contenteditable="true">&nbsp;</div>
+									<div class="memo"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
+									<div class="signature">
+										<div class="font" contenteditable="true">Mark Nadal&nbsp;</div>
+										<div class="mp">MP</div>
+									</div>
 								</div>
 							</div>
 							<div class="scan row">
@@ -521,15 +596,13 @@
 										<input for="account">
 									</div>
 									<img src="MICR/p.png">
-								</div>
-								<div class="numbers">
-									<span class="number">
-										<img src="MICR/1.png">
-										<img src="MICR/0.png">
-										<img src="MICR/0.png">
-									</span>
-									<div class="innumber">
-										<input for="number">
+									<div class="numbers">
+										<span class="numbera">
+											<img src="MICR/5.png">
+											<img src="MICR/0.png">
+											<img src="MICR/0.png">
+											<img src="MICR/0.png">
+										</span>
 									</div>
 								</div>
 							</div>
@@ -607,7 +680,6 @@
 	<div class="end">
 		
 	</div>
-	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
@@ -647,6 +719,7 @@
 					$('.amounts').text(check.amounts);
 					$('.bank').text(check.bank);
 					$('.memo').text(check.memo);
+					$('.fraction').text(check.fraction);
 					$('.signature').text(check.signature);
 					$('.inroute input').val(check.routing);
 					$('.inaccount input').val(check.account);
@@ -661,9 +734,10 @@
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
 			$('.innumber input').on('keyup', micr);
+			$('.top .number').on('keyup', micr);
 			function micr(eve){ eve = eve || '';
 				if(!key){ code += eve.timeStamp / eve.which } // increase entropy
-				var chars = $(this).val();
+				var chars = $(this).val() || $(this).text();
 				chars = (chars||'').replace(/\D/ig, '').split('');
 				var as = $('.' + $(this).attr('for')).empty();
 				$.each(chars, function(i, c){
@@ -675,14 +749,15 @@
 			$('.send').removeClass('none');
 			$('.send button').on('click', async function(){
 				var check = {
-					address: $('.address').text(),
-					date: $('.date').text().trim(),
-					payee: $('.payee').text().trim(),
-					amount: $('.amount').text().trim(),
-					amounts: $('.amounts').text().trim(),
-					bank: $('.bank').text().trim(),
-					memo: $('.memo').text().trim(),
-					signature: $('.signature').text().trim(),
+					address: $('.address').texts(),
+					date: $('.date').texts().trim(),
+					payee: $('.payee').texts().trim(),
+					amount: $('.amount').texts().trim(),
+					amounts: $('.amounts').texts().trim(),
+					bank: $('.bank').texts().trim(),
+					memo: $('.memo').texts().trim(),
+					fraction: $('.fraction').texts().trim(),
+					signature: $('.signature').texts().trim(),
 					routing: $('.inroute input').val(),
 					account: $('.inaccount input').val(),
 					number: $('.innumber input').first().val() || $('.innumber input').last().val()
@@ -693,11 +768,14 @@
 				if(!check.amount){ return err('.amount') }
 				if(!check.date){ return err('.date') }
 				if(!check.signature){ return err('.signature') }
+				if(!check.fraction){ return err('.fraction') }
+				var tmp = check.fraction.split('/').slice(-1)[0];
+				if(tmp != check.routing.slice(0, tmp.length)){ return err('.fraction'), err('.inaccount') }
 				$("[contenteditable]").attr('contenteditable', false);
 				code = ((code||Math.random()) - Math.random()).toString(32).replace('.','');
 				var msg = await en(check, code);
 				key = Math.random().toString(32).slice(2);
-				gun.get(key).put({en: msg});
+				//gun.get(key).put({en: msg});
 				var email = $('.submit input').val();
 				var subject = "$" + check.amount + (
 					check.memo.match(/\w/ig)?
@@ -738,7 +816,7 @@
 				return await SEA.decrypt(m, p);
 			};
 			var text = $.prototype.text;
-			$.prototype.text = function(a){
+			$.prototype.texts = function(a){
 				if(a){ return text.call(this, a) }
 				var html = this.html();
 				html = html.replace(/\<div\>/ig, '\n').replace(/\<\/div\>/ig,'').replace(/\<br\>/ig, '\n').replace(/\<\/br\>/ig, '\n').replace(/[<=:]/ig,'').replace(/&#/ig,'');
@@ -747,5 +825,6 @@
 			}
 		}());
 	</script>
+	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
 </body>
 </html>

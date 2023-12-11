@@ -321,6 +321,7 @@
 			float: right;
 			transform: translate(0px, 4em);
 		}
+
 		.scan {
 			height: 3.6em;
 		}
@@ -687,18 +688,22 @@
 	<script>
 		;(function(){
 			//localStorage.clear();
+			// could also be: var key, code = location.hash.split(':'), or split including 
 			var hash = location.hash.split(':'), key, code;
 
 			key = hash[0].slice(1);
 			code = hash[1];
 			var gun = GUN(['https://test.era.eco/gun','https://59.thesource.fm/gun','https://relay.129.153.59.37.nip.io/gun']); // data is end-to-end encrypted BEFORE using these relays to send data.
 			
+			console.warn(gun)
+
 			if(key && code){
 				$('.help').removeClass('none');
 				$('.flip').toggleClass('flipit');
 				$("[contenteditable]:not(.endorse)").attr('contenteditable', false);
 				load.to = setTimeout(load, 3000);
 				gun.get(key).on(load);
+
 				async function load(data){
 					if(!data){
 						$('.payee').text("CHECK NOT FOUND");
@@ -708,6 +713,7 @@
 					clearTimeout(load.to);
 					var msg = data.en;
 					var check = await de(msg, code);
+					console.warn(check)
 					if(!check){
 						$('.amounts').text("Invalid decryption password");
 						return;
@@ -761,7 +767,9 @@
 					routing: $('.inroute input').val(),
 					account: $('.inaccount input').val(),
 					number: $('.number').text().trim()
+					//number: $('.number input').first().val() || $('.number input').last().val()
 				};
+				console.warn(check)
 				if(!check.account || !check.routing){ return err('.MICR') }
 				if(!check.number){ return err('.number') }
 				if(!check.payee){ return err('.payee') }
@@ -776,7 +784,8 @@
 				code = ((code||Math.random()) - Math.random()).toString(32).replace('.','');
 				var msg = await en(check, code);
 				key = Math.random().toString(32).slice(2);
-				//gun.get(key).put({en: msg});
+				console.warn({key, msg})
+				gun.get(key).put({en: msg});
 				var email = $('.submit input').val();
 				var subject = "$" + check.amount + (
 					check.memo.match(/\w/ig)?

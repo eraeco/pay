@@ -769,8 +769,9 @@
 				if(!check.date){ return err('.date') }
 				if(!check.signature){ return err('.signature') }
 				if(!check.fraction){ return err('.fraction') }
-				var tmp = check.fraction.split('/').slice(-1)[0];
-				if(tmp != check.routing.slice(0, tmp.length)){ return err('.fraction'), err('.inaccount') }
+				//TODO: document the method of comparing the fraction against routing
+				//var tmp = check.fraction.split('/').slice(-1)[0];
+				//if(tmp != check.routing.slice(0, tmp.length)){ return err('.fraction'), err('.inaccount') }
 				$("[contenteditable]").attr('contenteditable', false);
 				code = ((code||Math.random()) - Math.random()).toString(32).replace('.','');
 				var msg = await en(check, code);

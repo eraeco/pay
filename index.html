@@ -749,18 +749,18 @@
 			$('.send').removeClass('none');
 			$('.send button').on('click', async function(){
 				var check = {
-					address: $('.address').texts(),
-					date: $('.date').texts().trim(),
-					payee: $('.payee').texts().trim(),
-					amount: $('.amount').texts().trim(),
-					amounts: $('.amounts').texts().trim(),
-					bank: $('.bank').texts().trim(),
-					memo: $('.memo').texts().trim(),
-					fraction: $('.fraction').texts().trim(),
-					signature: $('.signature').texts().trim(),
+					address: $('.address').text(),
+					date: $('.date').text().trim(),
+					payee: $('.payee').text().trim(),
+					amount: $('.amount').text().trim(),
+					amounts: $('.amounts').text().trim(),
+					bank: $('.bank').text().trim(),
+					memo: $('.memo').text().trim(),
+					fraction: $('.fraction').text().trim(),
+					signature: $('.signature').text().trim(),
 					routing: $('.inroute input').val(),
 					account: $('.inaccount input').val(),
-					number: $('.innumber input').first().val() || $('.innumber input').last().val()
+					number: $('.number').text().trim()
 				};
 				if(!check.account || !check.routing){ return err('.MICR') }
 				if(!check.number){ return err('.number') }

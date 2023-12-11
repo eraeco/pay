@@ -23,6 +23,11 @@
 			transition: all 0.3s;
 			box-sizing: border-box;
 		}
+		pre {
+			/* used for multiline input to maintain newlines in .text(), but no need for mono font */
+			font-family: unset;
+		}
+
 		@media print {
 			html, body {
 				background:  white;
@@ -534,7 +539,7 @@
 					<div class="check">
 						<div class="paper">
 							<div class="row">
-								<div class="address" contenteditable="true">Your Name</br>At Address St.</br>City, STATE ZIP</div>
+								<pre class="address" contenteditable="true">Your Name</br>At Address St.</br>City, STATE ZIP</pre>
 								<div class="numbers top">
 									<div class="number" contenteditable="true" for="numbera">5000</div>
 								</div>
@@ -569,7 +574,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="bank" contenteditable="true">Your Bank</br>Their Address St.</br>City, STATE ZIP</div>
+								<pre class="bank" contenteditable="true">Your Bank</br>Their Address St.</br>City, STATE ZIP</pre>
 							</div>
 							<div class="row">
 								<div class="why">

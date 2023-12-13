@@ -732,10 +732,10 @@
 						return;
 					}
 					$('.address').text(check.address);
-					$('.date .font').text(check.date);
+					$('.date .font').text(check.date.replace(/\//g, '-'));
 					$('.payee .font').text(check.payee);
 					$('.amount .font').text(check.amount);
-					$('.amounts .font').text(check.amounts);
+					$('.amounts .font').text(check.amounts.replace(/\//g, '⁄'));
 					$('.bank').text(check.bank);
 					$('.memo .font').text(check.memo);
 					$('.fraction').text(check.fraction);
@@ -750,9 +750,6 @@
 				return;
 			}
 
-			// improve readability by replacing slashes in Date and Amounts field
-			$('.amounts .font').on('blur', ({target}) => target.textContent = target.textContent.replace(/\//g,'⁄'))
-			$('.date .font').on('blur', ({target}) => target.textContent = target.textContent.replace(/\//g,'-'))
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
 			$('.innumber input').on('keyup', micr);

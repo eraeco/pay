@@ -356,18 +356,18 @@
 		.inroute {
 			display: none;
 		}
-		.inroute input {
-			margin-top: -0.3em;
-			font-size: 1.4em;
-			width: 12.1em;
-		}
-
 		.inroute input,
 		.inaccount input {
+			margin-top: -0.3em;
+			font-size: 1.4em;
+			width: 9em;
 			position: absolute;
 			z-index: -1;
 		}
 
+		.inroute, .inaccount {
+			display: inline;
+		}
 		.inroute input:focus,
 		.inaccount input:focus {
 			position: initial;
@@ -377,20 +377,12 @@
 			display: none;
 		}
 
-		.inroute, .inaccount {
-			display: inline;
-		}
-
 		.account {
 			padding: 0 0 0 1.5em;
 		}
 
 
-		.inaccount input {
-			margin-top: -0.3em;
-			font-size: 1.4em;
-			width: 12.1em;
-		}
+
 
 		.MICR .numbers {
 			float:  right;
@@ -788,11 +780,8 @@
 
 			$('[contenteditable="true"]').on('input', maybeBlank);
 
-			accountInput = $('input[for="account"]')
-			routingInput = $('input[for="routing"]')
-
-			$('.account').on('click', () => accountInput.focus());
-			$('.routing').on('click', () => routingInput.focus());
+			$('.account').on('mousedown', eve => {eve.preventDefault(); $('input[for="account"]').focus();});
+			$('.routing').on('mousedown', eve => {eve.preventDefault(); $('input[for="routing"]').focus();});
 
 			function maybeBlank({target}){
 				target.setAttribute("blank", !target.textContent)

@@ -79,6 +79,9 @@
 		.row > * {
 			pointer-events: all;
 		}
+		div[contenteditable] {
+			white-space: pre;
+		}
 
 		[contenteditable="true"]:hover,
 		.routing:hover,
@@ -772,6 +775,7 @@
 			$('.top .number').on('keyup', micr);
 
 			$('[contenteditable="true"]').on('input', maybeBlank);
+			$('[contenteditable="true"]:not(.address):not(.bank)').on('keydown', eve => {if(eve.key == 'Enter'){eve.preventDefault()}});
 
 			$('.account').on('mousedown', eve => {eve.preventDefault(); $('input[for="account"]').focus();});
 			$('.routing').on('mousedown', eve => {eve.preventDefault(); $('input[for="routing"]').focus();});

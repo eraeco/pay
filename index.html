@@ -155,11 +155,19 @@
 			width: 40%;
 			margin: 1em 0 0 1.5em;
 		}
-		.top .number {
+		.top .number, .top label {
 			font-size: 16pt;
-			padding: 0.5em 2em 0 0;
 			font-family: Arial;
+		}
+		.top .number {
+			margin: 0.5em 2em 0 0;
 			float: right;
+			width: 10%;
+		}
+		.top label {
+			left: unset;
+			right: 74px;
+			top: 11px;
 		}
 		.number img {
 			height: 1em;
@@ -169,27 +177,12 @@
 			height: 1em;
 			margin: 0 0.1em;
 		}
-		.innumber {
-			float: right;
-			font-size: 1em;
-			padding: 1em 2em 0 0;
-		}
+
 		.scan .numbers:hover .number {
 			display: none;
 		}
-		.innumber {
-			display: none;
-		}
-		.innumber input {
-			font-size: 1em;
-			width: 3em;
-		}
-		.numbers:hover .innumber {
-			display: inline;
-		}
-		.flipit .numbers:hover .innumber {
-			display: none;
-		}
+
+
 		.when {
 			float: right;
 			padding: 0 0em 0 0;
@@ -212,7 +205,7 @@
 			width: 70%;
 		}
 		.fractional {
-			width:  9em;
+			width:  10em;
 			float: right;
 			text-align: center;
 		}
@@ -574,7 +567,8 @@
 								<pre class="address" contenteditable="true"></pre>
 								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
 								<div class="numbers top">
-									<div class="number" contenteditable="true" for="numbera">5000</div>
+									<div class="number" contenteditable="true" for="numbera"></div>
+									<label>5000</label>
 								</div>
 							</div>
 							<div class="row">

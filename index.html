@@ -23,10 +23,6 @@
 			transition: all 0.3s;
 			box-sizing: border-box;
 		}
-		pre {
-			/* used for multiline input to maintain newlines in .text(), but no need for mono font */
-			font-family: unset;
-		}
 
 		@media print {
 			html, body {
@@ -82,9 +78,6 @@
 		}
 		.row > * {
 			pointer-events: all;
-		}
-		div[contenteditable] {
-			white-space: pre;
 		}
 
 		[contenteditable="true"]:hover,
@@ -538,7 +531,7 @@
 			display: none;
 		}
 
-		pre.address + label {
+		div.address + label {
 			top: 16px;
 		}
 
@@ -556,7 +549,7 @@
 					<div class="check">
 						<div class="paper">
 							<div class="row">
-								<pre class="address" contenteditable="true"></pre>
+								<div class="address" contenteditable="true"></div>
 								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
 								<div class="numbers top">
 									<div class="number" contenteditable="true" for="numbera"></div>
@@ -603,7 +596,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<pre class="bank" contenteditable="true"></pre>
+								<div class="bank" contenteditable="true"></div>
 								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
 							</div>
 							<div class="row">

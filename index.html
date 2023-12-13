@@ -750,6 +750,7 @@
 				return;
 			}
 
+			$('.amounts .font').on('blur', ({target}) => target.textContent = target.textContent.replace(/\//g,'⁄')) // make the slash slashier, U+2044 FRACTION SLASH
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
 			$('.innumber input').on('keyup', micr);

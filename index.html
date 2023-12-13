@@ -43,7 +43,7 @@
 			src: url('fonts/HomemadeApple.ttf') format('truetype');
 			font-style: normal;
 		}
-		.Lace {
+		.Lace, .Lace + label {
 			font-family: Lace;
 		}
 		.none {
@@ -86,11 +86,19 @@
 		div[contenteditable] {
 			white-space: pre;
 		}
-		div[contenteditable="true"]:hover {
+
+		[contenteditable="true"]:hover,
+		.routing:hover,
+		.account:hover,
+		.inaccount input:hover {
 			outline: solid gold 0.1em;
 		}
 
-		
+		.routing:hover, .account:hover {
+			outline-offset: 6px;
+			cursor: text;
+		}
+
 		.flipit:hover .vertical, .flipit.hover .flipit {
 			-ms-transform: rotateX(-180deg);
 			transform: rotateX(-180deg);
@@ -156,9 +164,7 @@
 		.number img {
 			height: 1em;
 		}
-		.number:hover img {
-			outline: solid gold 1px;
-		}
+
 		.number img {
 			height: 1em;
 			margin: 0 0.1em;
@@ -226,7 +232,7 @@
 			border-bottom: solid black 1px;
 			border-right: solid black 1px;
 		}
-		.payee .font {
+		.payee .font, .payee .font + label {
 			transform: scale(2) translate(3em, -2px) rotate(-1.1deg);
 			letter-spacing: 0.1em;
 			width:  50%;
@@ -244,7 +250,7 @@
 			border: solid black 1px;
 			padding: 0 0.2em 0 0.2em;
 		}
-		.amount .font {
+		.amount .font, .amount .font + label {
 			transform: scale(1.7) translate(0.8em);
 			letter-spacing: 0.1em;
 			width: 60%;
@@ -257,7 +263,7 @@
 			padding-left: 2%;
 			border-bottom: solid black 1px;
 		}
-		.amounts .font {
+		.amounts .font, .amounts .font + label {
 			transform: scale(1.5) translate(3em) rotate(0.9deg);
 			letter-spacing: 0.1em;
 			width: 70%;
@@ -313,13 +319,15 @@
 			border-bottom: solid black 1px;
 			height: 1.5em;
 		}
-		.signature .font {
+		.signature .font, .signature .font + label {
 			position: absolute;
 			font-family: 'Yellowtail', cursive;
 			font-family: 'HomemadeApple', cursive;
-			transform: scale(1.3,1) translate(1.5em, 0.15em) rotate(-2deg);
+			transform: scale(1.3,1) translate(0em, 0em) rotate(-2deg);
 			font-style: italic;
+			width: calc(100%/1.3);
 		}
+
 		.signature::after {
 			content: "MP"; /* This is the text that will be inserted */
 			font-family: Arial;
@@ -348,11 +356,9 @@
 
 		.routing {
 		}
-		.routing:hover img {
-			outline: solid gold 1px;
-		}
+
 		.MICR:hover .routing {
-			display: none;
+			/*display: none;*/
 		}
 		.inroute {
 			display: none;
@@ -362,44 +368,41 @@
 			font-size: 1.4em;
 			width: 12.1em;
 		}
-		.MICR:hover .inroute {
-			display: inline;
+
+		.inroute input,
+		.inaccount input {
+			position: absolute;
+			z-index: -1;
 		}
-		.flipit .MICR:hover .inroute {
+
+		.inroute input:focus,
+		.inaccount input:focus {
+			position: initial;
+		}
+		.inroute input:focus + span,
+		.inaccount input:focus + span {
 			display: none;
 		}
+
+		.inroute, .inaccount {
+			display: inline;
+		}
+
 		.account {
 			padding: 0 0 0 1.5em;
 		}
-		.account:hover img {
-			outline: solid gold 1px;
-		}
-		.MICR:hover .account {
-			display: none;
-		}
-		.inaccount {
-			display: none;
-		}
+
+
 		.inaccount input {
 			margin-top: -0.3em;
 			font-size: 1.4em;
 			width: 12.1em;
 		}
-		.MICR:hover .inaccount {
-			display: inline;
-		}
-		.flipit .MICR:hover .inaccount {
-			display: none;
-		}
+
 		.MICR .numbers {
 			float:  right;
 			padding: 0 0 0 2em;
 		}
-
-
-
-
-
 
 		.back {
 			font-family: Arial;
@@ -537,6 +540,27 @@
 			outline:  red 3px solid;
 			transition: all 0.5s;
 		}
+
+		label {
+			position: absolute;
+			top: 0px;
+			left: 24px;
+			pointer-events: none !important;
+			opacity: 0.7;
+		}
+		.flipit label {
+			/* don't show labels when check is being presented */
+			display: none;
+		}
+
+		pre.address + label {
+			top: 16px;
+		}
+
+		[blank="false"] + label {
+			display: none;
+		}
+
 	</style>
 	<div class="say">
 	</div>
@@ -547,7 +571,8 @@
 					<div class="check">
 						<div class="paper">
 							<div class="row">
-								<pre class="address" contenteditable="true">Your Name</br>At Address St.</br>City, STATE ZIP</pre>
+								<pre class="address" contenteditable="true"></pre>
+								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
 								<div class="numbers top">
 									<div class="number" contenteditable="true" for="numbera">5000</div>
 								</div>
@@ -555,7 +580,8 @@
 							<div class="row">
 								<div class="fractional">
 									<div class="numbers">
-										<span class="fraction" contenteditable="true">XX-YYYY/ZZZZ</span>
+										<div class="fraction" contenteditable="true"></div>
+										<label>XX-YYYY/ZZZZ</label>
 									</div>
 								</div>
 								<div class="when">
@@ -566,48 +592,60 @@
 							<div class="row">
 								<div class="who">
 									<div class="what">PAY TO THE ORDER OF</div>
-									<div class="payee"><div class="font Lace" contenteditable="true">Payee</div></div>
+									<div class="payee">
+										<div class="font Lace" contenteditable="true"></div>
+										<label>Payee</label>
+									</div>
 									<div class="currency">
 										$
 									</div>
-									<div class="amount"><div class="font Lace" contenteditable="true">00.00</div></div>
+									<div class="amount">
+										<div class="font Lace" contenteditable="true"></div>
+										<label>00.00</label>
+									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="moneys">
-									<div class="amounts"><div class="font Lace" contenteditable="true">Zero and 0/100 --------------</div></div>
+									<div class="amounts">
+										<div class="font Lace" contenteditable="true"></div>
+										<label>Zero and 0/100 --------------</label>
+									</div>
 									<span class="what">Dollars</span>
 									<div><img class="lock" src="./lock.png"></div>
 									<span class="what details">Security Features detailed on back</span>
 								</div>
 							</div>
 							<div class="row">
-								<pre class="bank" contenteditable="true">Your Bank</br>Their Address St.</br>City, STATE ZIP</pre>
+								<pre class="bank" contenteditable="true"></pre>
+								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
 							</div>
 							<div class="row">
 								<div class="why">
 									<div class="what">For</div>
 									<div class="memo"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
 									<div class="signature">
-										<div class="font" contenteditable="true">Mark Nadal&nbsp;</div>
+										<div class="font" contenteditable="true"></div>
+										<label>signature</label>
 									</div>
 								</div>
 							</div>
 							<div class="scan row">
 								<div class="MICR">
 									<img src="MICR/c.png"> 
-									<span class="routing">
-										<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png"> 
-									</span>
+
 									<div class="inroute">
-										<input for="routing">
+										<input for="routing" placeholder="routing #">
+										<span class="routing">
+											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
+										</span>
 									</div>
 									<img src="MICR/c.png">
-									<span class="account">
-										<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png"> 
-									</span>
 									<div class="inaccount">
-										<input for="account">
+										<input for="account" placeholder="account #">
+										<span class="account">
+											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
+										</span>
 									</div>
 									<img src="MICR/p.png">
 									<div class="numbers">
@@ -732,32 +770,43 @@
 						return;
 					}
 					$('.address').text(check.address);
-					$('.date .font').text(check.date);
+					$('.date .font').text(check.date.replace(/\//g, '-'));
 					$('.payee .font').text(check.payee);
 					$('.amount .font').text(check.amount);
-					$('.amounts .font').text(check.amounts);
+					$('.amounts .font').text(check.amounts.replace(/\//g, '⁄'));
 					$('.bank').text(check.bank);
 					$('.memo .font').text(check.memo);
 					$('.fraction').text(check.fraction);
 					$('.signature .font').text(check.signature);
 					$('.inroute input').val(check.routing);
 					$('.inaccount input').val(check.account);
-					$('.innumber input').val(check.number);
+					$('.number').text(check.number);
 					micr.call($('.inroute input'));
 					micr.call($('.inaccount input'));
-					micr.call($('.innumber input'));
+					micr.call($('.number'));
 				};
 				return;
 			}
 
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
-			$('.innumber input').on('keyup', micr);
 			$('.top .number').on('keyup', micr);
+
+			$('[contenteditable="true"]').on('input', maybeBlank);
+
+			accountInput = $('input[for="account"]')
+			routingInput = $('input[for="routing"]')
+
+			$('.account').on('click', () => accountInput.focus());
+			$('.routing').on('click', () => routingInput.focus());
+
+			function maybeBlank({target}){
+				target.setAttribute("blank", !target.textContent)
+			}
 			function micr(eve){ eve = eve || '';
 				if(!key){ code += eve.timeStamp / eve.which } // increase entropy
 				var chars = $(this).val() || $(this).text();
-				chars = (chars||'').replace(/\D/ig, '').split('');
+				chars = (chars||'0000').replace(/\D/ig, '').split('');
 				var as = $('.' + $(this).attr('for')).empty();
 				$.each(chars, function(i, c){
 					as.append($('<img> ').attr('src', './MICR/' + c + '.png'));
@@ -768,15 +817,15 @@
 			$('.send').removeClass('none');
 			$('.send button').on('click', async function(){
 				var check = {
-					address: $('.address').text(),
+					address: $('.address').text().trim(),
 					date: $('.date').text().trim(),
-					payee: $('.payee').text().trim(),
-					amount: $('.amount').text().trim(),
-					amounts: $('.amounts').text().trim(),
+					payee: $('.payee .font').text().trim(),
+					amount: $('.amount .font').text().trim(),
+					amounts: $('.amounts .font').text().trim(),
 					bank: $('.bank').text().trim(),
 					memo: $('.memo').text().trim(),
 					fraction: $('.fraction').text().trim(),
-					signature: $('.signature').text().trim(),
+					signature: $('.signature .font').text().trim(),
 					routing: $('.inroute input').val(),
 					account: $('.inaccount input').val(),
 					number: $('.number').text().trim()

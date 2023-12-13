@@ -635,14 +635,14 @@
 									<img src="MICR/c.png"> 
 
 									<div class="inroute">
-										<input for="routing">
+										<input for="routing" placeholder="routing #">
 										<span class="routing">
 											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
 										</span>
 									</div>
 									<img src="MICR/c.png">
 									<div class="inaccount">
-										<input for="account">
+										<input for="account" placeholder="account #">
 										<span class="account">
 											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
 										</span>
@@ -790,7 +790,6 @@
 
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
-			$('.innumber input').on('keyup', micr);
 			$('.top .number').on('keyup', micr);
 
 			$('[contenteditable="true"]').on('input', maybeBlank);
@@ -807,7 +806,7 @@
 			function micr(eve){ eve = eve || '';
 				if(!key){ code += eve.timeStamp / eve.which } // increase entropy
 				var chars = $(this).val() || $(this).text();
-				chars = (chars||'').replace(/\D/ig, '').split('');
+				chars = (chars||'0000').replace(/\D/ig, '').split('');
 				var as = $('.' + $(this).attr('for')).empty();
 				$.each(chars, function(i, c){
 					as.append($('<img> ').attr('src', './MICR/' + c + '.png'));

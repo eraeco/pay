@@ -23,10 +23,6 @@
 			transition: all 0.3s;
 			box-sizing: border-box;
 		}
-		pre {
-			/* used for multiline input to maintain newlines in .text(), but no need for mono font */
-			font-family: unset;
-		}
 
 		@media print {
 			html, body {
@@ -82,9 +78,6 @@
 		}
 		.row > * {
 			pointer-events: all;
-		}
-		div[contenteditable] {
-			white-space: pre;
 		}
 
 		[contenteditable="true"]:hover,
@@ -155,11 +148,19 @@
 			width: 40%;
 			margin: 1em 0 0 1.5em;
 		}
-		.top .number {
+		.top .number, .top label {
 			font-size: 16pt;
-			padding: 0.5em 2em 0 0;
 			font-family: Arial;
+		}
+		.top .number {
+			margin: 0.5em 2em 0 0;
 			float: right;
+			width: 10%;
+		}
+		.top label {
+			left: unset;
+			right: 74px;
+			top: 11px;
 		}
 		.number img {
 			height: 1em;
@@ -169,27 +170,12 @@
 			height: 1em;
 			margin: 0 0.1em;
 		}
-		.innumber {
-			float: right;
-			font-size: 1em;
-			padding: 1em 2em 0 0;
-		}
+
 		.scan .numbers:hover .number {
 			display: none;
 		}
-		.innumber {
-			display: none;
-		}
-		.innumber input {
-			font-size: 1em;
-			width: 3em;
-		}
-		.numbers:hover .innumber {
-			display: inline;
-		}
-		.flipit .numbers:hover .innumber {
-			display: none;
-		}
+
+
 		.when {
 			float: right;
 			padding: 0 0em 0 0;
@@ -212,7 +198,7 @@
 			width: 70%;
 		}
 		.fractional {
-			width:  9em;
+			width:  10em;
 			float: right;
 			text-align: center;
 		}
@@ -363,18 +349,18 @@
 		.inroute {
 			display: none;
 		}
-		.inroute input {
-			margin-top: -0.3em;
-			font-size: 1.4em;
-			width: 12.1em;
-		}
-
 		.inroute input,
 		.inaccount input {
+			margin-top: -0.3em;
+			font-size: 1.4em;
+			width: 9em;
 			position: absolute;
 			z-index: -1;
 		}
 
+		.inroute, .inaccount {
+			display: inline;
+		}
 		.inroute input:focus,
 		.inaccount input:focus {
 			position: initial;
@@ -384,20 +370,12 @@
 			display: none;
 		}
 
-		.inroute, .inaccount {
-			display: inline;
-		}
-
 		.account {
 			padding: 0 0 0 1.5em;
 		}
 
 
-		.inaccount input {
-			margin-top: -0.3em;
-			font-size: 1.4em;
-			width: 12.1em;
-		}
+
 
 		.MICR .numbers {
 			float:  right;
@@ -553,7 +531,7 @@
 			display: none;
 		}
 
-		pre.address + label {
+		div.address + label {
 			top: 16px;
 		}
 
@@ -571,10 +549,11 @@
 					<div class="check">
 						<div class="paper">
 							<div class="row">
-								<pre class="address" contenteditable="true"></pre>
+								<div class="address" contenteditable="true"></div>
 								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
 								<div class="numbers top">
-									<div class="number" contenteditable="true" for="numbera">5000</div>
+									<div class="number" contenteditable="true" for="numbera"></div>
+									<label>5000</label>
 								</div>
 							</div>
 							<div class="row">
@@ -617,7 +596,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<pre class="bank" contenteditable="true"></pre>
+								<div class="bank" contenteditable="true"></div>
 								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
 							</div>
 							<div class="row">
@@ -794,11 +773,8 @@
 
 			$('[contenteditable="true"]').on('input', maybeBlank);
 
-			accountInput = $('input[for="account"]')
-			routingInput = $('input[for="routing"]')
-
-			$('.account').on('click', () => accountInput.focus());
-			$('.routing').on('click', () => routingInput.focus());
+			$('.account').on('mousedown', eve => {eve.preventDefault(); $('input[for="account"]').focus();});
+			$('.routing').on('mousedown', eve => {eve.preventDefault(); $('input[for="routing"]').focus();});
 
 			function maybeBlank({target}){
 				target.setAttribute("blank", !target.textContent)
@@ -817,12 +793,12 @@
 			$('.send').removeClass('none');
 			$('.send button').on('click', async function(){
 				var check = {
-					address: $('.address').text().trim(),
+					address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
 					date: $('.date').text().trim(),
 					payee: $('.payee .font').text().trim(),
 					amount: $('.amount .font').text().trim(),
 					amounts: $('.amounts .font').text().trim(),
-					bank: $('.bank').text().trim(),
+					bank: $('.bank')[0].innerText.trim(),
 					memo: $('.memo').text().trim(),
 					fraction: $('.fraction').text().trim(),
 					signature: $('.signature .font').text().trim(),

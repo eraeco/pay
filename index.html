@@ -86,11 +86,19 @@
 		div[contenteditable] {
 			white-space: pre;
 		}
-		div[contenteditable="true"]:hover {
+
+		[contenteditable="true"]:hover,
+		.routing:hover,
+		.account:hover,
+		.inaccount input:hover {
 			outline: solid gold 0.1em;
 		}
 
-		
+		.routing:hover, .account:hover {
+			outline-offset: 6px;
+			cursor: text;
+		}
+
 		.flipit:hover .vertical, .flipit.hover .flipit {
 			-ms-transform: rotateX(-180deg);
 			transform: rotateX(-180deg);
@@ -156,9 +164,7 @@
 		.number img {
 			height: 1em;
 		}
-		.number:hover img {
-			outline: solid gold 1px;
-		}
+
 		.number img {
 			height: 1em;
 			margin: 0 0.1em;
@@ -350,11 +356,9 @@
 
 		.routing {
 		}
-		.routing:hover img {
-			outline: solid gold 1px;
-		}
+
 		.MICR:hover .routing {
-			display: none;
+			/*display: none;*/
 		}
 		.inroute {
 			display: none;
@@ -364,35 +368,37 @@
 			font-size: 1.4em;
 			width: 12.1em;
 		}
-		.MICR:hover .inroute {
-			display: inline;
+
+		.inroute input,
+		.inaccount input {
+			position: absolute;
+			z-index: -1;
 		}
-		.flipit .MICR:hover .inroute {
+
+		.inroute input:focus,
+		.inaccount input:focus {
+			position: initial;
+		}
+		.inroute input:focus + span,
+		.inaccount input:focus + span {
 			display: none;
 		}
+
+		.inroute, .inaccount {
+			display: inline;
+		}
+
 		.account {
 			padding: 0 0 0 1.5em;
 		}
-		.account:hover img {
-			outline: solid gold 1px;
-		}
-		.MICR:hover .account {
-			display: none;
-		}
-		.inaccount {
-			display: none;
-		}
+
+
 		.inaccount input {
 			margin-top: -0.3em;
 			font-size: 1.4em;
 			width: 12.1em;
 		}
-		.MICR:hover .inaccount {
-			display: inline;
-		}
-		.flipit .MICR:hover .inaccount {
-			display: none;
-		}
+
 		.MICR .numbers {
 			float:  right;
 			padding: 0 0 0 2em;
@@ -627,18 +633,19 @@
 							<div class="scan row">
 								<div class="MICR">
 									<img src="MICR/c.png"> 
-									<span class="routing">
-										<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png"> 
-									</span>
+
 									<div class="inroute">
 										<input for="routing">
+										<span class="routing">
+											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
+										</span>
 									</div>
 									<img src="MICR/c.png">
-									<span class="account">
-										<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png"> 
-									</span>
 									<div class="inaccount">
 										<input for="account">
+										<span class="account">
+											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
+										</span>
 									</div>
 									<img src="MICR/p.png">
 									<div class="numbers">
@@ -786,7 +793,13 @@
 			$('.innumber input').on('keyup', micr);
 			$('.top .number').on('keyup', micr);
 
-			$('[contenteditable="true"]').on('input', maybeBlank)
+			$('[contenteditable="true"]').on('input', maybeBlank);
+
+			accountInput = $('input[for="account"]')
+			routingInput = $('input[for="routing"]')
+
+			$('.account').on('click', () => accountInput.focus());
+			$('.routing').on('click', () => routingInput.focus());
 
 			function maybeBlank({target}){
 				target.setAttribute("blank", !target.textContent)

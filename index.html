@@ -742,7 +742,7 @@
 					$('.signature .font').text(check.signature);
 					$('.inroute input').val(check.routing);
 					$('.inaccount input').val(check.account);
-					$('.innumber input').val(check.number);
+					$('.number').text(check.number);
 					micr.call($('.inroute input'));
 					micr.call($('.inaccount input'));
 					micr.call($('.innumber input'));
@@ -750,7 +750,9 @@
 				return;
 			}
 
-			$('.amounts .font').on('blur', ({target}) => target.textContent = target.textContent.replace(/\//g,'⁄')) // make the slash slashier, U+2044 FRACTION SLASH
+			// improve readability by replacing slashes in Date and Amounts field
+			$('.amounts .font').on('blur', ({target}) => target.textContent = target.textContent.replace(/\//g,'⁄'))
+			$('.date .font').on('blur', ({target}) => target.textContent = target.textContent.replace(/\//g,'-'))
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
 			$('.innumber input').on('keyup', micr);

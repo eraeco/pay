@@ -817,12 +817,12 @@
 			$('.send').removeClass('none');
 			$('.send button').on('click', async function(){
 				var check = {
-					address: $('.address').text().trim(),
+					address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
 					date: $('.date').text().trim(),
 					payee: $('.payee .font').text().trim(),
 					amount: $('.amount .font').text().trim(),
 					amounts: $('.amounts .font').text().trim(),
-					bank: $('.bank').text().trim(),
+					bank: $('.bank')[0].innerText.trim(),
 					memo: $('.memo').text().trim(),
 					fraction: $('.fraction').text().trim(),
 					signature: $('.signature .font').text().trim(),

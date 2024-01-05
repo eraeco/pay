@@ -3,6 +3,54 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="./MICR/c.png">
+<style>
+	html, body {
+		position: relative;
+		height: 100vh;
+		overflow-y: scroll;
+	}
+
+	.page {
+		width: 100vw;
+		overflow: hidden;
+	}
+
+	#cover {
+		position: sticky;
+		bottom: 0;
+		background: black;
+	}
+
+	#tray {
+		z-index: 1;
+		margin-top: 193vh;
+		margin-bottom: -155vh;
+		position: relative;
+		background: yellow;
+		display: none;
+	}
+
+	#mem, [for="mem"] {
+		z-index: 1;
+		position: fixed;
+		right: 0;
+	}
+	#mem {
+		margin: 22px 17px 0 0px;
+	}
+	[for="mem"] {
+		padding: 20px;
+		pointer-events: all !important;
+		left: 84vw;
+		color: white;
+		border: 1px solid white;
+		background: black;
+	}
+	#mem:checked ~ #tray {
+		display: block;
+	}
+
+</style>
 </head>
 <body>
 	<style>
@@ -543,139 +591,155 @@
 		}
 
 	</style>
-	<div class="say">
+	<!-- insert tray and more stylesheets here -->
+	<label for="mem">Remember Me</label>
+	<input id=mem type="checkbox"></input>
+	<div id="tray" class="page">
+		<div style="background: red; height: 20em;">
+			<p>hello</p>
+		</div>
+		<div style="background: green; height: 30em;">
+			<a id="lol"><p>lol</p></a>
+		</div>
+		<div style="background: blue; height: 40em;">
+			<p>cool</p>
+		</div>
 	</div>
-	<div class="envelope">
-		<div class="flip">
-			<div class="vertical">
-				<div class="front">
-					<div class="check">
-						<div class="paper">
-							<div class="row">
-								<div class="address" contenteditable="true"></div>
-								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
-								<div class="numbers top">
-									<div class="number" contenteditable="true" for="numbera"></div>
-									<label>5000</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="fractional">
-									<div class="numbers">
-										<div class="fraction" contenteditable="true"></div>
-										<label>XX-YYYY/ZZZZ</label>
+	<div id="cover">
+		<div class="say">
+		</div>
+		<div class="envelope">
+			<div class="flip">
+				<div class="vertical">
+					<div class="front">
+						<div class="check">
+							<div class="paper">
+								<div class="row">
+									<div class="address" contenteditable="true"></div>
+									<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
+									<div class="numbers top">
+										<div class="number" contenteditable="true" for="numbera"></div>
+										<label>5000</label>
 									</div>
 								</div>
-								<div class="when">
-									<div class="date"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
-									<span class="what">DATE</span>
-								</div>
-							</div>
-							<div class="row">
-								<div class="who">
-									<div class="what">PAY TO THE ORDER OF</div>
-									<div class="payee">
-										<div class="font Lace" contenteditable="true"></div>
-										<label>Payee</label>
+								<div class="row">
+									<div class="fractional">
+										<div class="numbers">
+											<div class="fraction" contenteditable="true"></div>
+											<label>XX-YYYY/ZZZZ</label>
+										</div>
 									</div>
-									<div class="currency">
-										$
-									</div>
-									<div class="amount">
-										<div class="font Lace" contenteditable="true"></div>
-										<label>00.00</label>
+									<div class="when">
+										<div class="date"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
+										<span class="what">DATE</span>
 									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="moneys">
-									<div class="amounts">
-										<div class="font Lace" contenteditable="true"></div>
-										<label>Zero and 0/100 --------------</label>
-									</div>
-									<span class="what">Dollars</span>
-									<div><img class="lock" src="./lock.png"></div>
-									<span class="what details">Security Features detailed on back</span>
-								</div>
-							</div>
-							<div class="row">
-								<div class="bank" contenteditable="true"></div>
-								<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
-							</div>
-							<div class="row">
-								<div class="why">
-									<div class="what">For</div>
-									<div class="memo"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
-									<div class="signature">
-										<div class="font" contenteditable="true"></div>
-										<label>signature</label>
+								<div class="row">
+									<div class="who">
+										<div class="what">PAY TO THE ORDER OF</div>
+										<div class="payee">
+											<div class="font Lace" contenteditable="true"></div>
+											<label>Payee</label>
+										</div>
+										<div class="currency">
+											$
+										</div>
+										<div class="amount">
+											<div class="font Lace" contenteditable="true"></div>
+											<label>00.00</label>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="scan row">
-								<div class="MICR">
-									<img src="MICR/c.png"> 
+								<div class="row">
+									<div class="moneys">
+										<div class="amounts">
+											<div class="font Lace" contenteditable="true"></div>
+											<label>Zero and 0/100 --------------</label>
+										</div>
+										<span class="what">Dollars</span>
+										<div><img class="lock" src="./lock.png"></div>
+										<span class="what details">Security Features detailed on back</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="bank" contenteditable="true"></div>
+									<label>Your Bank</br>Their Address St.</br>City, STATE ZIP</label>
+								</div>
+								<div class="row">
+									<div class="why">
+										<div class="what">For</div>
+										<div class="memo"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
+										<div class="signature">
+											<div class="font" contenteditable="true"></div>
+											<label>signature</label>
+										</div>
+									</div>
+								</div>
+								<div class="scan row">
+									<div class="MICR">
+										<img src="MICR/c.png"> 
 
-									<div class="inroute">
-										<input for="routing" placeholder="routing #">
-										<span class="routing">
-											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
-										</span>
-									</div>
-									<img src="MICR/c.png">
-									<div class="inaccount">
-										<input for="account" placeholder="account #">
-										<span class="account">
-											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
-										</span>
-									</div>
-									<img src="MICR/p.png">
-									<div class="numbers">
-										<span class="numbera">
-											<img src="MICR/5.png">
-											<img src="MICR/0.png">
-											<img src="MICR/0.png">
-											<img src="MICR/0.png">
-										</span>
+										<div class="inroute">
+											<input for="routing" placeholder="routing #">
+											<span class="routing">
+												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
+											</span>
+										</div>
+										<img src="MICR/c.png">
+										<div class="inaccount">
+											<input for="account" placeholder="account #">
+											<span class="account">
+												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
+											</span>
+										</div>
+										<img src="MICR/p.png">
+										<div class="numbers">
+											<span class="numbera">
+												<img src="MICR/5.png">
+												<img src="MICR/0.png">
+												<img src="MICR/0.png">
+												<img src="MICR/0.png">
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="back">
-					<div class="check">
-						<div class="paper">
-							<div class="height">
-								<div class="accept">
-									<div class="side">
-										<div class="what">
-											ENDORSE HERE
-										</div>
-										<div class="endorse" contenteditable="true"></div>
-										<div class="endorse" contenteditable="true"></div>
-									</div>
-								</div>
-								<div class="original">
-									<div class="side">
-										<div class="what institution">
-											<span>DO NOT WRITE, STAMP OR SIGN BELOW THIS LINE</span>
-											<span class="small">RESERVED FOR FINANCIAL INSTITUTION USE</span>
+					<div class="back">
+						<div class="check">
+							<div class="paper">
+								<div class="height">
+									<div class="accept">
+										<div class="side">
+											<div class="what">
+												ENDORSE HERE
+											</div>
+											<div class="endorse" contenteditable="true"></div>
+											<div class="endorse" contenteditable="true"></div>
 										</div>
 									</div>
-									<div class="document">
-										</br>ORIGINAL DOCUMENT
+									<div class="original">
+										<div class="side">
+											<div class="what institution">
+												<span>DO NOT WRITE, STAMP OR SIGN BELOW THIS LINE</span>
+												<span class="small">RESERVED FOR FINANCIAL INSTITUTION USE</span>
+											</div>
+										</div>
+										<div class="document">
+											</br>ORIGINAL DOCUMENT
+										</div>
 									</div>
-								</div>
-								<div class="security">
-									<div class="side">
-										<div class="what features">
-											<span>Security Features listed below:</span>
-											<ul>
-												<li>Government grade encryption (AES)</li>
-												<li>Data loaded over secure channels (HTTPS)</li>
-												<li>Decryption keys are never sent to the servers</li>
-											</ul>
+									<div class="security">
+										<div class="side">
+											<div class="what features">
+												<span>Security Features listed below:</span>
+												<ul>
+													<li>Government grade encryption (AES)</li>
+													<li>Data loaded over secure channels (HTTPS)</li>
+													<li>Decryption keys are never sent to the servers</li>
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -685,33 +749,33 @@
 				</div>
 			</div>
 		</div>
+		<div class="send none">
+			<div class="submit">
+				<input placeholder="person.to.pay@example.com"><button>send</button>
+			</div>
+			<div class="open none">
+				choose:<br/><br/>
+				<a class="email" href="#" target="_blank"><img src="./email.png"></a>
+				<a class="gmail" href="#" target="_blank"><img src="./gmail.png"></a>
+			</div>
+			<div class="notice">
+				<p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and the decryption key is never transmitted to the servers. Only the email you are sending the check to will have access to the decryption key. Checks may be void after 30 days, as data may be deleted for added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
+				<p class="what">Instructions: To pay someone, fill in the digital check by copying information from your physical check. Then type in their email address, hit send, and choose your email provider.</p>
+			</div>
+		</div>
+		<div class="help none">
+			<div class="notice">
+				<p class="what">Checkard is powered by the US Federal Check 21 Act passed by Congress. It is safe, legal, and secure using military grade (AES) end-to-end encrypted peer-to-peer transfer.</p>
+				<p class="what">Instructions: Checkard is in beta! If the check data does not load, ask the payer to open the link from the email they sent you while you are both online at the same time, then hit refresh. If things still do not work contact us at checkard@era.eco, or have them mail it. ;)</p>
+				<ol class="what">
+					<li>Open this check on your laptop, then hover over the check and fill in your endorsement signature.</li>
+					<li>On your phone, open your mobile banking app and take pictures of the check using the deposit feature.</li>
+				</ol>
+				<p class="what">Some banking apps might reject the pictures due to the "checkered" pattern that happens when taking pictures of screens. To fix this try printing this page, or, put a piece of paper over your laptop screen in a pitch dark room and try taking the pictures again.</p>
+			</div>
+		</div>
+		<div class="end">
 	</div>
-	<div class="send none">
-		<div class="submit">
-			<input placeholder="person.to.pay@example.com"><button>send</button>
-		</div>
-		<div class="open none">
-			choose:<br/><br/>
-			<a class="email" href="#" target="_blank"><img src="./email.png"></a>
-			<a class="gmail" href="#" target="_blank"><img src="./gmail.png"></a>
-		</div>
-		<div class="notice">
-			<p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and the decryption key is never transmitted to the servers. Only the email you are sending the check to will have access to the decryption key. Checks may be void after 30 days, as data may be deleted for added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
-			<p class="what">Instructions: To pay someone, fill in the digital check by copying information from your physical check. Then type in their email address, hit send, and choose your email provider.</p>
-		</div>
-	</div>
-	<div class="help none">
-		<div class="notice">
-			<p class="what">Checkard is powered by the US Federal Check 21 Act passed by Congress. It is safe, legal, and secure using military grade (AES) end-to-end encrypted peer-to-peer transfer.</p>
-			<p class="what">Instructions: Checkard is in beta! If the check data does not load, ask the payer to open the link from the email they sent you while you are both online at the same time, then hit refresh. If things still do not work contact us at checkard@era.eco, or have them mail it. ;)</p>
-			<ol class="what">
-				<li>Open this check on your laptop, then hover over the check and fill in your endorsement signature.</li>
-				<li>On your phone, open your mobile banking app and take pictures of the check using the deposit feature.</li>
-			</ol>
-			<p class="what">Some banking apps might reject the pictures due to the "checkered" pattern that happens when taking pictures of screens. To fix this try printing this page, or, put a piece of paper over your laptop screen in a pitch dark room and try taking the pictures again.</p>
-		</div>
-	</div>
-	<div class="end">
 		
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>

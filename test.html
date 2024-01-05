@@ -4,7 +4,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
-		html, body { box-sizing: border-box; background: black; padding: 0; margin: 0; color: white; }
+		html, body { background: black; padding: 0; margin: 0; color: white; }
 		
 		html, body {
 			position: relative;
@@ -12,11 +12,15 @@
 			overflow-y: scroll;
 		}
 
+		.page {
+			width: 100vw;
+			overflow: hidden;
+		}
+
 		#cover {
 			position: sticky;
 			bottom: 0;
 			background: black;
-			padding: 5px;
 		}
 
 		#tray {

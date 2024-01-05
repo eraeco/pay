@@ -4,42 +4,29 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
-		html,
-		body {
-			background: black;
-			padding: 0;
-			margin: 0;
-			color: white;
+		html, body { box-sizing: border-box; background: black; padding: 0; margin: 0; color: white; }
+		
+		html, body {
 			position: relative;
 			height: 100vh;
 			overflow-y: scroll;
-		}
-
-		.page {
-			height: auto;
-		}
-
-		#tray {
-			z-index: 1;
-			background: pink;
-			margin-top: 140vh;
-			margin-bottom: -130vh;
-			border: 14px solid purple;
-			position: relative;
 		}
 
 		#cover {
 			position: sticky;
 			bottom: 0;
 			background: black;
+			padding: 5px;
 		}
 
-		#main-content {
-			background: blue;
-			height: 100vh;
-			border: 1px black solid;
-			margin: 0 auto;
+		#tray {
+			z-index: 1;
+			margin-top: 193vh;
+  			margin-bottom: -155vh;
+			position: relative;
+			background: yellow;
 		}
+
 	</style>
 </head>
 
@@ -57,7 +44,7 @@
 	</div>
 	<div id="cover" class="page">
 		<p>This is the Checkard Cover Page</p>
-		<div id="main-content"></div>
+		<div style="background: blue; width: 50em; height: 130vh; border: 1px black solid; margin: 0 auto;"></div>
 		<p>thank you for using Checkard. Test tray feature by changing this element's height from 130vh or 1300px to
 			300px.</p>
 	</div>

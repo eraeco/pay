@@ -23,10 +23,10 @@
 
 	#tray {
 		z-index: 1;
-		margin-top: 193vh;
-		margin-bottom: -155vh;
+		margin-top: 110vh;
+		margin-bottom: -100vh;
 		position: relative;
-		background: yellow;
+		background: linear-gradient(to bottom, transparent, black 150px);
 		display: none;
 	}
 
@@ -595,15 +595,7 @@
 	<label for="mem">Remember Me</label>
 	<input id=mem type="checkbox"></input>
 	<div id="tray" class="page">
-		<div style="background: red; height: 20em;">
-			<p>hello</p>
-		</div>
-		<div style="background: green; height: 30em;">
-			<a id="lol"><p>lol</p></a>
-		</div>
-		<div style="background: blue; height: 40em;">
-			<p>cool</p>
-		</div>
+		<!-- load marketing or other modules here -->
 	</div>
 	<div id="cover">
 		<div class="say">
@@ -784,6 +776,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
 	<script>
 		;(function(){
+			$('#mem').prop('checked', false)
+			$('#mem').one("click", eve => {
+				$('#tray').load("/marketing.html")
+			})
+
 			//localStorage.clear();
 			// could also be: var key, code = location.hash.split(':'), or split including 
 			var hash = location.hash.split(':'), key, code;

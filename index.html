@@ -27,7 +27,6 @@
 		margin-bottom: -100vh;
 		position: relative;
 		background: linear-gradient(to bottom, transparent, black 150px);
-		display: none;
 	}
 
 	#mem, [for="mem"] {
@@ -45,9 +44,6 @@
 		color: white;
 		border: 1px solid white;
 		background: black;
-	}
-	#mem:checked ~ #tray {
-		display: block;
 	}
 
 </style>
@@ -776,11 +772,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
 	<script>
 		;(function(){
-			$('#mem').prop('checked', false)
-			$('#mem').one("click", eve => {
-				$('#tray').load("/marketing.html")
-			})
-
 			//localStorage.clear();
 			// could also be: var key, code = location.hash.split(':'), or split including 
 			var hash = location.hash.split(':'), key, code;
@@ -936,6 +927,12 @@
 				this.html(html); // THIS IS SAFE, because its only reusing HTML it already had, not remote.
 				return text.call(this);
 			}
+		}());
+		;(function(){ // async deferred list of features & modules here:
+			function load(url){
+				$('#tray').append("<div>").find('div').last().load(url);
+			}
+			load('./marketing.html');
 		}());
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">

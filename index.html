@@ -768,27 +768,28 @@
 					micr.call($('.number'));
 				};
 				return;
-			} else {
-				/* try and parse the querystring for values, convert to regular object for dot notation */
-				var params = Object.fromEntries((new URLSearchParams(location.search)).entries());
-
-				// param takes precedence over today's date but fill it in either way
-				$('.date .font').text(params.date || new Date().toLocaleDateString("en-US").replace(/\//g, '-')).attr("blank", false);
-
-				params.payee && $('.payee .font').text(params.payee).attr("blank", false);
-				params.amount && $('.amount .font').text(params.amount).attr("blank", false);
-				params.amounts && $('.amounts .font').text(params.amounts).attr("blank", false);
-				params.bank && $('.bank').text(params.bank).attr("blank", false);
-				params.memo && $('.memo .font').text(params.memo).attr("blank", false);
-
-				/* expected from the recipient */
-				// $('.address')
-				// $('.fraction')
-				// $('.signature .font')
-				// $('.inroute input')
-				// $('.inaccount input')
-				// $('.number')
 			}
+
+			/* try and parse the querystring for values, convert to regular object for dot notation */
+			var params = Object.fromEntries((new URLSearchParams(location.search)).entries());
+
+			// param takes precedence over today's date but fill it in either way
+			$('.date .font').text(params.date || new Date().toLocaleDateString("en-US").replace(/\//g, '-')).attr("blank", false);
+
+			params.payee && $('.payee .font').text(params.payee).attr("blank", false);
+			params.amount && $('.amount .font').text(params.amount).attr("blank", false);
+			params.amounts && $('.amounts .font').text(params.amounts).attr("blank", false);
+			params.bank && $('.bank').text(params.bank).attr("blank", false);
+			params.memo && $('.memo .font').text(params.memo).attr("blank", false);
+
+			/* expected from the recipient */
+			// $('.address')
+			// $('.fraction')
+			// $('.signature .font')
+			// $('.inroute input')
+			// $('.inaccount input')
+			// $('.number')
+		
 
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);

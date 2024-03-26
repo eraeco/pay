@@ -773,7 +773,7 @@
 				var params = Object.fromEntries((new URLSearchParams(location.search)).entries());
 
 				// param takes precedence over today's date but fill it in either way
-				$('.date .font').text(params.date || new Date().toLocaleDateString("en-US")).attr("blank", false);
+				$('.date .font').text(params.date || new Date().toLocaleDateString("en-US").replace(/\//g, '-')).attr("blank", false);
 
 				params.payee && $('.payee .font').text(params.payee).attr("blank", false);
 				params.amount && $('.amount .font').text(params.amount).attr("blank", false);

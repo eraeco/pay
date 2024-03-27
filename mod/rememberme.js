@@ -9,21 +9,17 @@
             account: $('.inaccount input').val(),
             number: $('.number').text().trim() // used as last known check number, should auto increment on load
         };
-        console.warn("personalDetails", personalDetails)
+        console.warn("stashing personal details locally", personalDetails)
         Object.assign(localStorage, personalDetails);
-        alert('done')
-
     })
 
-
-    // this runs as an async script, so after all the other code on the page runs, this will run -- we can autofill if we're premium
-    let flipMode = $('.flip')[0].classList.contains("flipit");
+    // this runs as a deferred script, so after the document is parsed, this will run -- we can autofill if we're premium
     // this ASSUMES that if isPremium exists, so does everything else - everything will exist if you've ever made out a check, including one to checkard. 
-    if(localStorage.isPremium && flipMode === false){
-        $('.address').text(localStorage.address);
-        $('.fraction').text(localStorage.fraction);
-        $('.inroute input').val(localStorage.routing);
-        $('.inaccount input').val(localStorage.account);
-        $('.number').text(++localStorage.number); // lol we can implicitly coerce from a string to a number and back to a string? nice
+    if(localStorage.isPremium && $(".flip").hasClass("flipit") === false){
+        $('.address').text(localStorage.address).attr("blank", false);
+        $('.fraction').text(localStorage.fraction).attr("blank", false);
+        $('.inroute input').val(localStorage.routing).trigger('keyup'); // need to call micr on the input to update the glyphs
+        $('.inaccount input').val(localStorage.account).trigger('keyup');
+        $('.number').text(++localStorage.number).attr("blank", false); // lol we can implicitly coerce from a string to a number and back to a string? nice
     }
 })();

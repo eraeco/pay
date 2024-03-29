@@ -30,7 +30,7 @@
             $('.fraction').text(localStorage.fraction).attr("blank", false);
             $('.inroute input').val(localStorage.routing).trigger('keyup'); // need to call micr on the input to update the glyphs
             $('.inaccount input').val(localStorage.account).trigger('keyup');
-            $('.number').text(++localStorage.number).attr("blank", false); // lol we can implicitly coerce from a string to a number and back to a string? nice
+            $('.number').text(++localStorage.number).attr("blank", false).trigger('keyup'); // lol we can implicitly coerce from a string to a number and back to a string? nice
         }
     })
 })();

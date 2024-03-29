@@ -457,26 +457,26 @@
 			text-align: center;
 			color: #444;
 		}
-		.send input, button {
+		.send .submit input,
+		.send .submit button {
 			width: 15em;
 			height: 3em;
 			font-size: 1.2em;
 			border: 0em;
 			padding: 0;
 			text-align: center;
-			b-order-bottom: solid #3BCE76 0.3em;
 		}
-		.send input {
+		.send .submit input {
 			height: 1.3em;
 			color: white;
 			background: black;
 			font-family: Arial;
 			border-bottom: dashed #AAA 0.1em;
 		}
-		.send input:hover {
+		.send .submit input:hover {
 			color: goldenrod;
 		}
-		.send button {
+		.send .submit button {
 			width: 4.4em;
 			color: white;
 			background-color: #3BCE76;
@@ -484,7 +484,7 @@
 			-webkit-transition: color 1s;
 			transition: color 1s;
 		}
-		.send button:hover {
+		.send .submit button:hover {
 			color: #3BCE76;
 			-webkit-transition: color 1s;
 			transition: color 1s;
@@ -540,6 +540,12 @@
 
 		[blank="false"] + label {
 			display: none;
+		}
+
+		.remember label {
+			pointer-events: all !important;
+			opacity: unset;
+			position: unset;
 		}
 
 	</style>
@@ -898,7 +904,7 @@
 			}
 		}());
 	</script>
-	<script src="./+/remember.js"></script>
+	<script src="./+/remember/remember.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
 </body>
 </html>

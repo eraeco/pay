@@ -501,26 +501,26 @@
 			text-align: center;
 			color: #444;
 		}
-		.send input, button {
+		.send .submit input,
+		.send .submit button {
 			width: 15em;
 			height: 3em;
 			font-size: 1.2em;
 			border: 0em;
 			padding: 0;
 			text-align: center;
-			b-order-bottom: solid #3BCE76 0.3em;
 		}
-		.send input {
+		.send .submit input {
 			height: 1.3em;
 			color: white;
 			background: black;
 			font-family: Arial;
 			border-bottom: dashed #AAA 0.1em;
 		}
-		.send input:hover {
+		.send .submit input:hover {
 			color: goldenrod;
 		}
-		.send button {
+		.send .submit button {
 			width: 4.4em;
 			color: white;
 			background-color: #3BCE76;
@@ -528,7 +528,7 @@
 			-webkit-transition: color 1s;
 			transition: color 1s;
 		}
-		.send button:hover {
+		.send .submit button:hover {
 			color: #3BCE76;
 			-webkit-transition: color 1s;
 			transition: color 1s;
@@ -584,6 +584,12 @@
 
 		[blank="false"] + label {
 			display: none;
+		}
+
+		.remember label {
+			pointer-events: all !important;
+			opacity: unset;
+			position: unset;
 		}
 
 	</style>
@@ -667,67 +673,66 @@
 									<div class="MICR">
 										<img src="MICR/c.png"> 
 
-										<div class="inroute">
-											<input for="routing" placeholder="routing #">
-											<span class="routing">
-												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
-											</span>
-										</div>
-										<img src="MICR/c.png">
-										<div class="inaccount">
-											<input for="account" placeholder="account #">
-											<span class="account">
-												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
-											</span>
-										</div>
-										<img src="MICR/p.png">
-										<div class="numbers">
-											<span class="numbera">
-												<img src="MICR/5.png">
-												<img src="MICR/0.png">
-												<img src="MICR/0.png">
-												<img src="MICR/0.png">
-											</span>
-										</div>
+									<div class="inroute">
+										<input for="routing" placeholder="routing #" autocomplete="off">
+										<span class="routing">
+											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
+										</span>
+									</div>
+									<img src="MICR/c.png">
+									<div class="inaccount">
+										<input for="account" placeholder="account #" autocomplete="off">
+										<span class="account">
+											<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
+										</span>
+									</div>
+									<img src="MICR/p.png">
+									<div class="numbers">
+										<span class="numbera">
+											<img src="MICR/5.png">
+											<img src="MICR/0.png">
+											<img src="MICR/0.png">
+											<img src="MICR/0.png">
+										</span>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="back">
-						<div class="check">
-							<div class="paper">
-								<div class="height">
-									<div class="accept">
-										<div class="side">
-											<div class="what">
-												ENDORSE HERE
-											</div>
-											<div class="endorse" contenteditable="true"></div>
-											<div class="endorse" contenteditable="true"></div>
+				</div>
+				<div class="back">
+					<div class="check">
+						<div class="paper">
+							<div class="height">
+								<div class="accept">
+									<div class="side">
+										<div class="what">
+											ENDORSE HERE
+										</div>
+										<div class="endorse" contenteditable="true"></div>
+										<div class="endorse" contenteditable="true"></div>
+									</div>
+								</div>
+								<div class="original">
+									<div class="side">
+										<div class="what institution">
+											<span>DO NOT WRITE, STAMP OR SIGN BELOW THIS LINE</span>
+											<span class="small">RESERVED FOR FINANCIAL INSTITUTION USE</span>
 										</div>
 									</div>
-									<div class="original">
-										<div class="side">
-											<div class="what institution">
-												<span>DO NOT WRITE, STAMP OR SIGN BELOW THIS LINE</span>
-												<span class="small">RESERVED FOR FINANCIAL INSTITUTION USE</span>
-											</div>
-										</div>
-										<div class="document">
-											</br>ORIGINAL DOCUMENT
-										</div>
+									<div class="document">
+										</br>ORIGINAL DOCUMENT
 									</div>
-									<div class="security">
-										<div class="side">
-											<div class="what features">
-												<span>Security Features listed below:</span>
-												<ul>
-													<li>Government grade encryption (AES)</li>
-													<li>Data loaded over secure channels (HTTPS)</li>
-													<li>Decryption keys are never sent to the servers</li>
-												</ul>
-											</div>
+								</div>
+								<div class="security">
+									<div class="side">
+										<div class="what features">
+											<span>Security Features listed below:</span>
+											<ul>
+												<li>Government grade encryption (AES)</li>
+												<li>Data loaded over secure channels (HTTPS)</li>
+												<li>Decryption keys are never sent to the servers</li>
+											</ul>
 										</div>
 									</div>
 								</div>
@@ -737,33 +742,33 @@
 				</div>
 			</div>
 		</div>
-		<div class="send none">
-			<div class="submit">
-				<input placeholder="person.to.pay@example.com"><button>send</button>
-			</div>
-			<div class="open none">
-				choose:<br/><br/>
-				<a class="email" href="#" target="_blank"><img src="./email.png"></a>
-				<a class="gmail" href="#" target="_blank"><img src="./gmail.png"></a>
-			</div>
-			<div class="notice">
-				<p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and the decryption key is never transmitted to the servers. Only the email you are sending the check to will have access to the decryption key. Checks may be void after 30 days, as data may be deleted for added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
-				<p class="what">Instructions: To pay someone, fill in the digital check by copying information from your physical check. Then type in their email address, hit send, and choose your email provider.</p>
-			</div>
-		</div>
-		<div class="help none">
-			<div class="notice">
-				<p class="what">Checkard is powered by the US Federal Check 21 Act passed by Congress. It is safe, legal, and secure using military grade (AES) end-to-end encrypted peer-to-peer transfer.</p>
-				<p class="what">Instructions: Checkard is in beta! If the check data does not load, ask the payer to open the link from the email they sent you while you are both online at the same time, then hit refresh. If things still do not work contact us at checkard@era.eco, or have them mail it. ;)</p>
-				<ol class="what">
-					<li>Open this check on your laptop, then hover over the check and fill in your endorsement signature.</li>
-					<li>On your phone, open your mobile banking app and take pictures of the check using the deposit feature.</li>
-				</ol>
-				<p class="what">Some banking apps might reject the pictures due to the "checkered" pattern that happens when taking pictures of screens. To fix this try printing this page, or, put a piece of paper over your laptop screen in a pitch dark room and try taking the pictures again.</p>
-			</div>
-		</div>
-		<div class="end">
 	</div>
+	<div class="send none">
+		<div class="submit">
+			<input placeholder="person.to.pay@example.com"><button>send</button>
+		</div>
+		<div class="open none">
+			choose:<br/><br/>
+			<a class="email" href="#" target="_blank"><img src="./email.png"></a>
+			<a class="gmail" href="#" target="_blank"><img src="./gmail.png"></a>
+		</div>
+		<div class="notice">
+			<p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and the decryption key is never transmitted to the servers. Only the email you are sending the check to will have access to the decryption key. Checks may be void after 30 days, as data may be deleted for added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
+			<p class="what">Instructions: To pay someone, fill in the digital check by copying information from your physical check. Then type in their email address, hit send, and choose your email provider.</p>
+		</div>
+	</div>
+	<div class="help none">
+		<div class="notice">
+			<p class="what">Checkard is powered by the US Federal Check 21 Act passed by Congress. It is safe, legal, and secure using military grade (AES) end-to-end encrypted peer-to-peer transfer.</p>
+			<p class="what">Instructions: Checkard is in beta! If the check data does not load, ask the payer to open the link from the email they sent you while you are both online at the same time, then hit refresh. If things still do not work contact us at checkard@era.eco, or have them mail it. ;)</p>
+			<ol class="what">
+				<li>Open this check on your laptop, then hover over the check and fill in your endorsement signature.</li>
+				<li>On your phone, open your mobile banking app and take pictures of the check using the deposit feature.</li>
+			</ol>
+			<p class="what">Some banking apps might reject the pictures due to the "checkered" pattern that happens when taking pictures of screens. To fix this try printing this page, or, put a piece of paper over your laptop screen in a pitch dark room and try taking the pictures again.</p>
+		</div>
+	</div>
+	<div class="end">
 		
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
@@ -821,6 +826,27 @@
 				};
 				return;
 			}
+
+			/* try and parse the querystring for values, convert to regular object for dot notation */
+			var params = Object.fromEntries((new URLSearchParams(location.search)).entries());
+
+			// param takes precedence over today's date but fill it in either way
+			$('.date .font').text(params.date || new Date().toLocaleDateString("en-US").replace(/\//g, '-')).attr("blank", false);
+
+			params.payee && $('.payee .font').text(params.payee).attr("blank", false);
+			params.amount && $('.amount .font').text(params.amount).attr("blank", false);
+			params.amounts && $('.amounts .font').text(params.amounts).attr("blank", false);
+			params.bank && $('.bank').text(params.bank).attr("blank", false);
+			params.memo && $('.memo .font').text(params.memo).attr("blank", false);
+
+			/* expected from the recipient */
+			// $('.address')
+			// $('.fraction')
+			// $('.signature .font')
+			// $('.inroute input')
+			// $('.inaccount input')
+			// $('.number')
+		
 
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
@@ -935,6 +961,7 @@
 			load('./marketing.html');
 		}());
 	</script>
+	<script src="./+/remember/remember.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
 </body>
 </html>

@@ -3,28 +3,27 @@
     $('<div class="remember"></div>').insertAfter('.send .submit');
     $('.remember').load('./+/remember/remember.html', function(){
         // set checkbox according to state of Proprietor, will be the string "true" or else undefined, coerce to true|false
-        $('.remember input').prop('checked', Boolean(localStorage.Proprietor));
+        $('.remember input').prop('checked', !!localStorage.Proprietor);
 
         $('.remember input').on('change', async function(eve){
             if(eve.target.checked){
-                localStorage.Proprietor = true; // gets converted to string "true", just has to be truthy
-                var PII = {
+                var Proprietor = {
                     address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
                     fraction: $('.fraction').text().trim(),
                     routing: $('.inroute input').val(),
                     account: $('.inaccount input').val(),
                     number: $('.number').text().trim() // used as last known check number, should auto increment on load
                 };
-                console.warn('checking for required vals', PII)
+                console.warn('checking for required vals', Proprietor)
                 // the locally defined err function immediately unchecks the box and doesn't save anything
                 // user will have to correct missing info before clicking 'remember me' again
-				if(!PII.fraction){ return err('.fraction') }
-				if(!PII.address){ return err('.address') }
-				if(!PII.account || !PII.routing){ return err('.MICR') }
-				if(!PII.number){ return err('.number') }
+				if(!Proprietor.fraction){ return err('.fraction') }
+				if(!Proprietor.address){ return err('.address') }
+				if(!Proprietor.account || !Proprietor.routing){ return err('.MICR') }
+				if(!Proprietor.number){ return err('.number') }
 
-                console.warn('stashing encrypted PII with placeholder PIN')
-                localStorage.PII = await en(PII, 'rest')
+                console.warn('stashing encrypted Proprietor with placeholder PIN')
+                localStorage.Proprietor = await en(Proprietor, 'rest')
                 // TODO: and also scroll down to 'upgrade' button
             } else {
                 delete localStorage.Proprietor; // doesn't delete personalDetails, just disables autofill when box is unchecked
@@ -35,7 +34,7 @@
         // might want to check that all these fields are non-empty / match schema before stashing
         if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
             (async function(){ // jquery.load doesn't like its callback being async so I have to do an async IIFE here, that or .then()
-                var {address, fraction, routing, account, number} = await de(localStorage.PII, 'rest')
+                var {address, fraction, routing, account, number} = await de(localStorage.Proprietor, 'rest')
                 $('.address').text(address).attr("blank", false);
                 $('.fraction').text(fraction).attr("blank", false);
                 $('.inroute input').val(routing).trigger('keyup'); // need to call micr on the input to update the glyphs

@@ -1,22 +1,42 @@
 <style>
-    #feature {
-        padding: 2em 6em;
+    .floating {
         background: #dadada;
+        z-index: 1;
+    }
+
+    #marketing {
+        padding: 2em 6em;
         color: black;
-        margin: 3em auto;
         border-radius: 10px 10px 0 0;
     }
 
-    #feature button {
+    #marketing button {
         display: block;
         background: lightgreen;
     }
+
+    .notice:first-child {
+        visibility: hidden;
+        font-size: 18pt;
+    }
+
+    .notice:last-child {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .anchored {
+        position: sticky;
+        bottom: 0;
+    }
+
 </style>
-<div id="feature">
+<div id="marketing" class="page">
     <h1> Unlock Convenient Peer-to-Peer Payments with Bank Details at Your Fingertips! </h1>
     <p>Introducing the next level of peer-to-peer payments: our revolutionary platform allows you to effortlessly send money using digitally rendered checks, complete with the recipient's banking details and payment information. But that's not all! We're excited to bring you an exclusive upsell that will make your payment experience even more seamless and convenient.</p>
     <p>Say goodbye to the hassle of repeatedly entering banking details for future transactions. With our premium "Remember Me" feature, you can securely store your own banking information and the details of your frequently paid recipients. It's like having your own personal digital vault, accessible whenever you need it. No more digging through papers or searching for account numbers. We've got you covered.</p>
     <p>Imagine the time and effort you'll save by simply selecting a recipient from your personalized list and making a payment with just a few taps. Our "Remember Me" function ensures that your transactions are not only quick and easy, but also accurate and secure. Your sensitive information is protected with robust encryption, giving you peace of mind while enjoying the convenience of seamless payments.</p>
     <p>Don't miss out on this incredible opportunity to take your peer-to-peer payment experience to a whole new level. Join our growing community of satisfied users who have already discovered the power of our platform. Get started today and enjoy the freedom of hassle-free payments with our cutting-edge features.</p>
-    <button>UPGRAY'D</button>
+    <button id="upgrade">UPGRAY'D</button>
 </div>

@@ -534,7 +534,8 @@
 			transition: color 1s;
 		}
 		.notice {
-			width: 80%;
+			width: 100%; /* updated to function whether or not its absolutely positioned */
+        	padding: 0 10%;
 			margin: 0 auto;
 			text-align: justify;
 			overflow: hidden;
@@ -593,16 +594,7 @@
 		}
 
 	</style>
-	<!-- insert tray and more stylesheets here -->
-	<label for="mem">Remember Me</label>
-	<input id=mem type="checkbox"></input>
-	<div id="tray" class="page">
-		<!-- load marketing or other modules here -->
-	</div>
-	<div id="cover">
-		<div class="say">
-		</div>
-		<div class="envelope">
+	<div class="envelope">
 			<div class="flip">
 				<div class="vertical">
 					<div class="front">
@@ -742,7 +734,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	<div class="send none">
 		<div class="submit">
 			<input placeholder="person.to.pay@example.com"><button>send</button>
@@ -954,14 +945,9 @@
 				return text.call(this);
 			}
 		}());
-		;(function(){ // async deferred list of features & modules here:
-			function load(url){
-				$('#tray').append("<div>").find('div').last().load(url);
-			}
-			load('./marketing.html');
-		}());
 	</script>
-	<script src="./+/remember/remember.js"></script>
+	<script src="./+/remember/remember.js"></script><!-- inserts checkbox after $(.send .submit)-->
+	<script src="./+/marketing/marketing.js"></script><!-- inserts sliding tray above -->
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
 </body>
 </html>

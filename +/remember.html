@@ -23,6 +23,7 @@
 
     $('.remember input').on('change', async function(eve){
         if(eve.target.checked){
+
             var Proprietor = {
                 address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
                 fraction: $('.fraction').text().trim(),
@@ -40,12 +41,16 @@
             if(!Proprietor.number){ return err('.number') }
             if(!Proprietor.signature){ return err('.signature') }
 
+            // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
+            // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
+            $('#upgrade').length && typeof localStorage.Proprietor == 'undefined' && $('#upgrade').get(0).scrollIntoView() 
+
             console.warn('stashing encrypted Proprietor with placeholder PIN')
             localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
-            // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
-            $('#upgrade').length && $('#upgrade').get(0).scrollIntoView() 
         } else {
-            delete localStorage.Proprietor; // doesn't delete personalDetails, just disables autofill when box is unchecked
+            // after using and disabling 'remember me', Proprietor will exist on localStorage, but set to an empty string,
+            // considered falsey when setting checkbox state on load. 
+            localStorage.Proprietor = ""; 
         }
     })
 

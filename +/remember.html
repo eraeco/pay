@@ -42,7 +42,8 @@
 
             console.warn('stashing encrypted Proprietor with placeholder PIN')
             localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
-            // TODO: and also scroll down to 'upgrade' button
+            // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
+            $('#upgrade').length && $('#upgrade').get(0).scrollIntoView() 
         } else {
             delete localStorage.Proprietor; // doesn't delete personalDetails, just disables autofill when box is unchecked
         }

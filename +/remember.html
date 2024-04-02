@@ -15,6 +15,7 @@
                 fraction: $('.fraction').text().trim(),
                 routing: $('.inroute input').val(),
                 account: $('.inaccount input').val(),
+                signature: $('.signature .font').text().trim(),
                 number: $('.number').text().trim() // used as last known check number, should auto increment on load
             };
             console.warn('checking for required vals', Proprietor)
@@ -24,6 +25,7 @@
             if(!Proprietor.address){ return err('.address') }
             if(!Proprietor.account || !Proprietor.routing){ return err('.MICR') }
             if(!Proprietor.number){ return err('.number') }
+            if(!Proprietor.signature){ return err('.signature') }
 
             console.warn('stashing encrypted Proprietor with placeholder PIN')
             localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
@@ -37,11 +39,12 @@
     // might want to check that all these fields are non-empty / match schema before stashing
     if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
         (async function(){ // jquery.load doesn't like its callback being async so I have to do an async IIFE here, that or .then()
-            var {address, fraction, routing, account, number} = await SEA.decrypt(localStorage.Proprietor, 'rest')
+            var {address, fraction, routing, account, signature, number} = await SEA.decrypt(localStorage.Proprietor, 'rest')
             $('.address').text(address).attr("blank", false);
             $('.fraction').text(fraction).attr("blank", false);
             $('.inroute input').val(routing).trigger('keyup'); // need to call micr on the input to update the glyphs
             $('.inaccount input').val(account).trigger('keyup');
+            $('.signature .font').text(signature).attr("blank", false)
             $('.number').text(number).attr("blank", false).trigger('keyup');
         })();
     }

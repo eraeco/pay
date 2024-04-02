@@ -1,4 +1,10 @@
-
+<style>
+    .remember label {
+        pointer-events: all !important; /* override pointer-events: none !important in index's css, needed for label to pass click to checkbox */
+        opacity: unset;
+        position: unset;
+    }
+</style>
 <label>
     Remember Me
     <input value="false" type="checkbox"></input>

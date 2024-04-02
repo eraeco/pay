@@ -903,8 +903,12 @@
 				return text.call(this);
 			}
 		}());
+
+		// add checkbox and localstorage stash for encrypted Proprietor data
+		$('<div class="remember"></div>').insertBefore('.send .submit');
+    	$('.remember').load('./+/remember.html');
+		
 	</script>
-	<script src="./+/remember/remember.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
 </body>
 </html>

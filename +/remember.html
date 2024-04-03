@@ -1,0 +1,77 @@
+<style>
+    #tray .remember {
+        display: none; /* hide the checkbox before it gets teleported before (.send .submit) */
+    }
+    .remember label {
+        pointer-events: all !important; /* override pointer-events: none !important in index's css, needed for label to pass click to checkbox */
+        opacity: unset;
+        position: unset;
+    }
+</style>
+<div class="remember">
+    <label>
+        Remember Me
+        <input value="false" type="checkbox"></input>
+    </label>
+</div>
+<script>
+;(async function(){
+    $('#tray .remember').insertBefore('.send .submit');
+
+    // set checkbox as 
+    $('.remember input').prop('checked', !!localStorage.Proprietor);
+
+    $('.remember input').on('change', async function(eve){
+        if(!eve.target.checked){
+            localStorage.Proprietor = ""; 
+            return;
+        }
+        var Proprietor = {
+            address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
+            bank: $('.bank')[0].innerText.trim(),
+            fraction: $('.fraction').text().trim(),
+            routing: $('.inroute input').val(),
+            account: $('.inaccount input').val(),
+            signature: $('.signature .font').text().trim(),
+            number: $('.number').text().trim() // used as last known check number, should auto increment on load
+        };
+        // console.warn('checking for required vals', Proprietor)
+        // the locally defined err function immediately unchecks the box and doesn't save anything
+        // user will have to correct missing info before clicking 'remember me' again
+        if(!Proprietor.fraction){ return err('.fraction') }
+        if(!Proprietor.address){ return err('.address') }
+        if(!Proprietor.bank){ return err('.bank') }
+        if(!Proprietor.account || !Proprietor.routing){ return err('.MICR') }
+        if(!Proprietor.number){ return err('.number') }
+        if(!Proprietor.signature){ return err('.signature') }
+
+        // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
+        // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
+        $('#upgrade').length
+            && typeof localStorage.Proprietor == 'undefined'
+            && ($('#upgrade').get(0).scrollIntoView(), (localStorage.began = +new Date))
+
+        // console.warn('stashing encrypted Proprietor with placeholder PIN')
+        localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
+    })
+
+    // this ASSUMES that if Proprietor exists, so does everything else - everything will exist if you've ever made out a check, including one to checkard. 
+    // might want to check that all these fields are non-empty / match schema before stashing
+    if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
+        var {address, fraction, routing, account, signature, number, bank} = await SEA.decrypt(localStorage.Proprietor, 'rest')
+        $('.address').text(address).attr("blank", false);
+        $('.bank').text(bank).attr("blank", false);
+        $('.fraction').text(fraction).attr("blank", false);
+        $('.inroute input').val(routing).trigger('keyup'); // need to call micr on the input to update the glyphs
+        $('.inaccount input').val(account).trigger('keyup');
+        $('.signature .font').text(signature).attr("blank", false)
+        $('.number').text(number).attr("blank", false).trigger('keyup');
+    }
+
+    function err(s){
+        $(s).addClass('error')
+        $('.remember input').prop('checked', false)
+        setTimeout(function(){ $(s).removeClass('error') }, 5000);
+    }
+})();
+</script>

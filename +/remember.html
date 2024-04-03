@@ -45,7 +45,7 @@
 
         // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
         // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
-        $('#upgrade').length && typeof localStorage.Proprietor == 'undefined' && $('#upgrade').get(0).scrollIntoView() 
+        $('#upgrade').length && typeof localStorage.Proprietor == 'undefined' && $('#upgrade').get(0).scrollIntoView() || (localStorage.began = +new Date)
 
         // console.warn('stashing encrypted Proprietor with placeholder PIN')
         localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')

@@ -34,7 +34,7 @@
             signature: $('.signature .font').text().trim(),
             number: $('.number').text().trim() // used as last known check number, should auto increment on load
         };
-        console.warn('checking for required vals', Proprietor)
+        // console.warn('checking for required vals', Proprietor)
         // the locally defined err function immediately unchecks the box and doesn't save anything
         // user will have to correct missing info before clicking 'remember me' again
         if(!Proprietor.fraction){ return err('.fraction') }
@@ -47,7 +47,7 @@
         // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
         $('#upgrade').length && typeof localStorage.Proprietor == 'undefined' && $('#upgrade').get(0).scrollIntoView() 
 
-        console.warn('stashing encrypted Proprietor with placeholder PIN')
+        // console.warn('stashing encrypted Proprietor with placeholder PIN')
         localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
     })
 

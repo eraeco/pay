@@ -730,7 +730,7 @@
 			code = hash[1];
 			var gun = GUN(['https://test.era.eco/gun','https://59.thesource.fm/gun','https://relay.129.153.59.37.nip.io/gun']); // data is end-to-end encrypted BEFORE using these relays to send data.
 			
-			console.warn(gun)
+			// console.warn(gun)
 
 			if(key && code){
 				$('.help').removeClass('none');
@@ -748,7 +748,7 @@
 					clearTimeout(load.to);
 					var msg = data.en;
 					var check = await de(msg, code);
-					console.warn(check)
+					// console.warn(check)
 					if(!check){
 						$('.amounts').text("Invalid decryption password");
 						return;
@@ -834,7 +834,7 @@
 					number: $('.number').text().trim()
 					//number: $('.number input').first().val() || $('.number input').last().val()
 				};
-				console.warn(check)
+				// console.warn(check)
 				if(!check.account || !check.routing){ return err('.MICR') }
 				if(!check.number){ return err('.number') }
 				if(!check.payee){ return err('.payee') }
@@ -849,7 +849,7 @@
 				code = ((code||Math.random()) - Math.random()).toString(32).replace('.','');
 				var msg = await en(check, code);
 				key = Math.random().toString(32).slice(2);
-				console.warn({key, msg})
+				// console.warn({key, msg})
 				gun.get(key).put({en: msg});
 				var email = $('.submit input').val();
 				var subject = "$" + check.amount + (

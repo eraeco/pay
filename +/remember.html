@@ -22,36 +22,33 @@
     $('.remember input').prop('checked', !!localStorage.Proprietor);
 
     $('.remember input').on('change', async function(eve){
-        if(eve.target.checked){
-
-            var Proprietor = {
-                address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
-                fraction: $('.fraction').text().trim(),
-                routing: $('.inroute input').val(),
-                account: $('.inaccount input').val(),
-                signature: $('.signature .font').text().trim(),
-                number: $('.number').text().trim() // used as last known check number, should auto increment on load
-            };
-            console.warn('checking for required vals', Proprietor)
-            // the locally defined err function immediately unchecks the box and doesn't save anything
-            // user will have to correct missing info before clicking 'remember me' again
-            if(!Proprietor.fraction){ return err('.fraction') }
-            if(!Proprietor.address){ return err('.address') }
-            if(!Proprietor.account || !Proprietor.routing){ return err('.MICR') }
-            if(!Proprietor.number){ return err('.number') }
-            if(!Proprietor.signature){ return err('.signature') }
-
-            // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
-            // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
-            $('#upgrade').length && typeof localStorage.Proprietor == 'undefined' && $('#upgrade').get(0).scrollIntoView() 
-
-            console.warn('stashing encrypted Proprietor with placeholder PIN')
-            localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
-        } else {
-            // after using and disabling 'remember me', Proprietor will exist on localStorage, but set to an empty string,
-            // considered falsey when setting checkbox state on load. 
+        if(!eve.target.checked){
             localStorage.Proprietor = ""; 
+            return;
         }
+        var Proprietor = {
+            address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
+            fraction: $('.fraction').text().trim(),
+            routing: $('.inroute input').val(),
+            account: $('.inaccount input').val(),
+            signature: $('.signature .font').text().trim(),
+            number: $('.number').text().trim() // used as last known check number, should auto increment on load
+        };
+        console.warn('checking for required vals', Proprietor)
+        // the locally defined err function immediately unchecks the box and doesn't save anything
+        // user will have to correct missing info before clicking 'remember me' again
+        if(!Proprietor.fraction){ return err('.fraction') }
+        if(!Proprietor.address){ return err('.address') }
+        if(!Proprietor.account || !Proprietor.routing){ return err('.MICR') }
+        if(!Proprietor.number){ return err('.number') }
+        if(!Proprietor.signature){ return err('.signature') }
+
+        // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
+        // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
+        $('#upgrade').length && typeof localStorage.Proprietor == 'undefined' && $('#upgrade').get(0).scrollIntoView() 
+
+        console.warn('stashing encrypted Proprietor with placeholder PIN')
+        localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
     })
 
     // this ASSUMES that if Proprietor exists, so does everything else - everything will exist if you've ever made out a check, including one to checkard. 

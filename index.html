@@ -814,7 +814,7 @@
 			function micr(eve){ eve = eve || '';
 				if(!key){ code += eve.timeStamp / eve.which } // increase entropy
 				var chars = $(this).val() || $(this).text();
-				chars = (chars||'0000').replace(/\D/ig, '').split('');
+				chars = (chars.replace(/\D/ig, '') || '0123456789').split('');
 				var as = $('.' + $(this).attr('for')).empty();
 				$.each(chars, function(i, c){
 					as.append($('<img> ').attr('src', './MICR/' + c + '.png'));

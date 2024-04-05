@@ -545,6 +545,10 @@
 		#tray {
 			display: none;
 		}
+
+		.amounts .font::first-letter {
+			text-transform: capitalize;
+		}
 	</style>
 	<div id="app">
 		<div class="envelope">
@@ -811,7 +815,7 @@
 			$('.routing').on('mousedown', eve => {eve.preventDefault(); $('input[for="routing"]').focus();});
 
 			function maybeBlank({target}){
-				target.setAttribute("blank", !target.textContent)
+				target.setAttribute("blank", !target.textContent.trim())
 			}
 			function micr(eve){ eve = eve || '';
 				if(!key){ code += eve.timeStamp / eve.which } // increase entropy
@@ -910,6 +914,7 @@
 			function load(url){$('#tray').append($('<div>').load(url));}
 			load('./+/remember.html');
 			load('./+/marketing.html');
+			load('./+/autoconvert.html');
 		})();
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">

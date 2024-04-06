@@ -1,97 +1,12 @@
-<style>
-    dialog {
-        padding: 20px;
-        background: #eee;
-        color: black;
-        border: 4px solid white;
-        position: fixed;
-        top: 0;
-        height: 90vh;
-        margin: 5vh 5vw;
-
-    }
-    dialog .content {
-        height: 100%;
-        overflow: scroll;
-    }
-    dialog button {
-        background: lightgreen;
-        margin: 0 auto;
-        display: block;
-        font-size: large;
-        padding: 5px 15px;
-    }
-    ::backdrop {
-        background-image: linear-gradient(
-            45deg,
-            magenta,
-            rebeccapurple,
-            dodgerblue,
-            green
-        );
-        opacity: 0.75;
-        pointer-events: none;
-    }
-
-    dialog .img-group img {
-        width: 100%;
-    }
-
-    dialog .img-group {
-        display: flex;
-        justify-content: space-around;
-        flex-direction: column;
-    }
-
-    @media (min-width: 700px){
-        dialog {
-            height: 80vh;
-            margin: 10vh;
-        }
-        dialog .img-group {
-            flex-direction: row;
-        }
-        dialog .img-group img {
-            width: 45%;
-        }
-    } 
-
-    @media (min-width: 1000px){
-        dialog .img-group {
-            flex-direction: row;
-        }
-        dialog .img-group img {
-            width: 35%;
-        }
-    } 
-
-
-</style>
-<dialog>
-    <div class="content">
-        <h1> Read Carefully To Deposit This E-Check </h1>
-        <p> ... lorem ipsum explain the legal framework that guarantees that people be allowed to use this technology to submit payments to their bank ...</p>
-        <p> This e-check may be deposited through your mobile banking app at your Bank's discretion, check the terms of use provided with the App or ask your bank for more information etc etc</p>
-        <p> To deposit through your mobile app, you'll want to ensure you've removed any sources of screen glare - ideally turn the screen brightness down in a dark room. Your app will guide you through taking a picture of the front of the 'check' and then the back -- when you mouseover the check it will flip over and you'll fill out the back of the check with your name. Be sure to read the instructions in your mobile app, it may stipulate you add a message like "For deposit to $bank only" to the endorsement. </p> 
-        <div class="img-group">
-            <img src="./clipart/front.png"><img src="./clipart/back.png">
-        </div>
-        <p> You may also print out the images, front and back, to make a deposit with as a physical check. Be sure to sign the endorsement. </p>
-        <button formmethod="dialog">I Understand</button>
-    </div>
-</dialog>
 <script>
-    // it occurs to me that module loading occurs after all the index javascript, so I can just check if flipit is set
-    // TODO we'll also want to stash a flag that the modal has been dismissed before
-    if($('.flip').hasClass('flipit')){
-        $('dialog')[0].showModal() 
-    }
-
-    $('dialog button').click(function(eve){
-        $('dialog')[0].close();
-        // grab check amount and reduce it to two sig figs
-        var magnitude = Math.log10(parseInt($('.amount .font').text())).toPrecision(2);
-        var key = location.hash.split(':').unshift();
-        console.log('LOG MAG', {[key]: magnitude})
+;(function(){
+    var endorsed = false; // in memory flag so that check amount is only logged once per session
+    var timestamp = +new Date;
+    var magnitude = Math.log10(parseInt($('.amount .font').text())).toPrecision(2); // truncate to 2 sig figs to fuzz value and prevent reversibility
+    $('.endorse').blur(function(){
+        if(endorsed || $('.endorse').text().trim() === "") return;
+        endorsed = true;
+        console.log("LOG MAG", {[timestamp]: magnitude}); //  how about this?
     })
+})();
 </script>

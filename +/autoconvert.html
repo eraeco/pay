@@ -7,7 +7,7 @@
 
 
     $('.amount .font').blur(function(eve){
-        var amount = eve.target.textContent
+        var amount = eve.target.textContent.replaceAll(',','')
         // regex check that the amount has been entered fully,
         // any number of digits followed by a dot and 2 numbers
         if(/^\d+\.\d{2}$/.test(amount)){
@@ -19,6 +19,8 @@
         }
     })
 
+    // modified from creative commons share-alike source authored by 'bpbutti'
+    // https://codereview.stackexchange.com/questions/90349/changing-number-to-words-in-javascript
     function english(amount) {
         var [dollars, cents] = amount.split('.');
         cents = String(parseInt(cents)) // drop leading 0 on cent amount, prefer '5/100' to '05/100'

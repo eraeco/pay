@@ -75,11 +75,15 @@
     </div>
 </div>
 <script>
+    var activated = false; // in memory flag so that modal only pops up once
+
     // it occurs to me that module loading occurs after all the index javascript, so I can just check if flipit is set
     // TODO we'll also want to stash a flag that the modal has been dismissed before
-    if($('.flip').hasClass('flipit')){
+    $('.endorse').blur(function(){
+        if(activated) return;
+        activated = true;
         $('.modal').removeClass('none')
-    }
+    })
 
     $('.modal #ack').click(function(eve){
         $('.modal').addClass('none')

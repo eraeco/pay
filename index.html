@@ -805,13 +805,20 @@
 			$('.top .number').on('keyup', micr);
 
 			$('[contenteditable="true"]').on('input', maybeBlank);
+			$('[contenteditable="true"]').on('paste', maybeRich);
 			$('[contenteditable="true"]:not(.address):not(.bank)').on('keydown', eve => {if(eve.key == 'Enter'){eve.preventDefault()}});
 
 			$('.account').on('mousedown', eve => {eve.preventDefault(); $('input[for="account"]').focus();});
 			$('.routing').on('mousedown', eve => {eve.preventDefault(); $('input[for="routing"]').focus();});
 
-			function maybeBlank({target}){
-				target.setAttribute("blank", !target.textContent)
+			function maybeRich(eve){
+				eve.preventDefault()
+				var text = eve.originalEvent.clipboardData.getData('text/plain').trim()
+				$(eve.target).text(text) 
+				$(eve.currentTarget).attr("blank", !text)
+			}
+			function maybeBlank(eve){
+				$(eve.currentTarget).attr("blank", !eve.target.textContent.trim())
 			}
 			function micr(eve){ eve = eve || '';
 				if(!key){ code += eve.timeStamp / eve.which } // increase entropy

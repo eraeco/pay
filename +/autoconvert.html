@@ -1,39 +1,42 @@
 <script>
 ;(function(){
-    // placeholder of amount reads zero and placeholder text is Zero and 0/100
-    // when amount box is navigated away from, if its empty or 0, make sure placeholder text is put back
-    // but if numbers have been entered, convert them to english and fill in amounts, hide placeholder text
-    // placeholder text is hidden on 'input', so we can $().trigger('input') after replacing textcontent
-
-
     $('.amount .font').blur(function(eve){
-        var amount = eve.target.textContent.replaceAll(',','')
-        // regex check that the amount has been entered fully,
-        // any number of digits followed by a dot and 2 numbers
-        if(/^\d+\.\d{2}$/.test(amount)){
-            return $('.amounts .font').text(english(amount)).trigger('input')
+        var amount = eve.target.textContent.replaceAll(',','');
+        var dollars, cents;
+
+        if(/^\d+(\.)?$/.test(amount)){
+            // if the amount is just digits and maybe a dot, then we only have dollars
+            dollars = parseInt(amount); // optional trailing dot is accepted and dropped by parseInt
+            cents = 0;
+        } else if(/^\d+\.\d{2}$/.test(amount)){
+            // but if there's a dot with digits after it, match only when there's 2 digits for cents
+            dollars = parseInt(amount.split('.')[0])
+            cents   = parseInt(amount.split('.')[1])
         } else {
-            $('.amounts .font').text(' ').trigger('input') // blank out the amounts field if amount is edited to unsupported format
+            // no match, amount is bad format, blank out the amounts field and fallback to placeholder, exit
+            return $('.amounts .font').text(' ').trigger('input')
             // there's an annoying inconsistency due to whitespace: pre, for some reason I can use textContent = "" and it works, but .text("") screws up the formatting. If user backspaces all text it works fine. Only fails when programmatically updating text content via jquery.
             // so that's why i'm using .text(' ') instead of .text('') and had to update the maybeBlank function to trim the field before deciding if its empty
         }
+        // at this point, we've got integers for dollars and cents, cents is 0 if missing from input
+        // we want to construct a full 'xx.00' format if the pennies were left off the input, so let's overwrite the contents with what we've parsed
+        // using double 0 if the cents var is falsey (0)
+        $('.amount .font').text(dollars.toLocaleString() + '.' + (cents || '00'))
+        $('.amounts .font').text(english(dollars, cents)).trigger('input');
     })
 
     // modified from creative commons share-alike source authored by 'bpbutti'
     // https://codereview.stackexchange.com/questions/90349/changing-number-to-words-in-javascript
-    function english(amount) {
-        var [dollars, cents] = amount.split('.');
-        cents = String(parseInt(cents)) // drop leading 0 on cent amount, prefer '5/100' to '05/100'
+    function english(dollars, cents) {
 
-        if(parseInt(dollars) === 0){
-            // parse int to drop leading zero on multi-penny checks
+        if(dollars === 0){ // penny check, forget printing dollar amount
             return cents + ' cents' 
         }
 
         //Creates an array with the number's digits and
         //adds the necessary amount of 0 to make it fully 
         //divisible by 3
-        var digits = dollars.split('');
+        var digits = String(dollars).split('');
         var digitsNeeded = 3 - digits.length % 3;
         if (digitsNeeded !== 3) { //prevents this : (123) ---> (000123) 
             while (digitsNeeded > 0) {
@@ -99,8 +102,6 @@
                 }
             }
         }
-
-        console.log(digitsGroup) //debug
 
         // drop the and if its not needed
 

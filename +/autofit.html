@@ -1,0 +1,46 @@
+<style>
+    /* apply extra formatting to fix divs in place while font size changes within them */
+    .amount {
+        height: 32px;
+    }
+    .amounts {
+        height: 31px;
+    }
+
+    .amount.overflow, .amounts.overflow {
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+</style>
+<script>
+// ;(function(){
+    function autofit(field){
+        alert('????')
+        // get rectangle dimensions of container and text
+        // unfortunately to get the rectangle of a text node we have to select the text as a range and measure that
+        var text = field.firstChild;
+        var range = document.createRange();
+        range.setStart(text, 0);
+        range.setEnd(text, text.length);
+        // turn off animation
+        // I need to reset the transform before measuring
+        // because 
+
+        var fieldSize = field.getBoundingClientRect();
+        var textSize = range.getBoundingClientRect();
+
+        var factor = fieldSize.width / (textSize.width * 1.1)
+        console.log(factor)
+
+        if(factor > 1){
+            // text fits within field, no problem, exit
+            // setting the width of the dash fill could go here
+            return;
+        }
+        $(field).parent().addClass('overflow')
+        $(field).css('font-size', 'calc(1em *' + factor.toFixed(2) + ')')
+        // 
+    }
+// })();
+</script>

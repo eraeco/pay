@@ -12,14 +12,23 @@
         align-items: center;
         text-align: center;
     }
+
+    .amount.overflow .font {
+        width: 70%; /* centered text scoots over to the right */
+    }
 </style>
 <script>
 // ;(function(){
+    $('.amount, .amounts, .memo, .signature').each(function(){
+        console.log(this)
+        
+        autofit(this)
+    })
+
     function autofit(field){
-        alert('????')
         // get rectangle dimensions of container and text
         // unfortunately to get the rectangle of a text node we have to select the text as a range and measure that
-        var text = field.firstChild;
+        var text = field.firstElementChild.firstChild;
         var range = document.createRange();
         range.setStart(text, 0);
         range.setEnd(text, text.length);
@@ -38,8 +47,8 @@
             // setting the width of the dash fill could go here
             return;
         }
-        $(field).parent().addClass('overflow')
-        $(field).css('font-size', 'calc(1em *' + factor.toFixed(2) + ')')
+        $(field).addClass('overflow')
+        $(field.firstElementChild).css('font-size', 'calc(1em *' + factor.toFixed(2) + ')')
         // 
     }
 // })();

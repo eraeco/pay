@@ -209,6 +209,13 @@
 			font-family: Arial;
 			font-size: 8pt;
 		}
+		.fractional .numbers .fraction {
+			white-space: initial;
+  			word-break: break-all;
+			line-height: 1.2em; /* default, but to be strict */
+			max-height: 2.4em;
+			overflow: hidden;
+		}
 		.who .what {
 			width: 7em;
 			padding-left: 1em;
@@ -541,6 +548,14 @@
 		[blank="false"] + label {
 			display: none;
 		}
+
+		#tray {
+			display: none;
+		}
+
+		.amounts .font::first-letter {
+			text-transform: capitalize;
+		}
 	</style>
 	<div id="app">
 		<div class="envelope">
@@ -801,13 +816,13 @@
 			$('.top .number').on('keyup', micr);
 
 			$('[contenteditable="true"]').on('input', maybeBlank);
-			$('[contenteditable="true"]:not(.address):not(.bank)').on('keydown', eve => {if(eve.key == 'Enter'){eve.preventDefault()}});
+			$('[contenteditable="true"]:not(.address):not(.bank):not(.fraction)').on('keydown', eve => {if(eve.key == 'Enter'){eve.preventDefault()}});
 
 			$('.account').on('mousedown', eve => {eve.preventDefault(); $('input[for="account"]').focus();});
 			$('.routing').on('mousedown', eve => {eve.preventDefault(); $('input[for="routing"]').focus();});
 
 			function maybeBlank({target}){
-				target.setAttribute("blank", !target.textContent)
+				target.setAttribute("blank", !target.textContent.trim())
 			}
 			function micr(eve){ eve = eve || '';
 				if(!key){ code += eve.timeStamp / eve.which } // increase entropy
@@ -907,6 +922,8 @@
 			load('./+/remember.html');
 			load('./+/help/deposit.html')
 			load('./+/metrics.html');
+			load('./+/marketing.html');
+			load('./+/autoconvert.html');
 		})();
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">

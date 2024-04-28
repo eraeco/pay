@@ -1,5 +1,8 @@
 <style>
     /* apply extra formatting to fix divs in place while font size changes within them */
+    .payee {
+        height: 29px
+    }
     .amount {
         height: 32px;
     }
@@ -14,42 +17,49 @@
     }
 
     .amount.overflow .font {
-        width: 70%; /* centered text scoots over to the right */
+        left: 5px; /* scoot full width text over a smidge */
     }
 </style>
 <script>
 // ;(function(){
-    $('.amount, .amounts, .memo, .signature').each(function(){
-        console.log(this)
-        
-        autofit(this)
+    $('.amount, .amounts, .memo, .payee').each(function(){
+        this.addEventListener('keyup', () => reflow(this))
+        reflow(this);
     })
 
-    function autofit(field){
+
+
+    function reflow(field){
+
+        var $field = $(field); // jqueryify the selected element once, this is the wrapper around the div.font
+        var $font = $(field.firstElementChild); // the div.font, direct parent of the text node
+        var text = field.firstElementChild.firstChild; // the text node
+        if(!text){ return $font.css('font-size',''); /* skip if empty */ }
+
+        var current = $font.css('font-size'); // will return calculated font size if no style is applied
+
         // get rectangle dimensions of container and text
         // unfortunately to get the rectangle of a text node we have to select the text as a range and measure that
-        var text = field.firstElementChild.firstChild;
+        
         var range = document.createRange();
         range.setStart(text, 0);
         range.setEnd(text, text.length);
-        // turn off animation
-        // I need to reset the transform before measuring
-        // because 
 
         var fieldSize = field.getBoundingClientRect();
         var textSize = range.getBoundingClientRect();
 
-        var factor = fieldSize.width / (textSize.width * 1.1)
-        console.log(factor)
+        var factor = (fieldSize.width / (textSize.width * 1.1 )).toFixed(2); // round to 2 decimal places
+        // a factor above 1 means the text fits in its container just fine, no action needed except remove overflow adjustments
+        $font.css('font-size', '');
 
         if(factor > 1){
-            // text fits within field, no problem, exit
             // setting the width of the dash fill could go here
-            return;
+            $field.removeClass('overflow');
+        } else {
+            $field.addClass('overflow');
+            $font.css('font-size', 'calc(' + current + ' * ' + factor + ')');
         }
-        $(field).addClass('overflow')
-        $(field.firstElementChild).css('font-size', 'calc(1em *' + factor.toFixed(2) + ')')
-        // 
+
     }
 // })();
 </script>

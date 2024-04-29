@@ -30,6 +30,15 @@
     .amount.overflow .font {
         left: 10px; /* scoot full width text over a smidge */
     }
+
+    .amount:not(.overflow) .font[style]:after,
+    .amounts:not(.overflow) .font[style]:after {
+        /* only apply a trailing dash on field with explicit style tag -- that's the attr used to pass the css var, if its not there, don't dash */
+        display: inline-block;
+        content: '-';
+        transform: scale(var(--dash),1);
+        transform-origin: left;
+    }
 </style>
 <script>
 ;(function(){
@@ -43,8 +52,8 @@
         var $field = $(field); // jqueryify the selected element once, this is the wrapper around the div.font
         var $font = $(field.firstElementChild); // the div.font, direct parent of the text node
         var text = field.firstElementChild.firstChild; // the text node
-        if(!text){  /* reset things and exit if field is empty */
-            $font.css('font-size','');
+        if(!text || !text.textContent.trim()){  /* reset things and exit if field is empty */
+            $font.removeAttr('style');
             $field.removeClass('overflow');
             return;
         }
@@ -74,10 +83,13 @@
 
         if(scaled > original){
             // reflow size would be larger than original, which means there would be no overflow with original size. remove overflow styling and exit
+            // since scaled text is 
+            $font.attr('style', '--dash: ' + ((fieldSize.width - textSize.width) / (original / 1.5)).toFixed(2));
             $field.removeClass('overflow');
             $font.css('font-size',''); // clear any existing font-size rule
         } else {
             // if reflow'd font-size is less than original, then we better used the reflow'd font-size to fit in the box, and add overflow styling
+            $font.removeAttr('style');
             $field.addClass('overflow');
             $font.css('font-size', scaled + 'px')
         }

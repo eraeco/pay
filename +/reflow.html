@@ -1,5 +1,8 @@
 <style>
     /* apply extra formatting to fix divs in place while font size changes within them */
+    .memo {
+        height: 31px;
+    }
     .payee {
         height: 29px
     }
@@ -17,30 +20,35 @@
     }
 
     .amount.overflow .font {
-        left: 5px; /* scoot full width text over a smidge */
+        left: 10px; /* scoot full width text over a smidge */
     }
 </style>
 <script>
 // ;(function(){
-    $('.amount, .amounts, .memo, .payee').each(function(){
+    $('.amount, .amounts, .memo, .payee, .signature').each(function(){
         this.addEventListener('keyup', () => reflow(this))
+        this.firstElementChild.addEventListener('blur', () => reflow(this))
         reflow(this);
     })
 
-
-
     function reflow(field){
-
         var $field = $(field); // jqueryify the selected element once, this is the wrapper around the div.font
         var $font = $(field.firstElementChild); // the div.font, direct parent of the text node
         var text = field.firstElementChild.firstChild; // the text node
-        if(!text){ return $font.css('font-size',''); /* skip if empty */ }
+        if(!text){  /* reset things and exit if field is empty */
+            $font.css('font-size','');
+            $field.removeClass('overflow');
+            return;
+        }
 
-        var current = $font.css('font-size'); // will return calculated font size if no style is applied
-
-        // get rectangle dimensions of container and text
-        // unfortunately to get the rectangle of a text node we have to select the text as a range and measure that
+        var current, original, scaled;
         
+        current = parseFloat($font.css('font-size')); // will return calc(Xpx) if scaled has been applied, or px units if no scaled has been applied
+        original = parseFloat($field.css('font-size')); // get the unmodified font size in px units // I'm using the font-size of the parent element as original, because this reads the calculated size
+        
+        // I need to recalculate what font-size will fit within the box -- but if the result of multiplying the current by the factor is bigger than the original, then just use original
+        // calculation will be based on what the CURRENT font-size needs to be multiplied by,
+        // we'll grab the ORIGINAL font-size after getting the factor - and then set the current back to where it was so fast there should be no indication it was ever reset thanks to transistion timing
         var range = document.createRange();
         range.setStart(text, 0);
         range.setEnd(text, text.length);
@@ -48,18 +56,19 @@
         var fieldSize = field.getBoundingClientRect();
         var textSize = range.getBoundingClientRect();
 
-        var factor = (fieldSize.width / (textSize.width * 1.1 )).toFixed(2); // round to 2 decimal places
-        // a factor above 1 means the text fits in its container just fine, no action needed except remove overflow adjustments
-        $font.css('font-size', '');
+        var factor = fieldSize.width / textSize.width;
 
-        if(factor > 1){
-            // setting the width of the dash fill could go here
+        scaled = (current * factor * .9).toFixed(2); // 0.9 is a fudge factor
+
+        if(scaled > original){
+            // reflow size would be larger than original, which means there would be no overflow with original size. remove overflow styling and exit
             $field.removeClass('overflow');
+            $font.css('font-size',''); // clear any existing font-size rule
         } else {
+            // if reflow'd font-size is less than original, then we better used the reflow'd font-size to fit in the box, and add overflow styling
             $field.addClass('overflow');
-            $font.css('font-size', 'calc(' + current + ' * ' + factor + ')');
+            $font.css('font-size', scaled + 'px')
         }
-
     }
 // })();
 </script>

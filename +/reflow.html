@@ -12,6 +12,14 @@
     .amounts {
         height: 31px;
     }
+    .endorse {
+        height: 48px;
+    }
+    .endorse.overflow .font {
+        height: 48px;
+        display: flex;
+        align-items: flex-end; /* stick text to bottom of box even as it shrinks */
+    }
 
     .amount.overflow, .amounts.overflow {
         display: flex;
@@ -25,7 +33,7 @@
 </style>
 <script>
 // ;(function(){
-    $('.amount, .amounts, .memo, .payee, .signature').each(function(){
+    $('.amount, .amounts, .memo, .payee, .signature, .endorse').each(function(){
         this.addEventListener('keyup', () => reflow(this))
         this.firstElementChild.addEventListener('blur', () => reflow(this))
         reflow(this);
@@ -41,7 +49,7 @@
             return;
         }
 
-        var current, original, scaled;
+        var current, original, scaled, factor;
         
         current = parseFloat($font.css('font-size')); // will return calc(Xpx) if scaled has been applied, or px units if no scaled has been applied
         original = parseFloat($field.css('font-size')); // get the unmodified font size in px units // I'm using the font-size of the parent element as original, because this reads the calculated size
@@ -56,7 +64,11 @@
         var fieldSize = field.getBoundingClientRect();
         var textSize = range.getBoundingClientRect();
 
-        var factor = fieldSize.width / textSize.width;
+        if($field.hasClass('endorse')){
+            factor = fieldSize.height / textSize.height; // lol we're sideways
+        } else {
+            factor = fieldSize.width / textSize.width;
+        }
 
         scaled = (current * factor * .9).toFixed(2); // 0.9 is a fudge factor
 

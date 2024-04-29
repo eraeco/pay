@@ -665,8 +665,8 @@
 											<div class="what">
 												ENDORSE HERE
 											</div>
-											<div class="endorse" contenteditable="true"></div>
-											<div class="endorse" contenteditable="true"></div>
+											<div class="endorse"><div class="font" contenteditable="true"></div></div>
+											<div class="endorse"><div class="font" contenteditable="true"></div></div>
 										</div>
 									</div>
 									<div class="original">
@@ -750,7 +750,7 @@
 			if(key && code){
 				$('.help').removeClass('none');
 				$('.flip').toggleClass('flipit');
-				$("[contenteditable]:not(.endorse)").attr('contenteditable', false);
+				$("[contenteditable]:not(.endorse .font)").attr('contenteditable', false);
 				load.to = setTimeout(load, 3000);
 				gun.get(key).on(load);
 

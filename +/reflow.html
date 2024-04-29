@@ -32,7 +32,7 @@
     }
 </style>
 <script>
-// ;(function(){
+;(function(){
     $('.amount, .amounts, .memo, .payee, .signature, .endorse').each(function(){
         this.addEventListener('keyup', () => reflow(this))
         this.firstElementChild.addEventListener('blur', () => reflow(this))
@@ -82,5 +82,5 @@
             $font.css('font-size', scaled + 'px')
         }
     }
-// })();
+})();
 </script>

@@ -31,8 +31,8 @@
         left: 10px; /* scoot full width text over a smidge */
     }
 
-    .amount:not(.overflow) .font[style]:after,
-    .amounts:not(.overflow) .font[style]:after {
+    .amount:not(.overflow) .font[style]:not(:focus):after,
+    .amounts:not(.overflow) .font[style]:not(:focus):after {
         /* only apply a trailing dash on field with explicit style tag -- that's the attr used to pass the css var, if its not there, don't dash */
         display: inline-block;
         content: '-';

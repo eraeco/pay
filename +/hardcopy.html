@@ -6,8 +6,6 @@
         .envelope {
             padding: initial;
             overflow: hidden;
-            transform: scale(0.6);
-            height: 100vh;
         }
         .front, .back {
             position: relative;
@@ -16,5 +14,11 @@
 			-ms-transform: none;
 			transform: none;
 		}
+        #tray {
+            display: none;
+        }
+        #app > div:not(.envelope) {
+            display: none;
+        }
     /* } */
 </style>

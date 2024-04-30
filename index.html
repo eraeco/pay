@@ -821,9 +821,11 @@
 			$('.account').on('mousedown', eve => {eve.preventDefault(); $('input[for="account"]').focus();});
 			$('.routing').on('mousedown', eve => {eve.preventDefault(); $('input[for="routing"]').focus();});
 
+
 			function maybeBlank({target}){
 				target.setAttribute("blank", !target.textContent.trim())
 			}
+
 			function micr(eve){ eve = eve || '';
 				if(!key){ code += eve.timeStamp / eve.which } // increase entropy
 				var chars = $(this).val() || $(this).text();
@@ -923,6 +925,7 @@
 			load('./+/help/deposit.html')
 			load('./+/metrics.html');
 			load('./+/marketing.html');
+			load('./+/paste.html');
 			load('./+/autoconvert.html');
 		})();
 	</script>

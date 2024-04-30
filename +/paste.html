@@ -1,0 +1,34 @@
+<script>
+    // using modified MIT licensed code from https://github.com/phuocng/html-dom https://phuoc.ng/collection/html-dom/paste-as-plain-text/
+    ;(async function(){
+        $('[contenteditable="true"]').on('paste', maybeRich)
+        
+        function maybeRich(eve) {
+            eve.preventDefault();
+            var text;
+            
+            if(window.clipboardData){
+                text = window.clipboardData.getData('Text') // IE
+            } else {
+                text = (eve.originalEvent || eve).clipboardData.getData('text/plain') // everyone sane
+            }
+
+            if (document.queryCommandSupported('insertText')) {
+                document.execCommand('insertText', false, text);
+            } else {
+                // Insert text at the current position of caret
+                var range = document.getSelection().getRangeAt(0);
+                range.deleteContents();
+
+                var textNode = document.createTextNode(text);
+                range.insertNode(textNode);
+                range.selectNodeContents(textNode);
+                range.collapse(false);
+
+                var selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+    })();
+</script>

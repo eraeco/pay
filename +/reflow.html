@@ -31,7 +31,6 @@
         left: 10px; /* scoot full width text over a smidge */
     }
 
-    .amount:not(.overflow) .font[style]:not(:focus):after,
     .amounts:not(.overflow) .font[style]:not(:focus):after {
         /* only apply a trailing dash on field with explicit style tag -- that's the attr used to pass the css var, if its not there, don't dash */
         display: inline-block;
@@ -43,56 +42,43 @@
 </style>
 <script>
 ;(function(){
+    $('.amount').attr('limit', 8)
+    $('.amounts').attr('limit', 50)
+    $('.memo').attr('limit', 23)
+    $('.payee').attr('limit', 28)
+    $('.signature').attr('limit', 18)
+    $('.endorse').attr('limit', 23)
+
     $('.amount, .amounts, .memo, .payee, .signature, .endorse').each(function(){
-        this.addEventListener('keyup', () => reflow(this))
-        this.firstElementChild.addEventListener('blur', () => reflow(this))
-        reflow(this);
+        // I have to call reflow on load for each of these anyway, so might as well attach the listeners here
+        // allowing me to target the specified div as target of reflow, without accessing event object
+        var target = $(this);
+        target.keyup(() => reflow(target));
+        target.children().first().blur(() => reflow(target));
+        reflow(target);
     })
 
     function reflow(field){
-        var $field = $(field); // jqueryify the selected element once, this is the wrapper around the div.font
-        var $font = $(field.firstElementChild); // the div.font, direct parent of the text node
-        var text = field.firstElementChild.firstChild; // the text node
-        if(!text || !text.textContent.trim()){  /* reset things and exit if field is empty */
-            $font.removeAttr('style');
-            $field.removeClass('overflow');
+        var font = field.children().first();
+        var text = font.contents().first();
+
+        var limit = field.attr('limit');
+        var current = text.text().trim().length;
+        
+        if(!current){  /* reset things and exit if field is empty */
+            font.removeAttr('style');
+            field.removeClass('overflow');
             return;
         }
 
-        var current, original, scaled, factor;
-        
-        current = parseFloat($font.css('font-size')); // will return calc(Xpx) if scaled has been applied, or px units if no scaled has been applied
-        original = parseFloat($field.css('font-size')); // get the unmodified font size in px units // I'm using the font-size of the parent element as original, because this reads the calculated size
-        
-        // I need to recalculate what font-size will fit within the box -- but if the result of multiplying the current by the factor is bigger than the original, then just use original
-        // calculation will be based on what the CURRENT font-size needs to be multiplied by,
-        // we'll grab the ORIGINAL font-size after getting the factor - and then set the current back to where it was so fast there should be no indication it was ever reset thanks to transistion timing
-        var range = document.createRange();
-        range.setStart(text, 0);
-        range.setEnd(text, text.length);
+        var factor = limit / current; // if limit is greater than current, factor will be greater than 1
 
-        var fieldSize = field.getBoundingClientRect();
-        var textSize = range.getBoundingClientRect();
-
-        if($field.hasClass('endorse')){
-            factor = fieldSize.height / textSize.height; // lol we're sideways
+        if(factor < 1){
+            field.addClass('overflow');
+            font.css('font-size', (factor.toFixed(2)) + 'em')
         } else {
-            factor = fieldSize.width / textSize.width;
-        }
-
-        scaled = (current * factor * .9).toFixed(2); // 0.9 is a fudge factor
-
-        if(scaled > original){
-            // reflow size would be larger than original, which means there would be no overflow with original size. remove overflow styling and exit
-            // since scaled text is 
-            $font.attr('style', '--dash: ' + ((fieldSize.width - textSize.width) / (original / 1.5)).toFixed(2));
-            $field.removeClass('overflow');
-            $font.css('font-size',''); // clear any existing font-size rule
-        } else {
-            // if reflow'd font-size is less than original, then we better used the reflow'd font-size to fit in the box, and add overflow styling
-            $font.removeAttr('style');
-            $field.addClass('overflow');
-            $font.css('font-size', scaled + 'px')
+            field.removeClass('overflow');
+            field.hasClass('amounts') && font.attr('style', '--dash: ' + (limit - current));
         }
     }
 })();

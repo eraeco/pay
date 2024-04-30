@@ -78,7 +78,7 @@
             font.css('font-size', (factor.toFixed(2)) + 'em')
         } else {
             field.removeClass('overflow');
-            font.removeAttr('style');
+            field.hasClass('amounts') && font.attr('style', '--dash: ' + (limit - current));
         }
     }
 })();

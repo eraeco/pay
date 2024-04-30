@@ -556,6 +556,7 @@
 		.amounts .font::first-letter {
 			text-transform: capitalize;
 		}
+		.mid-screen { display: flex; align-items: center; justify-content: center; height: 100vh; }
 	</style>
 	<div id="app">
 		<div class="envelope">
@@ -750,6 +751,7 @@
 			if(key && code){
 				$('.help').removeClass('none');
 				$('.flip').toggleClass('flipit');
+				$('.envelope').addClass('mid-screen'); // default for now
 				$("[contenteditable]:not(.endorse .font)").attr('contenteditable', false);
 				load.to = setTimeout(load, 3000);
 				gun.get(key).on(load);
@@ -878,7 +880,7 @@
 					: " Payment!");
 				var body = "You've got money! You can immediately deposit it at this link:%0D%0A%0D%0A"
 				+ "https://checkard.com/%23" + key + ':' + code
-				+ "%0D%0A%0D%0AInstructions: Open the link on your computer and endorse the check, then on your phone open your bank's official app and use it to take a picture of the front and back of the check to mobile deposit it."
+				+ "%0D%0A%0D%0AInstructions: Open checkard on your computer to endorse the check, then on your phone open your bank's official app and use it to take a picture of the front and back of the check to mobile deposit it."
 				+ "%0D%0A%0D%0AWarning: Do not forward this email to anyone, as it contains the decryption keys for confidential information. The encrypted check may be deleted and become void after 30 days for security reasons."
 				+ "%0D%0A%0D%0AEnjoy!";
 				$('.gmail').attr('href', "https://mail.google.com/mail/?view=cm&fs=1&to="

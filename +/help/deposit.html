@@ -75,6 +75,7 @@
     </div>
 </div>
 <script>
+;(function(){
     var activated = false; // in memory flag so that modal only pops up once
 
     // it occurs to me that module loading occurs after all the index javascript, so I can just check if flipit is set
@@ -89,4 +90,5 @@
     $('.modal #ack').click(function(eve){
         $('.modal').addClass('none')
     })
+})();
 </script>

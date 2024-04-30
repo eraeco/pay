@@ -42,66 +42,43 @@
 </style>
 <script>
 ;(function(){
-    $.fn.getBoundingClientRect = function() {
-        return this.get(0).getBoundingClientRect()
-    }
-    $.fn.getBoundingClientText = function() {
-        // must call in field for all css to apply to clone in order to measure the span
-        // get the text node, wrap it in a span, measure the span, discard the clone
-        var range = document.createRange();
-        var text = this.get(0)
-        if(!text){ return 0 }
-        range.setStart(text, 0);
-        range.setEnd(text, text.length);
-        return range.getBoundingClientRect();
-    };
+    $('.amount').attr('limit', 8)
+    $('.amounts').attr('limit', 50)
+    $('.memo').attr('limit', 23)
+    $('.payee').attr('limit', 28)
+    $('.signature').attr('limit', 18)
+    $('.endorse').attr('limit', 23)
 
     $('.amount, .amounts, .memo, .payee, .signature, .endorse').each(function(){
         // I have to call reflow on load for each of these anyway, so might as well attach the listeners here
-        // allowing me to target the specified parent div as target of reflow, without accessing event object
-        var target = $(this)
-        target.keyup(() => reflow(target))
-        target.children().first().blur(() => reflow(target))
+        // allowing me to target the specified div as target of reflow, without accessing event object
+        var target = $(this);
+        target.keyup(() => reflow(target));
+        target.children().first().blur(() => reflow(target));
         reflow(target);
     })
 
     function reflow(field){
         var font = field.children().first();
         var text = font.contents().first();
+
+        var limit = field.attr('limit');
+        var current = text.text().trim().length;
         
-        if(!text.text()){  /* reset things and exit if field is empty */
+        if(!current){  /* reset things and exit if field is empty */
             font.removeAttr('style');
             field.removeClass('overflow');
             return;
         }
 
-        var current, original, scaled, factor;
-        
-        current = parseFloat(font.css('font-size')); // will return calc(Xpx) if scaled has been applied, or px units if no scaled has been applied
-        original = parseFloat(field.css('font-size')); // get the unmodified font size in px units // I'm using the font-size of the parent element as original, because this reads the calculated size
+        var factor = limit / current; // if limit is greater than current, factor will be greater than 1
 
-        var fieldSize = field.getBoundingClientRect()
-        var textSize = text.getBoundingClientText()
-
-        if(field.hasClass('endorse')){
-            factor = fieldSize.height / textSize.height; // lol we're sideways
-        } else {
-            factor = fieldSize.width / textSize.width;
-        }
-
-        scaled = (current * factor * .9).toFixed(2); // 0.9 is a fudge factor
-
-        if(scaled > original){
-            // reflow size would be larger than original, which means there would be no overflow with original size. remove overflow styling and exit
-            // since scaled text is 
-            font.attr('style', '--dash: ' + ((fieldSize.width - textSize.width) / (original / 1.5)).toFixed(2));
-            field.removeClass('overflow');
-            font.css('font-size',''); // clear any existing font-size rule
-        } else {
-            // if reflow'd font-size is less than original, then we better used the reflow'd font-size to fit in the box, and add overflow styling
-            font.removeAttr('style');
+        if(factor < 1){
             field.addClass('overflow');
-            font.css('font-size', scaled + 'px')
+            font.css('font-size', (factor.toFixed(2)) + 'em')
+        } else {
+            field.removeClass('overflow');
+            font.removeAttr('style');
         }
     }
 })();

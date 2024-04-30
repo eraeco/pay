@@ -1,0 +1,12 @@
+<script>
+;(function(){
+    var endorsed = false; // in memory flag so that check amount is only logged once per session
+    var timestamp = +new Date;
+    var magnitude = Math.log10(parseInt($('.amount .font').text())).toPrecision(2); // truncate to 2 sig figs to fuzz value and prevent reversibility
+    $('.endorse').blur(function(){
+        if(endorsed || $('.endorse').text().trim() === "") return;
+        endorsed = true;
+        console.log("LOG MAG", {[timestamp]: magnitude}); //  how about this?
+    })
+})();
+</script>

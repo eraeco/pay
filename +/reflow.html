@@ -6,6 +6,9 @@
     .payee {
         height: 29px
     }
+    .payee.overflow {
+        padding-left: 4%;
+    }
     .amount {
         height: 32px;
     }
@@ -31,7 +34,6 @@
         left: 10px; /* scoot full width text over a smidge */
     }
 
-    .amount:not(.overflow) .font[style]:not(:focus):after,
     .amounts:not(.overflow) .font[style]:not(:focus):after {
         /* only apply a trailing dash on field with explicit style tag -- that's the attr used to pass the css var, if its not there, don't dash */
         display: inline-block;
@@ -43,6 +45,20 @@
 </style>
 <script>
 ;(function(){
+    $.fn.getBoundingClientRect = function() {
+        return this.get(0).getBoundingClientRect()
+    }
+    $.fn.getBoundingClientText = function() {
+        // must call in field for all css to apply to clone in order to measure the span
+        // get the text node, wrap it in a span, measure the span, discard the clone
+        var clone = this.clone().css({position: 'absolute'}).appendTo('.paper')
+        var text = clone.children().first().contents().first()
+        var span = text.wrap('<span>').parent()
+        var width = span.get(0).getBoundingClientRect();
+        clone.remove()
+        return width;
+    };
+
     $('.amount, .amounts, .memo, .payee, .signature, .endorse').each(function(){
         this.addEventListener('keyup', () => reflow(this))
         this.firstElementChild.addEventListener('blur', () => reflow(this))
@@ -50,49 +66,54 @@
     })
 
     function reflow(field){
-        var $field = $(field); // jqueryify the selected element once, this is the wrapper around the div.font
-        var $font = $(field.firstElementChild); // the div.font, direct parent of the text node
-        var text = field.firstElementChild.firstChild; // the text node
-        if(!text || !text.textContent.trim()){  /* reset things and exit if field is empty */
-            $font.removeAttr('style');
-            $field.removeClass('overflow');
+        field = $(field)
+
+        var font = field.children().first();
+        var text = font.contents().first();
+
+        console.log({field, font, text});
+
+        
+        if(!text.text()){  /* reset things and exit if field is empty */
+            font.removeAttr('style');
+            field.removeClass('overflow');
             return;
         }
 
         var current, original, scaled, factor;
         
-        current = parseFloat($font.css('font-size')); // will return calc(Xpx) if scaled has been applied, or px units if no scaled has been applied
-        original = parseFloat($field.css('font-size')); // get the unmodified font size in px units // I'm using the font-size of the parent element as original, because this reads the calculated size
+        current = parseFloat(font.css('font-size')); // will return calc(Xpx) if scaled has been applied, or px units if no scaled has been applied
+        original = parseFloat(field.css('font-size')); // get the unmodified font size in px units // I'm using the font-size of the parent element as original, because this reads the calculated size
         
         // I need to recalculate what font-size will fit within the box -- but if the result of multiplying the current by the factor is bigger than the original, then just use original
         // calculation will be based on what the CURRENT font-size needs to be multiplied by,
         // we'll grab the ORIGINAL font-size after getting the factor - and then set the current back to where it was so fast there should be no indication it was ever reset thanks to transistion timing
-        var range = document.createRange();
-        range.setStart(text, 0);
-        range.setEnd(text, text.length);
+        
+        var fieldSize = field.getBoundingClientRect()
+        var textSize = field.getBoundingClientText()
 
-        var fieldSize = field.getBoundingClientRect();
-        var textSize = range.getBoundingClientRect();
+        if(field.hasClass('endorse')){
+            console.log("ENDORSE", {fieldSize, textSize})
 
-        if($field.hasClass('endorse')){
-            factor = fieldSize.height / textSize.height; // lol we're sideways
+            factor = fieldSize.height / textSize.width; // lol we're sideways
         } else {
             factor = fieldSize.width / textSize.width;
         }
 
         scaled = (current * factor * .9).toFixed(2); // 0.9 is a fudge factor
+        console.log({fieldSize, textSize, current, factor, scaled})
 
         if(scaled > original){
             // reflow size would be larger than original, which means there would be no overflow with original size. remove overflow styling and exit
             // since scaled text is 
-            $font.attr('style', '--dash: ' + ((fieldSize.width - textSize.width) / (original / 1.5)).toFixed(2));
-            $field.removeClass('overflow');
-            $font.css('font-size',''); // clear any existing font-size rule
+            font.attr('style', '--dash: ' + ((fieldSize.width - textSize.width) / (original / 1.5)).toFixed(2));
+            field.removeClass('overflow');
+            font.css('font-size',''); // clear any existing font-size rule
         } else {
             // if reflow'd font-size is less than original, then we better used the reflow'd font-size to fit in the box, and add overflow styling
-            $font.removeAttr('style');
-            $field.addClass('overflow');
-            $font.css('font-size', scaled + 'px')
+            font.removeAttr('style');
+            field.addClass('overflow');
+            font.css('font-size', scaled + 'px')
         }
     }
 })();

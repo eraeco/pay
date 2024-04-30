@@ -6,9 +6,6 @@
     .payee {
         height: 29px
     }
-    .payee.overflow {
-        padding-left: 4%;
-    }
     .amount {
         height: 32px;
     }
@@ -51,12 +48,12 @@
     $.fn.getBoundingClientText = function() {
         // must call in field for all css to apply to clone in order to measure the span
         // get the text node, wrap it in a span, measure the span, discard the clone
-        var clone = this.clone().css({position: 'absolute'}).appendTo('.paper')
-        var text = clone.children().first().contents().first()
-        var span = text.wrap('<span>').parent()
-        var width = span.get(0).getBoundingClientRect();
-        clone.remove()
-        return width;
+        var range = document.createRange();
+        var text = this.get(0)
+        if(!text){ return 0 }
+        range.setStart(text, 0);
+        range.setEnd(text, text.length);
+        return range.getBoundingClientRect();
     };
 
     $('.amount, .amounts, .memo, .payee, .signature, .endorse').each(function(){
@@ -90,12 +87,12 @@
         // we'll grab the ORIGINAL font-size after getting the factor - and then set the current back to where it was so fast there should be no indication it was ever reset thanks to transistion timing
         
         var fieldSize = field.getBoundingClientRect()
-        var textSize = field.getBoundingClientText()
+        var textSize = text.getBoundingClientText()
 
         if(field.hasClass('endorse')){
             console.log("ENDORSE", {fieldSize, textSize})
 
-            factor = fieldSize.height / textSize.width; // lol we're sideways
+            factor = fieldSize.height / textSize.height; // lol we're sideways
         } else {
             factor = fieldSize.width / textSize.width;
         }

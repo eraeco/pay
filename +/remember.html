@@ -16,7 +16,7 @@
 </div>
 <script>
 ;(async function(){
-    window.readCheck = function(){
+    app.details = function(){
         var data = {
             address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
             bank: $('.bank')[0].innerText.trim(),
@@ -33,8 +33,23 @@
         if(!data.account || !data.routing){ return err('.MICR') }
         if(!data.number){ return err('.number') }
         if(!data.signature){ return err('.signature') }
-        
+
         return data 
+    }
+
+    app.nickname = function({bank, account}){
+        // first line of the bank address, drop whitespace, last 4 of account #
+        return bank.split('\n')[0].replace(/\s/g, '') + account.slice(-4)
+    }
+
+    app.overwrite = function({address, fraction, routing, account, signature, number, bank}){
+        $('.address').text(address).attr("blank", false);
+        $('.bank').text(bank).attr("blank", false);
+        $('.fraction').text(fraction).attr("blank", false);
+        $('.inroute input').val(routing).trigger('keyup'); // need to call micr on the input to update the glyphs
+        $('.inaccount input').val(account).trigger('keyup');
+        $('.signature .font').text(signature).attr("blank", false)
+        $('.number').text(number).attr("blank", false).trigger('keyup');
     }
 
 
@@ -47,11 +62,26 @@
             localStorage.Proprietor = ""; 
             return;
         }
-        var Proprietor = readCheck();
+        var account = app.details();
+        // create a reference 
+        var reference = app.nickname(account);
+        var Proprietor = {
+            current: reference,
+            accounts: {
+                [reference]: account
+            }
+        }
+        /* creates this structure so to load one account from many, remember.html just has to read Proprietor.default /*
+            {
+                current: mybank7890, 
+                accounts: {
+                    mybank7890: {
+                        fraction, address, routing, account, number, signature
+                    }
+                }
+            }
+        */
         console.log({Proprietor})
-        // console.warn('checking for required vals', Proprietor)
-        // the locally defined err function immediately unchecks the box and doesn't save anything
-        // user will have to correct missing info before clicking 'remember me' again
         // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
         // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
         $('#upgrade').length
@@ -62,20 +92,16 @@
         localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
     })
 
-    // this ASSUMES that if Proprietor exists, so does everything else - everything will exist if you've ever made out a check, including one to checkard. 
+    // this ASSUMES that if Proprietor exists+is truthy, so does everything else - everything will exist if you've ever made out a check, including one to checkard. 
     // might want to check that all these fields are non-empty / match schema before stashing
     if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
-        var {address, fraction, routing, account, signature, number, bank} = await SEA.decrypt(localStorage.Proprietor, 'rest')
-        $('.address').text(address).attr("blank", false);
-        $('.bank').text(bank).attr("blank", false);
-        $('.fraction').text(fraction).attr("blank", false);
-        $('.inroute input').val(routing).trigger('keyup'); // need to call micr on the input to update the glyphs
-        $('.inaccount input').val(account).trigger('keyup');
-        $('.signature .font').text(signature).attr("blank", false)
-        $('.number').text(number).attr("blank", false).trigger('keyup');
+        var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
+        app.overwrite(accounts[current])
     }
 
     function err(s){
+        // the locally defined err function immediately unchecks the box and doesn't save anything
+        // user will have to correct missing info before clicking 'remember me' again
         $(s).addClass('error')
         $('.remember input').prop('checked', false)
         setTimeout(function(){ $(s).removeClass('error') }, 5000);

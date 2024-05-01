@@ -16,17 +16,8 @@
 </div>
 <script>
 ;(async function(){
-    $('#tray .remember').insertBefore('.send .submit');
-
-    // set checkbox as 
-    $('.remember input').prop('checked', !!localStorage.Proprietor);
-
-    $('.remember input').on('change', async function(eve){
-        if(!eve.target.checked){
-            localStorage.Proprietor = ""; 
-            return;
-        }
-        var Proprietor = {
+    window.readCheck = function(){
+        var data = {
             address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
             bank: $('.bank')[0].innerText.trim(),
             fraction: $('.fraction').text().trim(),
@@ -34,17 +25,33 @@
             account: $('.inaccount input').val(),
             signature: $('.signature .font').text().trim(),
             number: $('.number').text().trim() // used as last known check number, should auto increment on load
-        };
+        }
+
+        if(!data.fraction){ return err('.fraction') }
+        if(!data.address){ return err('.address') }
+        if(!data.bank){ return err('.bank') }
+        if(!data.account || !data.routing){ return err('.MICR') }
+        if(!data.number){ return err('.number') }
+        if(!data.signature){ return err('.signature') }
+        
+        return data 
+    }
+
+
+    $('#tray .remember').insertBefore('.send .submit');
+
+    $('.remember input').prop('checked', !!localStorage.Proprietor);
+
+    $('.remember input').on('change', async function(eve){
+        if(!eve.target.checked){
+            localStorage.Proprietor = ""; 
+            return;
+        }
+        var Proprietor = readCheck();
+        console.log({Proprietor})
         // console.warn('checking for required vals', Proprietor)
         // the locally defined err function immediately unchecks the box and doesn't save anything
         // user will have to correct missing info before clicking 'remember me' again
-        if(!Proprietor.fraction){ return err('.fraction') }
-        if(!Proprietor.address){ return err('.address') }
-        if(!Proprietor.bank){ return err('.bank') }
-        if(!Proprietor.account || !Proprietor.routing){ return err('.MICR') }
-        if(!Proprietor.number){ return err('.number') }
-        if(!Proprietor.signature){ return err('.signature') }
-
         // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
         // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
         $('#upgrade').length

@@ -1,0 +1,98 @@
+<style>
+    #tray .pillbox, #tray .pill {
+        display: none; /* pills are cloned and appended, hide when its sitting in the tray */
+    }
+    #pillbox {
+        padding: 8px;
+    }
+    .pill {
+        display: inline-block;
+        background: #eee;
+        padding: 8px 0;
+        border-radius: 8px;
+    }
+    .pill .reference {
+        margin-left: 2em;
+        margin-right: 1em;
+    }
+    .pill details {
+        text-align: left;
+    }
+    .pill details summary {
+        padding-left: 8px;
+        margin-top: -1.1em; /* should be equal to line-height */
+    }
+    /* modifying parent stylesheet */
+    .remember, .submit {
+        background: #eee;
+    }
+    .send {
+        padding: 0;
+    }
+    .send .submit button, .send .submit input {
+        color: initial;
+        background: #eee;
+    }
+
+</style>
+<div id="pillbox">
+
+</div>
+<div class="pill">
+    <div class="reference"><!-- fill in with account's nickname via jquery --></div>
+    <details>
+        <summary><!-- empty will just have the arrow --></summary>
+        <div>
+            <label>
+                <input name="default" type="radio" selected>
+                make default
+                <!--radio button here is convenient so that the option in the other pills is auto-deselected
+                    ths js will have to overwrite the 'current' value of the Proprietor encrypted blob -->
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox">
+                remove account
+                <!--the js here will have to look up the closest reference,
+                    remove that from the proprietor object and overwrite the encrypted blob,
+                    possibly choosing another reference to be the default,
+                    or responding to the # of remembered accounts reaching 0 - do we deselect rememberme at that point? -->
+            </label>
+        </div>
+    </details>
+</div>
+<script>
+/*
+Methods globalized in remember.html include:
+    'details' to get the current contents of the check
+    'nickname' to create a bankname-last4 reference to an account
+    'overwrite' to write account details to the DOM
+
+On load, we're going to grab the Proprietor blob from localstorage. 
+Makes a chioce here to only pass data via encrypted localstrorage,
+so having to go through enc/dec with any state modification.
+
+For each key in Proprietor.accounts, create a pill by cloning and filling in details, and binding the interaction...
+*/
+;(async function(){
+    /* remember.html also runs this conditional onload in order to overwrite the check from the default account */
+    if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
+        $('#pillbox').insertAfter('.send .remember');
+
+        var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
+
+        for(var reference in accounts){
+            var pill = $('#tray .pill').clone();
+            pill.children('.reference').text(reference).attr('reference', reference)
+            pill.appendTo('#pillbox')
+            if(reference === current){
+                pill.find('[name="default"]').attr('checked', 'checked')
+            }
+            // TODO change listeners on the radio and checkbox...
+        }
+    }
+    /* next we'll attach a blur listener, if remember is checked, and the details have changed from the selected account, 
+       memorize the new account and insert a new pill */
+})();
+</script>

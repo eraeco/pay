@@ -9,19 +9,46 @@
     .pill {
         display: inline-block;
         background: #eee;
-        padding: 8px 0;
-        border-radius: 8px;
+        padding: 2px;
+        height: 28px; /* forget element is 24px */
+        border-radius: 12px; /* same roundness as 24px forget orb */
     }
     .pill .reference {
-        margin-left: 2em;
-        margin-right: 1em;
+        top: -25%;
+        margin-left: 8px;
     }
-    .pill details {
-        text-align: left;
+    .pill .reference, .pill .forget {
+        display: inline-block;
     }
-    .pill details summary {
-        padding-left: 8px;
-        margin-top: -1.1em; /* should be equal to line-height */
+    .pill .forget {
+        width: 24px;
+        height: 24px;
+        border: 1px solid #999;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .pill .forget:hover {
+        border: 1px solid red;
+    }
+
+    .pill .forget:hover:before,
+    .pill .forget:hover:after {
+        background: red;
+    }
+
+    .pill .forget::before,
+    .pill .forget::after {
+        content: "";
+        background: #999;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 2px;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .pill .forget::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
     }
     /* modifying parent stylesheet */
     .remember, .submit {
@@ -41,27 +68,7 @@
 </div>
 <div class="pill">
     <div class="reference"><!-- fill in with account's nickname via jquery --></div>
-    <details>
-        <summary><!-- empty will just have the arrow --></summary>
-        <div>
-            <label>
-                <input name="default" type="radio" selected>
-                make default
-                <!--radio button here is convenient so that the option in the other pills is auto-deselected
-                    ths js will have to overwrite the 'current' value of the Proprietor encrypted blob -->
-            </label>
-        </div>
-        <div>
-            <label>
-                <input type="checkbox">
-                remove account
-                <!--the js here will have to look up the closest reference,
-                    remove that from the proprietor object and overwrite the encrypted blob,
-                    possibly choosing another reference to be the default,
-                    or responding to the # of remembered accounts reaching 0 - do we deselect rememberme at that point? -->
-            </label>
-        </div>
-    </details>
+    <div class="forget" title="forget this account"></div>
 </div>
 <script>
 /*
@@ -84,12 +91,14 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
         var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
 
         for(var reference in accounts){
-            var pill = $('#tray .pill').clone();
-            pill.children('.reference').text(reference).attr('reference', reference)
-            pill.appendTo('#pillbox')
-            if(reference === current){
-                pill.find('[name="default"]').attr('checked', 'checked')
-            }
+        console.log({reference, current, def: (reference === current)});
+
+            $('#tray .pill')
+                .clone()
+                .attr('reference', reference)
+                .attr('current', reference === current)
+                .appendTo('#pillbox')
+                .children('.reference').text(reference);
             // TODO change listeners on the radio and checkbox...
         }
     }

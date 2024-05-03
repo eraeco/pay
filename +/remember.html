@@ -38,8 +38,8 @@
     }
 
     app.nickname = function({bank, account}){
-        // first line of the bank address, drop whitespace, last 4 of account #
-        return bank.split('\n')[0].replace(/\s/g, '') + account.slice(-4)
+        // first line of the bank address, drop non word chars, last 4 of account #
+        return bank.split('\n')[0].replace(/\W/g, '') + account.slice(-4)
     }
 
     app.overwrite = function({address, fraction, routing, account, signature, number, bank}){
@@ -63,6 +63,10 @@
             return;
         }
         var account = app.details();
+        if(!account){
+            // then details error'd, nothing else to do here, box will be unchecked by err()
+            return;
+        }
         // create a reference 
         var reference = app.nickname(account);
         var Proprietor = {

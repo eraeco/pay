@@ -84,25 +84,39 @@ so having to go through enc/dec with any state modification.
 For each key in Proprietor.accounts, create a pill by cloning and filling in details, and binding the interaction...
 */
 ;(async function(){
+    // insert the pillbox even if its not being used... might want to style it differently when its emptyx
+    $('#pillbox').insertAfter('.send .remember');
     /* remember.html also runs this conditional onload in order to overwrite the check from the default account */
     if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
-        $('#pillbox').insertAfter('.send .remember');
-
         var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
 
         for(var reference in accounts){
-        console.log({reference, current, def: (reference === current)});
-
             $('#tray .pill')
                 .clone()
                 .attr('reference', reference)
                 .attr('current', reference === current)
+                .click(() => app.overwrite(accounts[reference]))
                 .appendTo('#pillbox')
-                .children('.reference').text(reference);
-            // TODO change listeners on the radio and checkbox...
+                .children('.reference').text(reference)
+                .siblings('.forget').click(() => forget(reference));
         }
     }
     /* next we'll attach a blur listener, if remember is checked, and the details have changed from the selected account, 
-       memorize the new account and insert a new pill */
+       memorize the new account and insert a new pill - check for relatedTarget so only overwrite when blurring away from check */
+    function forget(reference){
+        console.log("forgetting", reference)
+        $('#pillbox [reference=" + reference + "]').remove();
+        // check if we were the last pillbox, if so, uncheck the remember me box to indicate nothing is remembered
+        // does this automatically set Proprietor to empty string? 
+        // Proprietor has 3 states: undefined (user has never clicked rememberme) empty string (user has feature disabled) and encrypted blob
+        // two possible paths for forget: this is the only pill, or, there is more than one pill
+        
+        if($('#pillbox').children('.pill').length === 1){
+            $('.remember').find('[type="checkbox"]').click(); // click the checkbox which will zero-out localStorage.Proprietor
+        }
+        // 
+
+    }
+    
 })();
 </script>

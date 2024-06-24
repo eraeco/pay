@@ -58,49 +58,20 @@
     $('.remember input').prop('checked', !!localStorage.Proprietor);
 
     $('.remember input').on('change', async function(eve){
-        if(!eve.target.checked){
+        if (!eve.target.checked) {
             localStorage.Proprietor = ""; 
             return;
         }
-        var account = app.details();
-        if(!account){
-            // then details error'd, nothing else to do here, box will be unchecked by err()
-            return;
-        }
-        // create a reference 
-        var reference = app.nickname(account);
-        var Proprietor = {
-            current: reference,
-            accounts: {
-                [reference]: account
-            }
-        }
-        /* creates this structure so to load one account from many, remember.html just has to read Proprietor.default /*
-            {
-                current: mybank7890, 
-                accounts: {
-                    mybank7890: {
-                        fraction, address, routing, account, number, signature
-                    }
-                }
-            }
-        */
-        console.log({Proprietor})
-        // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
-        // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
-        $('#upgrade').length
-            && typeof localStorage.Proprietor == 'undefined'
-            && ($('#upgrade').get(0).scrollIntoView(), (localStorage.began = +new Date))
-
-        // console.warn('stashing encrypted Proprietor with placeholder PIN')
-        localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest')
+        app.addAccount();
     })
 
     // this ASSUMES that if Proprietor exists+is truthy, so does everything else - everything will exist if you've ever made out a check, including one to checkard. 
     // might want to check that all these fields are non-empty / match schema before stashing
     if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
         var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
-        app.overwrite(accounts[current])
+        if (accounts && current in accounts) {
+            app.overwrite(accounts[current])
+        }
     }
 
     function err(s){

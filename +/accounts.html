@@ -12,6 +12,7 @@
         padding: 2px;
         height: 28px; /* forget element is 24px */
         border-radius: 12px; /* same roundness as 24px forget orb */
+        cursor: pointer;
     }
     .pill .reference {
         top: -25%;
@@ -50,6 +51,11 @@
     .pill .forget::after {
         transform: translate(-50%, -50%) rotate(-45deg);
     }
+
+    .pill + .pill {
+        margin-inline-start: 8px;
+    }
+
     /* modifying parent stylesheet */
     .remember, .submit {
         background: #eee;
@@ -77,46 +83,150 @@ Methods globalized in remember.html include:
     'nickname' to create a bankname-last4 reference to an account
     'overwrite' to write account details to the DOM
 
-On load, we're going to grab the Proprietor blob from localstorage. 
+On load, we're going to grab the Proprietor blob from localstorage.
 Makes a chioce here to only pass data via encrypted localstrorage,
 so having to go through enc/dec with any state modification.
 
 For each key in Proprietor.accounts, create a pill by cloning and filling in details, and binding the interaction...
 */
 ;(async function(){
-    // insert the pillbox even if its not being used... might want to style it differently when its emptyx
+    // insert the pillbox even if its not being used... might want to style it differently when its empty
     $('#pillbox').insertAfter('.send .remember');
+
+    app.accounts = {};
+    app.current = null;
+
+    app.addAccount = async function () {
+        var account = app.details();
+        if(!account){
+            // then details error'd, nothing else to do here, box will be unchecked by err()
+            return;
+        }
+        // create a reference
+        var reference = app.nickname(account);
+        app.accounts[reference] = account;
+        app.current = reference;
+
+        memoizeAccounts();
+        renderAccounts();
+    }
+
     /* remember.html also runs this conditional onload in order to overwrite the check from the default account */
     if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
         var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
 
-        for(var reference in accounts){
+        app.accounts = accounts || {};
+        renderAccounts();
+    }
+
+    $(window).on('focusout', (event) => {
+        var isCheckFocusedOut = $('.check').contains($(event.target));
+        if (!isCheckFocusedOut || !$('.remember input').prop('checked')) return;
+
+        var details = app.details();
+
+        // if current account details are changed
+        // uncheck remember
+        if (app.current && !compareObjects(app.current, details)) {
+            $('.remember input').prop('checked', false);
+        }
+    });
+
+    /* next we'll attach a blur listener, if remember is checked, and the details have changed from the selected account,
+       memorize the new account and insert a new pill - check for relatedTarget so only overwrite when blurring away from check */
+    function forget(reference){
+        delete app.accounts[reference];
+        memoizeAccounts();
+        renderAccounts();
+    }
+
+    async function memoizeAccounts() {
+        var Proprietor = {
+            current: app.current,
+            accounts: app.accounts
+        }
+
+        // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
+        // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
+        if ($('#upgrade').length && typeof localStorage.Proprietor == 'undefined') {
+            $('#upgrade').get(0).scrollIntoView();
+            localStorage.began = +new Date;
+        }
+
+        // console.warn('stashing encrypted Proprietor with placeholder PIN')
+        localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest');
+    }
+
+    function renderAccounts() {
+        $('#pillbox').empty();
+
+        for (let reference in app.accounts){
             $('#tray .pill')
                 .clone()
                 .attr('reference', reference)
-                .attr('current', reference === current)
-                .click(() => app.overwrite(accounts[reference]))
+                .attr('current', reference === app.current)
+                .click(() => {
+                    app.current = reference;
+                    app.overwrite(app.accounts[reference]);
+                })
                 .appendTo('#pillbox')
                 .children('.reference').text(reference)
                 .siblings('.forget').click(() => forget(reference));
         }
     }
-    /* next we'll attach a blur listener, if remember is checked, and the details have changed from the selected account, 
-       memorize the new account and insert a new pill - check for relatedTarget so only overwrite when blurring away from check */
-    function forget(reference){
-        console.log("forgetting", reference)
-        $('#pillbox [reference=" + reference + "]').remove();
-        // check if we were the last pillbox, if so, uncheck the remember me box to indicate nothing is remembered
-        // does this automatically set Proprietor to empty string? 
-        // Proprietor has 3 states: undefined (user has never clicked rememberme) empty string (user has feature disabled) and encrypted blob
-        // two possible paths for forget: this is the only pill, or, there is more than one pill
-        
-        if($('#pillbox').children('.pill').length === 1){
-            $('.remember').find('[type="checkbox"]').click(); // click the checkbox which will zero-out localStorage.Proprietor
-        }
-        // 
 
+    function compareObjects(value1, value2) {
+        var keys1 = Object.keys(value1);
+        var len = keys1.length;
+
+        if (len != Object.keys(value2).length) {
+            return false;
+        }
+
+        function compare(a, b) {
+            if (Object.is(a, b)) {
+                return true;
+            }
+
+            if (!value1) {
+                return false;
+            }
+
+            if (typeof a === 'object') {
+                compareObjects(a, b)
+            }
+
+            return a.toString() === b.toString();
+        }
+
+        for (var i = 0; i < len; i++) {
+            var key1 = keys1[i];
+
+            if (!(value2.hasOwnProperty(key1) && compare(value1[key1], value2[key1]))) {
+                return false;
+            }
+        }
+
+        return true;
     }
-    
+
+    $.fn.contains = function(child) {
+        if (!(child instanceof Node)) {
+            child = $(child).get(0);
+        }
+
+        if (!(child instanceof Node)) {
+            return false;
+        }
+
+        for (var node of $(this).get()) {
+            if (node.contains(child)) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
 })();
 </script>

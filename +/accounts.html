@@ -78,11 +78,6 @@
 </div>
 <script>
 /*
-Methods globalized in remember.html include:
-    'details' to get the current contents of the check
-    'nickname' to create a bankname-last4 reference to an account
-    'overwrite' to write account details to the DOM
-
 On load, we're going to grab the Proprietor blob from localstorage.
 Makes a chioce here to only pass data via encrypted localstrorage,
 so having to go through enc/dec with any state modification.
@@ -113,9 +108,9 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
 
     /* remember.html also runs this conditional onload in order to overwrite the check from the default account */
     if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
-        var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
+        var proprietor = await SEA.decrypt(localStorage.Proprietor, 'rest');
 
-        app.accounts = accounts || {};
+        app.accounts = proprietor.accounts || {};
         renderAccounts();
     }
 
@@ -132,8 +127,6 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
         }
     });
 
-    /* next we'll attach a blur listener, if remember is checked, and the details have changed from the selected account,
-       memorize the new account and insert a new pill - check for relatedTarget so only overwrite when blurring away from check */
     function forget(reference){
         delete app.accounts[reference];
         memoizeAccounts();

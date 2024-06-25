@@ -55,19 +55,6 @@
     .pill + .pill {
         margin-inline-start: 8px;
     }
-
-    /* modifying parent stylesheet */
-    .remember, .submit {
-        background: #eee;
-    }
-    .send {
-        padding: 0;
-    }
-    .send .submit button, .send .submit input {
-        color: initial;
-        background: #eee;
-    }
-
 </style>
 <div id="pillbox">
 
@@ -161,6 +148,7 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
                 .click(() => {
                     app.current = reference;
                     app.overwrite(app.accounts[reference]);
+                    memoizeAccounts();
                 })
                 .appendTo('#pillbox')
                 .children('.reference').text(reference)

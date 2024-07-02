@@ -98,6 +98,7 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
         var proprietor = await SEA.decrypt(localStorage.Proprietor, 'rest');
 
         app.accounts = proprietor.accounts || {};
+        app.current = app.accounts[proprietor.current] || null;
         renderAccounts();
     }
 
@@ -107,10 +108,24 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
 
         var details = app.details();
 
-        // if current account details are changed
+        // if there is a major change in account details
         // uncheck remember
-        if (app.current && !compareObjects(app.current, details)) {
+        if (
+            app.current?.fraction !== details?.fraction ||
+            app.current?.routing !== details?.routing ||
+            app.current?.account !== details?.account
+        ) {
             $('.remember input').prop('checked', false);
+        }
+        // if there is a minor change in account details
+        // update the existing account
+        else if (
+            app.current?.address !== details?.address ||
+            app.current?.bank !== details?.bank ||
+            app.current?.signature !== details?.signature ||
+            app.current?.number !== details?.number
+        ) {
+            app.addAccount();
         }
     });
 
@@ -154,41 +169,6 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
                 .children('.reference').text(reference)
                 .siblings('.forget').click(() => forget(reference));
         }
-    }
-
-    function compareObjects(value1, value2) {
-        var keys1 = Object.keys(value1);
-        var len = keys1.length;
-
-        if (len != Object.keys(value2).length) {
-            return false;
-        }
-
-        function compare(a, b) {
-            if (Object.is(a, b)) {
-                return true;
-            }
-
-            if (!value1) {
-                return false;
-            }
-
-            if (typeof a === 'object') {
-                compareObjects(a, b)
-            }
-
-            return a.toString() === b.toString();
-        }
-
-        for (var i = 0; i < len; i++) {
-            var key1 = keys1[i];
-
-            if (!(value2.hasOwnProperty(key1) && compare(value1[key1], value2[key1]))) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     $.fn.contains = function(child) {

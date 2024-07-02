@@ -18,11 +18,12 @@
 ;(async function(){
     app.details = function(){
         var data = {
-            address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
-            bank: $('.bank')[0].innerText.trim(),
             fraction: $('.fraction').text().trim(),
             routing: $('.inroute input').val(),
             account: $('.inaccount input').val(),
+
+            address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
+            bank: $('.bank')[0].innerText.trim(),
             signature: $('.signature .font').text().trim(),
             number: $('.number').text().trim() // used as last known check number, should auto increment on load
         }

@@ -738,6 +738,10 @@
 	<script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
 	<script>
 		;(function(){
+			app.load = function load(url){
+				$('#tray').append($('<div>').load(url));
+			}
+
 			//localStorage.clear();
 			// could also be: var key, code = location.hash.split(':'), or split including 
 			var hash = location.hash.split(':'), key, code;
@@ -922,16 +926,14 @@
 			}
 		}());
 		(function(){
-			function load(url){$('#tray').append($('<div>').load(url));}
-			load('./+/remember.html');
-			load('./+/help/deposit.html')
-			load('./+/metrics.html');
-			load('./+/marketing.html');
-			load('./+/paste.html');
-			load('./+/autoconvert.html');
-			load('./+/reflow.html');
-			load('./+/print.html');
-			load('./+/accounts.html')
+			app.load('./+/remember.html');
+			app.load('./+/help/deposit.html')
+			app.load('./+/metrics.html');
+			app.load('./+/marketing.html');
+			app.load('./+/paste.html');
+			app.load('./+/autoconvert.html');
+			app.load('./+/reflow.html');
+			app.load('./+/print.html');
 		})();
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">

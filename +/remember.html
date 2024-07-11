@@ -16,6 +16,9 @@
 </div>
 <script>
 ;(async function(){
+    // load dependent modules
+    app.load('./+/accounts.html');
+
     app.details = function(){
         var data = {
             fraction: $('.fraction').text().trim(),

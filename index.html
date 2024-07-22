@@ -60,6 +60,58 @@
 			background: skyblue;
 			color: black;
 		}
+		.check .designer {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  filter: contrast(1.8) saturate(2);
+	    background-size: cover;
+	    background: repeating-radial-gradient( circle at 0% 0%, plum 1px, skyblue 3px )
+		}
+		.check {
+			z-oom: 40%;
+		}
+		.check:hover {
+			z-oom: 100%;
+			transition: 2s zoom;
+		}
+		.check .designer::before {
+			dis-play: none;
+		  content: '';
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  background: url('./+/plumsky.png') 100% 100%;
+		  background: linear-gradient(135deg, plum, skyblue);
+		  background: repeating-radial-gradient(circle at 100% 200%, plum 1px, skyblue 2px);
+		  mix-blend-mode: color-burn;
+		  background-size: cover;
+		}
+		.check .designer::after {
+			dis-play: none;
+		  content: '';
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  background: linear-gradient(155deg, plum, skyblue);
+		  background: radial-gradient(circle at 25% -55%, skyblue 50%, plum 90%);
+		  mix-blend-mode: color;
+		  background-size: cover;
+		  filter: contrast(3) saturate(1);
+		  opacity: 0.65;
+		}
+		.flipit .designer {
+			opacity: 0;
+		}
+		.flipit	{
+			zoom: 100%;
+		}
 		.paper {
 			width: 100%;
 			p-adding-bottom: 40%;
@@ -72,15 +124,16 @@
 		.back .paper {
 			border: solid #EEE 0.3em;
 		}
-		.row {
+		.check .row {
 			height: 2.6em;
 			pointer-events: none;
 		}
-		.row > * {
+		.check .row > * {
 			pointer-events: all;
 		}
 		div[contenteditable] {
 			white-space: pre;
+			cursor: text;
 		}
 
 		[contenteditable="true"]:hover,
@@ -269,13 +322,14 @@
 		}
 		.moneys .details {
 			font-size: 0.5em;
-			width: 7em;
+			width: 5em;
 			padding-top: 0em;
 		}
 		.moneys .lock {
 			float: left;
 			width: 1.25em;
 			padding: 0.5em;
+			box-sizing: initial;
 		}
 		.bank {
 			float: left;
@@ -330,12 +384,12 @@
 			text-decoration: bold;
 			font-weight: 800;
 			letter-spacing: -0.25em;
-			font-size: 25%;
+			font-size: 40%;
 			float: right;
-			transform: translate(0px, 4em);
+			transform: translate(0px, 2.25em);
 		}
 
-		.scan {
+		.check .scan {
 			height: 3.6em;
 		}
 		.MICR {
@@ -474,6 +528,7 @@
 			text-align: center;
 		}
 		.send .submit input {
+			width: 15em !important;
 			height: 1.3em;
 			color: white;
 			background: black;
@@ -513,6 +568,7 @@
 			font-size: 18pt;
 			color: white;
 			transition: all 0.2s;
+			padding-bottom: 3em;
 		}
 
 		.open {
@@ -549,14 +605,26 @@
 			display: none;
 		}
 
-		#tray {
-			display: none;
-		}
-
 		.amounts .font::first-letter {
 			text-transform: capitalize;
 		}
 		.mid-screen { display: flex; align-items: center; justify-content: center; height: 100vh; }
+
+		#app {
+			position: fixed;
+			top: 0; left: 0; right: 0; bottom: 0;
+			width: 100%; min-height: 100vh;
+			overflow: scroll;
+			font-size: 12pt;
+			line-height: initial;
+		}
+		#app input {
+			width: initial;
+		}
+		#tray {
+			dis-play: none;
+			margin-top: 99vh;
+		}
 	</style>
 	<div id="app">
 		<div class="envelope">
@@ -564,6 +632,7 @@
 				<div class="vertical">
 					<div class="front">
 						<div class="check">
+							<div class="designer"></div>
 							<div class="paper">
 								<div class="row">
 									<div class="address" contenteditable="true"></div>
@@ -631,14 +700,14 @@
 										<img src="MICR/c.png"> 
 
 										<div class="inroute">
-											<input for="routing" placeholder="routing #" autocomplete="off">
+											<input for="routing" placeholder="routing number" autocomplete="off">
 											<span class="routing">
 												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
 											</span>
 										</div>
 										<img src="MICR/c.png">
 										<div class="inaccount">
-											<input for="account" placeholder="account #" autocomplete="off">
+											<input for="account" placeholder="account number" autocomplete="off">
 											<span class="account">
 												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
 											</span>
@@ -926,12 +995,13 @@
 			load('./+/remember.html');
 			load('./+/help/deposit.html')
 			load('./+/metrics.html');
-			load('./+/marketing.html');
+			//load('./+/hi.html'); // TODO: DESIGN NOT READY FOR PROD YET! HAVE TEAM UNCOMMENT THIS, LOOK AT IT, FINISH.
 			load('./+/paste.html');
 			load('./+/autoconvert.html');
 			load('./+/reflow.html');
 		})();
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gun/examples/style.css">
 </body>
 </html>

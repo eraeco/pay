@@ -556,7 +556,13 @@
 		.amounts .font::first-letter {
 			text-transform: capitalize;
 		}
-		.mid-screen { display: flex; align-items: center; justify-content: center; height: 100vh; }
+		.mid-screen {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
+		[x-cloak] { display: none !important; }
 	</style>
 	<div id="app">
 		<div class="envelope">
@@ -732,6 +738,7 @@
 	<div id="tray">
 
 	</div>
+	<script src="//unpkg.com/alpinejs" defer></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
@@ -752,15 +759,16 @@
 			
 			// console.warn(gun)
 
-			if(key && code){
+			if(key && code) {
+				app.filled = true;
 				$('.help').removeClass('none');
 				$('.flip').toggleClass('flipit');
-				$('.envelope').addClass('mid-screen'); // default for now
+				// $('.envelope').addClass('mid-screen'); // default for now
 				$("[contenteditable]:not(.endorse .font)").attr('contenteditable', false);
 				load.to = setTimeout(load, 3000);
 				gun.get(key).on(load);
 
-				async function load(data){
+				async function load(data) {
 					if(!data){
 						$('.payee').text("CHECK NOT FOUND");
 						$('.amounts').text("Please make sure payer is also online, see instructions below.");
@@ -792,6 +800,8 @@
 					$('.amount, .amounts, .memo, .payee, .signature, .endorse').trigger('keyup');
 				};
 				return;
+			} else {
+				app.filled = false;
 			}
 
 			/* try and parse the querystring for values, convert to regular object for dot notation */
@@ -935,6 +945,10 @@
 			app.load('./+/autoconvert.html');
 			app.load('./+/reflow.html');
 			app.load('./+/print.html');
+
+			if (app.filled) {
+				app.load('./+/deposit.html');
+			}
 		})();
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">

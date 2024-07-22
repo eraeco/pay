@@ -1,0 +1,400 @@
+<style>
+    .instructions {
+        width: 50em;
+        margin-inline: auto;
+        font-family: sans-serif;
+        line-height: 1.2;
+        max-width: 90%;
+    }
+
+    .instructions__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 1.5rem;
+    }
+
+    .instructions__item {
+        display: grid;
+        column-gap: 1.5rem;
+        grid-template-columns: 68px auto;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "icon title"
+            "icon desc"
+            "icon step";
+    }
+
+    .instructions__items {
+        width: 30rem;
+    }
+
+    .instructions__stepper-btn {
+        appearance: none;
+        border: none;
+        background-color: transparent;
+        padding: 0.375rem;
+        display: flex;
+        align-items: center;
+        border-radius: 2px;
+        transition: all cubic-bezier(0.4, 0, 0.2, 1) 100ms;
+        min-height: 60px;
+    }
+
+    .instructions__stepper-btn:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .instructions__stepper-btn.btn--hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .instructions__stepper-btn svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        stroke: #fff;
+        stroke-width: 1.5px;
+        align-items: center;
+    }
+
+    .item__icon {
+        grid-area: icon;
+        width: 68px;
+        height: 68px;
+    }
+
+    .item__title {
+        grid-area: title;
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        margin: 0;
+    }
+
+    .item__desc {
+        grid-area: desc;
+        margin-top: 6px;
+        color: #F0F0F0;
+        font-size: 14px;
+    }
+
+    .item__desc ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .item__step {
+        grid-area: step;
+        margin-top: 16px;
+        font-size: 14px;
+    }
+</style>
+
+<div class="instructions">
+    <div class="instructions__wrapper" x-data="{ step: 0 }">
+        <button @click="step -= 1" :class="step <= 0 && 'btn--hidden'" class="instructions__stepper-btn">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink">
+                <use xlink:href="#chevron-left"></use>
+            </svg>
+        </button>
+
+        <div class="instructions__items">
+            <div class="instructions__item step-0" x-show="step === 0">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#online-payment"></use>
+                </svg>
+                <h2 class="item__title">Submit the Deposit</h2>
+                <div class="item__desc">
+                    Review the images to ensure they are clear and legible. Submit the images through the bank app to
+                    complete the deposit.
+                </div>
+                <div class="item__step">
+                    0 of 7
+                </div>
+            </div>
+            <div class="instructions__item step-1" x-cloak x-show="step === 1">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#online-payment"></use>
+                </svg>
+                <h2 class="item__title">Review the Details</h2>
+                <div class="item__desc">
+                    Review the check details to ensure everything is correct.
+                    <br/>
+                    <br/>
+                </div>
+                <div class="item__step">
+                    1 of 7
+                </div>
+            </div>
+            <div class="instructions__item step-2" x-cloak x-show="step === 2">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#check-sign"></use>
+                </svg>
+                <h2 class="item__title">Endorse the Check</h2>
+                <div class="item__desc">
+                    Locate the endorsement section on the back of the check. Sign your name exactly as it appears on the
+                    front of the check.
+                </div>
+                <div class="item__step">
+                    2 of 7
+                </div>
+            </div>
+            <div class="instructions__item step-3" x-cloak x-show="step === 3">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#phone-app-idea"></use>
+                </svg>
+                <h2 class="item__title">Prepare for Check Deposit</h2>
+                <div class="item__desc">
+                    <ul>
+                        <li>
+                            <b>Full-Screen Mode:</b>
+                            Ensure your browser window is in full-screen mode to hide all tabs, toolbars, and
+                            distractions.
+                        </li>
+                        <li>
+                            <b>Low-Glare Environment:</b>
+                            Find a low-glare environment to avoid reflections. Preferably use a dark room
+                            and set your
+                        </li>
+                        <li>
+                            <b>Avoid Moiré Pattern:</b>
+                            Adjust the screen resolution or refresh rate to avoid Moiré patterns.
+                            Focus on the distance between your phone and screen and the tilt of the screen.
+                        </li>
+                    </ul>
+                </div>
+                <div class="item__step">
+                    3 of 7
+                </div>
+            </div>
+            <div class="instructions__item step-4" x-cloak x-show="step === 4">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#app-smiley"></use>
+                </svg>
+                <h2 class="item__title">Open Your Bank App</h2>
+                <div class="item__desc">
+                    Open your bank's mobile app and navigate to the "Deposit Check" option.
+                </div>
+                <div class="item__step">
+                    4 of 7
+                </div>
+            </div>
+            <div class="instructions__item step-4" x-cloak x-show="step === 5">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#panorama-camera"></use>
+                </svg>
+                <h2 class="item__title">Capture Images of the Check</h2>
+                <div class="item__desc">
+                    Follow the app's instructions to take pictures of both the front and back of the check.
+                    <br/>
+                    <br/>
+                    <b>Front of the Check:</b> Hold your camera at a distance from the screen to ensure the entire check
+                    is in the frame.
+                </div>
+                <div class="item__step">
+                    5 of 7
+                </div>
+            </div>
+            <div class="instructions__item step-4" x-cloak x-show="step === 6">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#panorama-camera"></use>
+                </svg>
+                <h2 class="item__title">Back of the Check</h2>
+                <div class="item__desc">
+                    Follow the same steps to capture the back of the check with your endorsement visible.
+                </div>
+                <div class="item__step">
+                    6 of 7
+                </div>
+            </div>
+            <div class="instructions__item step-4" x-cloak x-show="step === 7">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#send-email"></use>
+                </svg>
+                <h2 class="item__title">Submit the Deposit</h2>
+                <div class="item__desc">
+                    Review the images to ensure they are clear and legible. Submit the images through the bank app to
+                    complete the deposit.
+                </div>
+                <div class="item__step">
+                    7 of 7
+                </div>
+            </div>
+        </div>
+
+        <button @click="step += 1" :class="step >= 7 && 'btn--hidden'" class="instructions__stepper-btn">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink">
+                <use xlink:href="#chevron-right"></use>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol viewBox="0 0 24 24" id="chevron-left">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+    </symbol>
+    <symbol viewBox="0 0 24 24" id="chevron-right">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+    </symbol>
+    <symbol viewBox="0 0 68 68" id="online-payment">
+        <path d="M46.613 34.032c.207-.02.407-.09.583-.2l4.012-2.492c3.007-1.868 2.81-3.363 4.528-4.43l2.319-1.44"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m48.3 33.147 1.23-.765a1.374 1.374 0 0 0-1.23-2.448l.66-.418a1.396 1.396 0 0 0 .435-1.904 1.373 1.373 0 0 0-1.098-.647M28.511 38.731H26.75c-3.16 0-3.713-1.224-5.518-1.224h-2.463M26.563 34.384a1.224 1.224 0 0 0 1.028 1.895h3.986a1.225 1.225 0 0 0 1.088-1.798"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M27.285 37.505a1.224 1.224 0 0 0 1.224 1.224h2.453a1.226 1.226 0 1 0 0-2.453h-2.45a1.223 1.223 0 0 0-1.227 1.229ZM38.919 21.596H28.531a1.657 1.657 0 0 0-1.652 1.66v1.088M27.88 32.467c.205.09.425.135.648.136H45.05a1.66 1.66 0 0 0 1.528-1.029c.082-.2.124-.417.123-.634v-6.111M39.372 23.522h-7.974a.8.8 0 0 0-.757.544c-.1.293-.28.552-.52.748"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M29.262 28.866c.093.114.217.2.356.248a1.657 1.657 0 0 1 1.029 1.024.798.798 0 0 0 .76.548h10.761a.8.8 0 0 0 .757-.54 1.66 1.66 0 0 1 1.025-1.032.8.8 0 0 0 .538-.756V25.85a.803.803 0 0 0-.318-.638"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M38.442 27.2a1.652 1.652 0 1 1-3.304-.022 1.652 1.652 0 0 1 3.304.022ZM21.23 32.907h.92a3.985 3.985 0 0 0 3.985-3.986h2.759a1.226 1.226 0 1 0 0-2.453h-4.169a3.986 3.986 0 0 0-3.16 1.556l-1.307 1.7a1.837 1.837 0 0 1-1.464.73h-.015M13.291 29.196h2.865a.8.8 0 0 1 .799.8V37.9a.801.801 0 0 1-.8.8h-1.21"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16.955 38.087h1.04a.799.799 0 0 0 .8-.8V30.61a.799.799 0 0 0-.8-.8h-1.04v8.277ZM11.266 41.392l-3.422 8.987a.803.803 0 0 0 .592 1.074l3.245.65c.45.09.885.243 1.292.456a.8.8 0 0 1-.372 1.508H3.4c0-.759.169-1.508.495-2.192l6.736-14.126"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17.072 50.921a.402.402 0 0 1-.327.465l-.694.12a.409.409 0 0 1-.255-.04 7.018 7.018 0 0 1-3.65-5.008L8.537 25.7a7.019 7.019 0 0 1 1.742-5.946.4.4 0 0 1 .227-.124l.693-.121a.401.401 0 0 1 .465.327l5.41 31.086ZM53.017 22.531l-.875.544a4.464 4.464 0 0 1-6.151-1.437l-2.627 1.632a1.376 1.376 0 0 1-2.096-.94 1.374 1.374 0 0 1 .646-1.395l3.969-2.466a4.467 4.467 0 0 1 3.927-.387l2.251.846a2.058 2.058 0 0 0 1.825-.17M58.98 13.933l-3.324 2.065a.894.894 0 0 0-.289 1.235l4.678 7.525a.896.896 0 0 0 1.234.288l3.322-2.062M60.152 24.935l-.99.612a.895.895 0 0 1-1.234-.288l-3.95-6.355a.896.896 0 0 1 .289-1.234l.99-.612 4.895 7.877Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol viewBox="0 0 68 68" id="send-email">
+        <path d="M32.78 61.207a3.391 3.391 0 0 1-3.392 3.393H11.793A3.392 3.392 0 0 1 8.4 61.207V23.472a3.393 3.393 0 0 1 3.393-3.392h17.595a3.394 3.394 0 0 1 3.392 3.393v37.734Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10.52 26.44h20.14v31.27H10.52V26.44ZM19.531 23.26h5.83" stroke="#90D9F5" stroke-linecap="round"
+              stroke-linejoin="round"/>
+        <path d="M16.35 22.6a.659.659 0 0 0 0 1.318.658.658 0 0 0 0-1.317Z" fill="#90D9F5"/>
+        <path d="M18.734 61.155a1.855 1.855 0 1 0 3.71 0 1.855 1.855 0 0 0-3.71 0ZM38.775 22.354a15.813 15.813 0 0 0-4.004 9.137c-.805 8.054 7.15 9.343 8.779 5.268 1.756-4.39-6.145-8.78-12.29-5.268-6.145 3.512-6.145 11.413-6.145 11.413M43.115 18.664v7.334a.54.54 0 0 0 .922.382l2.635-2.635M43.115 18.664 59.193 3.64"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M59.535 4.848a1.08 1.08 0 0 0-1.455-1.352L34.008 14.194a1.08 1.08 0 0 0 .155 2.029l8.953 2.441 6.362 9.09a1.08 1.08 0 0 0 1.904-.253l8.153-22.653Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol viewBox="0 0 68 68" id="check-sign">
+        <path d="m42.309 52.913 2.266 3.867M35.864 56.694a2.987 2.987 0 0 1 1.066-4.093l7.738-4.534M60.711 47.356c-1.488.873-3.363-.193-3.375-1.918a2.242 2.242 0 0 1 1.108-1.949c1.069-.627 4.358.045 4.358.045s-1.023 3.198-2.09 3.822Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M38.129 60.559c-.711.419-1.627.18-2.044-.531l-.756-1.29a1.49 1.49 0 0 1 .535-2.044L55.42 45.231a1.24 1.24 0 0 1 1.704.443l1.006 1.72c.35.593.151 1.357-.443 1.704l-19.558 11.46ZM59.83 29.315l-21.892 4.84M30.602 21.744a1.245 1.245 0 0 1 .95-1.486l23.838-5.265a1.242 1.242 0 0 1 1.482.95l1.076 4.86a1.246 1.246 0 0 1-.947 1.487l-23.838 5.27a1.245 1.245 0 0 1-1.484-.947l-1.077-4.87ZM55.64 10.345l-5.837 1.288M12.975 32.013l.646 2.92M15.896 31.37l.644 2.917M18.813 30.725l.645 2.917M21.734 30.078l.645 2.92M24.652 29.434l.645 2.92M6.965 39.465 27.4 34.95M9.41 29.738l16.055-3.547"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.509 16.602 57.834 5.264a1.25 1.25 0 0 1 1.485.947l5.59 25.295a1.246 1.246 0 0 1-.95 1.496L12.635 44.333c-3.37.747-6.285-2.435-5.246-5.727a4.484 4.484 0 0 1 2.381-2.715c.53-.246.818-.827.692-1.398L4.899 9.307a1.246 1.246 0 0 0-1.936-.753 4.49 4.49 0 0 0-1.798 4.639l6.12 27.728M33.9 22.799l.325 1.459M38.277 21.832l.324 1.459M41.195 21.188l.324 1.458M44.117 20.544l.323 1.458M48.496 19.576l.323 1.46M51.414 18.93l.323 1.46M54.332 18.288l.32 1.458"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.229 20.597a1.24 1.24 0 0 1-.947 1.486L8.444 25.356l-.967-4.379 14.838-3.273a1.246 1.246 0 0 1 1.485.947l.428 1.946ZM43.045 33.025c-1.686.372-3.142-1.22-2.621-2.867.52-1.646 2.629-2.11 3.793-.837.266.29.45.646.535 1.03M53.35 27.686a2.246 2.246 0 0 1-1.707 2.675M44.916 31.08a2.236 2.236 0 0 1 1.704-2.672M48.561 30.274a2.24 2.24 0 0 1 1.708-2.67"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol viewBox="0 0 68 68" id="phone-app-idea">
+        <path d="M32.565 61.493a1.188 1.188 0 1 0 2.376 0 1.188 1.188 0 0 0-2.377 0ZM37.316 37.204h-6.63v2.467a3.315 3.315 0 0 0 6.63 0v-2.467ZM38.283 33.875a10.75 10.75 0 0 1 2.567-6.335 8.851 8.851 0 0 0 2.146-5.788 8.997 8.997 0 1 0-17.994 0 8.852 8.852 0 0 0 2.146 5.788 10.744 10.744 0 0 1 2.567 6.33"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M39.522 35.506a1.7 1.7 0 0 1-1.7 1.7h-7.644a1.7 1.7 0 1 1 0-3.4h7.645a1.7 1.7 0 0 1 1.699 1.7ZM31.107 41.29l6.165-1.077M30.686 39.654l6.629-1.158M34 8.452c-.778 0-1.602-2.244-1.602-3.45a1.602 1.602 0 1 1 3.205 0c0 1.206-.824 3.45-1.602 3.45ZM26.87 10.449c-.653.424-2.565-1.01-3.223-2.021a1.602 1.602 0 1 1 2.688-1.746c.656 1.012 1.188 3.342.535 3.767ZM21.98 16.007c-.317.711-2.702.55-3.804.06a1.6 1.6 0 0 1-.875-2.143 1.602 1.602 0 0 1 2.178-.781c1.102.487 2.817 2.152 2.5 2.864ZM20.903 23.331c.123.77-1.965 1.934-3.156 2.123a1.602 1.602 0 0 1-.502-3.165c1.192-.189 3.536.273 3.658 1.042ZM41.13 10.449c.653.424 2.565-1.01 3.223-2.021a1.602 1.602 0 1 0-2.688-1.746c-.657 1.012-1.188 3.342-.535 3.767ZM46.02 16.007c.318.71 2.702.55 3.804.06a1.602 1.602 0 0 0-1.303-2.925c-1.102.488-2.817 2.153-2.5 2.865ZM47.097 23.331c-.123.77 1.965 1.934 3.157 2.123a1.603 1.603 0 0 0 .5-3.165c-1.19-.189-3.535.273-3.657 1.042Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M44.187 25.744c.366.516.561 1.134.56 1.768V61.54a3.059 3.059 0 0 1-3.062 3.06H25.818a3.06 3.06 0 0 1-3.06-3.06V27.508a3.042 3.042 0 0 1 .56-1.768"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M41.033 30.184h1.8v28.202H24.67V30.184h1.8" stroke="#90D9F5" stroke-linecap="round"
+              stroke-linejoin="round"/>
+    </symbol>
+    <symbol viewBox="0 0 68 68" id="app-smiley">
+        <path d="M43.394 14.186v9.092H22.936v-9.092" stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21.62 26.508v-2.692a.537.537 0 0 1 .536-.538h22.017a.536.536 0 0 1 .537.537v2.693a.56.56 0 0 1-.008.096M39.551 27.046H26.465M22.533 11.385c-.107.17-.164.367-.166.568v1.827a.408.408 0 0 0 .408.408h20.782a.408.408 0 0 0 .408-.409v-1.826a1.083 1.083 0 0 0-.166-.568H22.533Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m26.113 11.385 6.392-4.922a1.136 1.136 0 0 1 1.327 0l6.392 4.922h3.579a1.086 1.086 0 0 0-.298-.328l-9.684-7.448a1.136 1.136 0 0 0-1.312 0l-9.678 7.448c-.12.087-.222.2-.298.328h3.58ZM50.107 63.49a1.11 1.11 0 0 1-1.11 1.11h-2.779a1.112 1.112 0 0 1 0-2.222h2.778a1.111 1.111 0 0 1 1.11 1.111Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M51.935 61.268a1.111 1.111 0 0 1-1.11 1.111h-2.778a1.111 1.111 0 0 1 0-2.222h2.778a1.111 1.111 0 0 1 1.11 1.11ZM45.107 63.49a1.111 1.111 0 0 1-1.112 1.11H41.22a1.11 1.11 0 1 1 0-2.222h2.776a1.11 1.11 0 0 1 1.112 1.111Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M45.109 61.268a1.112 1.112 0 0 1-1.112 1.11H41.22a1.111 1.111 0 0 1 0-2.222h2.776a1.112 1.112 0 0 1 1.112 1.112Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M48.526 59.046a1.11 1.11 0 0 1-1.111 1.11h-2.777a1.11 1.11 0 1 1 0-2.22h2.777a1.109 1.109 0 0 1 1.111 1.11ZM24.974 63.49a1.11 1.11 0 0 1-1.11 1.11h-2.778a1.111 1.111 0 0 1 0-2.222h2.777a1.111 1.111 0 0 1 1.11 1.111Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.974 61.268a1.11 1.11 0 0 1-1.11 1.111h-2.778a1.111 1.111 0 0 1 0-2.222h2.777a1.112 1.112 0 0 1 1.111 1.11ZM18.148 63.49a1.111 1.111 0 0 1-1.111 1.11H14.26a1.112 1.112 0 1 1 0-2.222h2.777a1.111 1.111 0 0 1 1.11 1.111Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M19.976 61.268a1.111 1.111 0 0 1-1.111 1.111h-2.777a1.111 1.111 0 0 1 0-2.222h2.777a1.112 1.112 0 0 1 1.11 1.111ZM26.641 59.046a1.11 1.11 0 0 1-1.11 1.11h-2.778a1.11 1.11 0 0 1 0-2.22h2.778a1.111 1.111 0 0 1 1.11 1.11ZM24.974 56.824a1.11 1.11 0 0 1-1.11 1.112h-2.778a1.111 1.111 0 0 1 0-2.222h2.777a1.11 1.11 0 0 1 1.111 1.11Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18.355 59.047a1.11 1.11 0 0 1-1.112 1.11h-2.776a1.111 1.111 0 1 1 0-2.222h2.776a1.112 1.112 0 0 1 1.112 1.111ZM46.057 26.785a1.432 1.432 0 0 1-2.81.402.924.924 0 0 0-1.777.509 3.273 3.273 0 0 0 3.676 2.333.81.81 0 0 1 .894.528c.306.849.463 1.743.465 2.645a8.558 8.558 0 0 1-4.325 7.248"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42.18 42.553c3.672-1.805 6.171-5.32 6.171-9.351a9.777 9.777 0 0 0-.895-4.072.817.817 0 0 1 .03-.736 3.284 3.284 0 0 0-.907-4.237M19.832 24.035a3.284 3.284 0 0 0-1.082 4.359.816.816 0 0 1 .03.736 9.778 9.778 0 0 0-.895 4.072c0 4.03 2.498 7.548 6.172 9.35"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.055 40.45a8.556 8.556 0 0 1-4.325-7.248 7.87 7.87 0 0 1 .464-2.645.816.816 0 0 1 .895-.528 3.277 3.277 0 0 0 3.676-2.333.924.924 0 0 0-1.777-.509 1.433 1.433 0 0 1-2.81-.42M38.835 64.6H26.453"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.055 53.876V34.39a2.014 2.014 0 0 1 2.013-2.014h14.099a2.014 2.014 0 0 1 2.014 2.014v23.084M30.602 34.39h2.517M35.133 34.39h.503"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M33.117 62.534a.05.05 0 0 1 .036.016.059.059 0 0 1 0 .072.05.05 0 0 1-.071-.001.049.049 0 0 1 0-.071.046.046 0 0 1 .035-.016Zm0-.68a.732.732 0 1 0-.002 1.463.732.732 0 0 0 .003-1.463ZM29.738 41.344a.051.051 0 0 1 .048.032.051.051 0 0 1-.01.056.052.052 0 0 1-.057.012.052.052 0 0 1 .02-.1Zm0-.68a.731.731 0 1 0-.002 1.463.731.731 0 0 0 .002-1.463ZM36.557 41.344a.052.052 0 0 1 .032.086.051.051 0 0 1-.032.017.052.052 0 0 1-.046-.052.052.052 0 0 1 .046-.051Zm0-.68a.732.732 0 1 0-.002 1.464.732.732 0 0 0 .002-1.464Z"
+              fill="#90D9F5"/>
+        <path d="M33.116 50.31a4.672 4.672 0 0 0 4.713-3.93.418.418 0 0 0-.136-.364.471.471 0 0 0-.389-.113 26.474 26.474 0 0 1-8.378 0 .47.47 0 0 0-.388.113.416.416 0 0 0-.136.363 4.672 4.672 0 0 0 4.714 3.93Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M33.115 48.166a7.633 7.633 0 0 0-3.46.726 4.931 4.931 0 0 0 6.921 0 7.627 7.627 0 0 0-3.46-.726ZM54.433 48.514l2.87-.957a.273.273 0 0 0 .13-.412.272.272 0 0 0-.13-.1l-2.358-.786a1.077 1.077 0 0 1-.68-.68l-.79-2.36a.272.272 0 0 0-.51 0l-.787 2.358a1.077 1.077 0 0 1-.68.68l-2.36.787a.273.273 0 0 0-.13.412c.032.045.078.08.13.1l2.36.786a1.078 1.078 0 0 1 .68.68l.787 2.36a.273.273 0 0 0 .51 0l.958-2.868ZM15.053 46.814l2.38-.793a.223.223 0 0 0 0-.424l-1.957-.65a.892.892 0 0 1-.565-.564l-.652-1.954a.223.223 0 0 0-.423 0l-.651 1.954a.895.895 0 0 1-.565.565l-1.955.651a.223.223 0 0 0 0 .424l1.955.651a.892.892 0 0 1 .564.565l.652 1.955a.223.223 0 0 0 .423 0l.794-2.38ZM24.055 36.404H42.18M38.46 60.572H27.854M34.87 14.185v9.093M31.459 23.279v-9.094M39.984 14.185v9.094M26.344 14.185v9.094"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol viewBox="0 0 68 68" id="app-smiley">
+        <path d="M43.394 14.186v9.092H22.936v-9.092" stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21.62 26.508v-2.692a.537.537 0 0 1 .536-.538h22.017a.536.536 0 0 1 .537.537v2.693a.56.56 0 0 1-.008.096M39.551 27.046H26.465M22.533 11.385c-.107.17-.164.367-.166.568v1.827a.408.408 0 0 0 .408.408h20.782a.408.408 0 0 0 .408-.409v-1.826a1.083 1.083 0 0 0-.166-.568H22.533Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m26.113 11.385 6.392-4.922a1.136 1.136 0 0 1 1.327 0l6.392 4.922h3.579a1.086 1.086 0 0 0-.298-.328l-9.684-7.448a1.136 1.136 0 0 0-1.312 0l-9.678 7.448c-.12.087-.222.2-.298.328h3.58ZM50.107 63.49a1.11 1.11 0 0 1-1.11 1.11h-2.779a1.112 1.112 0 0 1 0-2.222h2.778a1.111 1.111 0 0 1 1.11 1.111Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M51.935 61.268a1.111 1.111 0 0 1-1.11 1.111h-2.778a1.111 1.111 0 0 1 0-2.222h2.778a1.111 1.111 0 0 1 1.11 1.11ZM45.107 63.49a1.111 1.111 0 0 1-1.112 1.11H41.22a1.11 1.11 0 1 1 0-2.222h2.776a1.11 1.11 0 0 1 1.112 1.111Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M45.109 61.268a1.112 1.112 0 0 1-1.112 1.11H41.22a1.111 1.111 0 0 1 0-2.222h2.776a1.112 1.112 0 0 1 1.112 1.112Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M48.526 59.046a1.11 1.11 0 0 1-1.111 1.11h-2.777a1.11 1.11 0 1 1 0-2.22h2.777a1.109 1.109 0 0 1 1.111 1.11ZM24.974 63.49a1.11 1.11 0 0 1-1.11 1.11h-2.778a1.111 1.111 0 0 1 0-2.222h2.777a1.111 1.111 0 0 1 1.11 1.111Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.974 61.268a1.11 1.11 0 0 1-1.11 1.111h-2.778a1.111 1.111 0 0 1 0-2.222h2.777a1.112 1.112 0 0 1 1.111 1.11ZM18.148 63.49a1.111 1.111 0 0 1-1.111 1.11H14.26a1.112 1.112 0 1 1 0-2.222h2.777a1.111 1.111 0 0 1 1.11 1.111Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M19.976 61.268a1.111 1.111 0 0 1-1.111 1.111h-2.777a1.111 1.111 0 0 1 0-2.222h2.777a1.112 1.112 0 0 1 1.11 1.111ZM26.641 59.046a1.11 1.11 0 0 1-1.11 1.11h-2.778a1.11 1.11 0 0 1 0-2.22h2.778a1.111 1.111 0 0 1 1.11 1.11ZM24.974 56.824a1.11 1.11 0 0 1-1.11 1.112h-2.778a1.111 1.111 0 0 1 0-2.222h2.777a1.11 1.11 0 0 1 1.111 1.11Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18.355 59.047a1.11 1.11 0 0 1-1.112 1.11h-2.776a1.111 1.111 0 1 1 0-2.222h2.776a1.112 1.112 0 0 1 1.112 1.111ZM46.057 26.785a1.432 1.432 0 0 1-2.81.402.924.924 0 0 0-1.777.509 3.273 3.273 0 0 0 3.676 2.333.81.81 0 0 1 .894.528c.306.849.463 1.743.465 2.645a8.558 8.558 0 0 1-4.325 7.248"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42.18 42.553c3.672-1.805 6.171-5.32 6.171-9.351a9.777 9.777 0 0 0-.895-4.072.817.817 0 0 1 .03-.736 3.284 3.284 0 0 0-.907-4.237M19.832 24.035a3.284 3.284 0 0 0-1.082 4.359.816.816 0 0 1 .03.736 9.778 9.778 0 0 0-.895 4.072c0 4.03 2.498 7.548 6.172 9.35"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.055 40.45a8.556 8.556 0 0 1-4.325-7.248 7.87 7.87 0 0 1 .464-2.645.816.816 0 0 1 .895-.528 3.277 3.277 0 0 0 3.676-2.333.924.924 0 0 0-1.777-.509 1.433 1.433 0 0 1-2.81-.42M38.835 64.6H26.453"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.055 53.876V34.39a2.014 2.014 0 0 1 2.013-2.014h14.099a2.014 2.014 0 0 1 2.014 2.014v23.084M30.602 34.39h2.517M35.133 34.39h.503"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M33.117 62.534a.05.05 0 0 1 .036.016.059.059 0 0 1 0 .072.05.05 0 0 1-.071-.001.049.049 0 0 1 0-.071.046.046 0 0 1 .035-.016Zm0-.68a.732.732 0 1 0-.002 1.463.732.732 0 0 0 .003-1.463ZM29.738 41.344a.051.051 0 0 1 .048.032.051.051 0 0 1-.01.056.052.052 0 0 1-.057.012.052.052 0 0 1 .02-.1Zm0-.68a.731.731 0 1 0-.002 1.463.731.731 0 0 0 .002-1.463ZM36.557 41.344a.052.052 0 0 1 .032.086.051.051 0 0 1-.032.017.052.052 0 0 1-.046-.052.052.052 0 0 1 .046-.051Zm0-.68a.732.732 0 1 0-.002 1.464.732.732 0 0 0 .002-1.464Z"
+              fill="#90D9F5"/>
+        <path d="M33.116 50.31a4.672 4.672 0 0 0 4.713-3.93.418.418 0 0 0-.136-.364.471.471 0 0 0-.389-.113 26.474 26.474 0 0 1-8.378 0 .47.47 0 0 0-.388.113.416.416 0 0 0-.136.363 4.672 4.672 0 0 0 4.714 3.93Z"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M33.115 48.166a7.633 7.633 0 0 0-3.46.726 4.931 4.931 0 0 0 6.921 0 7.627 7.627 0 0 0-3.46-.726ZM54.433 48.514l2.87-.957a.273.273 0 0 0 .13-.412.272.272 0 0 0-.13-.1l-2.358-.786a1.077 1.077 0 0 1-.68-.68l-.79-2.36a.272.272 0 0 0-.51 0l-.787 2.358a1.077 1.077 0 0 1-.68.68l-2.36.787a.273.273 0 0 0-.13.412c.032.045.078.08.13.1l2.36.786a1.078 1.078 0 0 1 .68.68l.787 2.36a.273.273 0 0 0 .51 0l.958-2.868ZM15.053 46.814l2.38-.793a.223.223 0 0 0 0-.424l-1.957-.65a.892.892 0 0 1-.565-.564l-.652-1.954a.223.223 0 0 0-.423 0l-.651 1.954a.895.895 0 0 1-.565.565l-1.955.651a.223.223 0 0 0 0 .424l1.955.651a.892.892 0 0 1 .564.565l.652 1.955a.223.223 0 0 0 .423 0l.794-2.38ZM24.055 36.404H42.18M38.46 60.572H27.854M34.87 14.185v9.093M31.459 23.279v-9.094M39.984 14.185v9.094M26.344 14.185v9.094"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <svg viewBox="0 0 68 68" id="panorama-camera">
+        <path d="M31.766 37.27h-5.93l2.44-2.893a.688.688 0 0 1 1.051 0M37.83 34.377a.687.687 0 0 1 1.052 0l2.44 2.892H35.39"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m29.309 37.27 3.247-3.85a.688.688 0 0 1 1.052 0l3.249 3.85h-7.548Z" stroke="#90D9F5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M25.684 40.072V37.27h15.873v2.971" stroke="#90D9F5" stroke-linecap="round"/>
+        <path d="M23.681 40.727a1.564 1.564 0 0 1-1.564-1.564V30.34a1.564 1.564 0 0 1 1.564-1.564h19.88a1.564 1.564 0 0 1 1.563 1.564v8.827a1.564 1.564 0 0 1-1.038 1.473"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M25.684 40.072V28.78h15.873v11.46M43.34 34.157v2.98" stroke="#90D9F5" stroke-linecap="round"
+              stroke-linejoin="round"/>
+        <path d="M43.339 32.368a.299.299 0 1 0-.003.597.299.299 0 0 0 .003-.597Z" fill="#90D9F5"/>
+        <path d="M18.224 22.55a1.574 1.574 0 0 0-2.563-1.826c-3.358 4.708-3.756 6.864-4.476 10.771-.046.24-.09.487-.136.741.209-.594.447-1.178.715-1.748.543-1.167 2.008-2.624 3.94-3.74"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20.365 25.095a17.624 17.624 0 0 1 2.939-1.428 1.574 1.574 0 0 0-1.12-2.941c-5.775 2.2-8.605 5.95-9.99 9.036a12.996 12.996 0 0 1 8.17-4.667ZM10.436 50.06l1.657-1.656a.688.688 0 0 0 0-.973l-6.537-6.537a.688.688 0 0 0-.973 0L3.4 42.076"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.752 40.299c-4.37 2.154-9.014-1.878-8.952-5.693.09-5.627 5.14-6.936 8.942-5.789 1.6.483 2.182-2.272.68-2.992-5.608-2.689-12.351 1.836-13.663 4.663-2.434 5.243.25 4.373-5.995 10.62l6.256 6.255c6.294-6.294 9.112-.204 14.678-4.59 1.637-1.29-.075-3.396-1.946-2.474Z"
+              stroke="#90D9F5" stroke-linecap="round"/>
+        <path d="M49.776 22.55a1.574 1.574 0 0 1 2.563-1.826c3.357 4.71 3.755 6.864 4.475 10.771l.136.741a18.69 18.69 0 0 0-.714-1.748c-.544-1.167-2.009-2.624-3.94-3.74"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M47.635 25.095a17.62 17.62 0 0 0-2.94-1.428 1.574 1.574 0 0 1 1.12-2.941c5.775 2.2 8.605 5.95 9.991 9.036a12.995 12.995 0 0 0-8.171-4.667ZM57.091 49.586l-1.183-1.182a.688.688 0 0 1 0-.973l6.537-6.537a.688.688 0 0 1 .973 0l1.183 1.182"
+              stroke="#90D9F5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M43.248 40.299c4.37 2.154 9.014-1.878 8.952-5.693-.091-5.627-5.14-6.936-8.942-5.789-1.6.483-2.182-2.272-.68-2.992 5.607-2.689 12.35 1.836 13.663 4.663 2.434 5.243-.25 4.373 5.995 10.62l-6.256 6.255c-6.295-6.294-9.109-.204-14.678-4.59-1.637-1.29.075-3.396 1.946-2.474ZM23.082 17.31h19.616"
+              stroke="#90D9F5" stroke-linecap="round"/>
+        <path d="M42.697 14.9v4.819l3.442-2.41-3.442-2.409Z" stroke="#90D9F5" stroke-linecap="round"
+              stroke-linejoin="round"/>
+        <path d="M23.082 50.69h19.616" stroke="#90D9F5" stroke-linecap="round"/>
+        <path d="M42.697 53.1V48.28l3.442 2.41-3.442 2.409Z" stroke="#90D9F5" stroke-linecap="round"
+              stroke-linejoin="round"/>
+        <path d="M27.555 30.73h12.389M36.848 30.042v1.377M40.942 40.727H27.057" stroke="#90D9F5"
+              stroke-linecap="round"/>
+        <path d="m29.326 34.377 1.211 1.437M36.125 36.4l1.705-2.023" stroke="#90D9F5" stroke-linecap="round"
+              stroke-linejoin="round"/>
+    </svg>
+</svg>
+
+<script>
+(async function () {
+    $('#tray .instructions').insertAfter('.send');
+
+})();
+</script>

@@ -71,7 +71,7 @@
 
     // this ASSUMES that if Proprietor exists+is truthy, so does everything else - everything will exist if you've ever made out a check, including one to checkard. 
     // might want to check that all these fields are non-empty / match schema before stashing
-    if (localStorage.Proprietor && $(".flip").hasClass("flipit") === false) {
+    if (localStorage.Proprietor && !app.filled) {
         var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
         if (accounts && current in accounts) {
             app.overwrite(accounts[current])

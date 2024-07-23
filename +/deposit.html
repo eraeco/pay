@@ -1,0 +1,498 @@
+<style>
+    .instructions {
+        width: 50em;
+        margin-inline: auto;
+        font-family: sans-serif;
+        line-height: 1.2;
+        max-width: 90%;
+        padding-block: 30px;
+        opacity: 100%;
+        transition: opacity cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+    }
+
+    .instructions[data-idle="true"] {
+        opacity: 0;
+        transition-duration: 1.5s;
+    }
+
+    .instructions__headline {
+        font-size: 18px;
+        color: #B4B4B4;
+        text-align: center;
+        margin-bottom: 48px;
+        position: relative;
+    }
+
+    .instructions__headline::after {
+        content: " ";
+        position: absolute;
+        inset-inline: 0;
+        margin-inline: auto;
+        bottom: -24px;
+        width: 24rem;
+        height: 1px;
+        background-color: #87B5C1;
+    }
+
+    .instructions__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 1.5rem;
+        min-height: 234px;
+    }
+
+    .instructions__items {
+        display: flex;
+        align-items: center;
+    }
+
+    .instructions__item {
+        width: 40rem;
+        display: grid;
+        column-gap: 1.5rem;
+        grid-template-columns: 68px auto;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "icon title"
+            "icon desc"
+            "icon step";
+    }
+
+    .instructions__stepper-btn {
+        appearance: none;
+        border: none;
+        background-color: transparent;
+        padding: 0.375rem;
+        display: flex;
+        align-items: center;
+        border-radius: 2px;
+        transition: all cubic-bezier(0.4, 0, 0.2, 1) 100ms;
+        min-height: 80px;
+    }
+
+    .instructions__stepper-btn:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .instructions__stepper-btn.btn--hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .instructions__stepper-btn svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        stroke: #fff;
+        stroke-width: 1.5px;
+        align-items: center;
+    }
+
+    .item__icon {
+        grid-area: icon;
+        width: 68px;
+        height: 68px;
+    }
+
+    .item__title {
+        grid-area: title;
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        margin: 0;
+    }
+
+    .item__desc {
+        grid-area: desc;
+        margin-top: 8px;
+        color: #F0F0F0;
+        font-size: 14px;
+    }
+
+    .item__desc ul {
+        padding-inline-start: 12px;
+        margin: 0;
+    }
+
+    .item__desc p:first-child {
+        margin-top: 0;
+    }
+
+    .item__desc p {
+        margin-block: 8px;
+    }
+
+    .item__step {
+        grid-area: step;
+        margin-top: 16px;
+        font-size: 14px;
+    }
+
+    .text-danger {
+        color: #E5484D
+    }
+
+    a {
+        color: skyblue;
+    }
+
+    .mobile-warning {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(4px);
+        font-family: sans-serif;
+        line-height: 1.2;
+        color: white;
+    }
+
+    .mobile-warning__inner {
+        max-width: 32rem;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        background-color: #000;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        column-gap: 16px;
+    }
+
+    .mobile-warning__inner .mobile-warning__icon {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        color: #FFE629;
+        background-color: #2D2305;
+        flex-shrink: 0;
+    }
+
+    .mobile-warning__heading {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.5;
+        color: #fff;
+    }
+
+    .mobile-warning__content {
+        font-size: 16px;
+        color: #B4B4B4;
+    }
+
+    .mobile-warning__content p {
+        margin-block: 8px;
+    }
+
+    @media (pointer: none), (pointer: coarse), (max-width: 880px) {
+        .mobile-warning {
+            display: flex;
+        }
+
+        body {
+            overflow: hidden;
+        }
+    }
+</style>
+
+<div class="mobile-warning">
+    <div class="mobile-warning__inner">
+        <div class="mobile-warning__icon">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" stroke="currentColor" fill="none"
+                 xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+                <use xlink:href="#exclamation-triangle"></use>
+            </svg>
+        </div>
+        <div class="mobile-warning__content">
+            <h2 class="mobile-warning__heading">Warning</h2>
+            <p>
+                To ensure the best experience and accuracy, please make sure this check is loaded on a large display,
+                such as a laptop.
+            </p>
+            <p>
+                If you're seeing this message, it indicates you might be using a phone. For optimal
+                results, switch to a larger display to follow these instructions properly.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="instructions">
+    <div class="instructions__headline">
+        Steps to deposit the check:
+    </div>
+
+    <div class="instructions__wrapper" x-data="stepsData" x-effect="onStepChange(step)">
+        <button x-cloak @click="step -= 1" :class="step <= 1 && 'btn--hidden'" class="instructions__stepper-btn">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink">
+                <use xlink:href="#chevron-left"></use>
+            </svg>
+        </button>
+
+        <div class="instructions__items">
+            <div class="instructions__item step-1" x-show="step === 1">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#online-payment"></use>
+                </svg>
+                <h2 class="item__title">Review the Details</h2>
+                <div class="item__desc">
+                    <p>
+                        Review the check details to ensure everything is correct.
+                    </p>
+                    <p>
+                        If the check won't load, ask the payer to open the same link while you are both online at the
+                        same time, then hit refresh. If things still do not work contact us at
+                        <a href="mailto:checkard@era.eco">checkard@era.eco</a>.
+                    </p>
+                    <p>
+                        <b>Know Your Rights</b>: US Federal Law (2003 Check 21 Act) requires banks to accept electronic
+                        versions of authorized checks. Enjoy going paperless!
+                    </p>
+                    <p>
+                        Your check is securely sent with military grade (AES) end-to-end encryption.
+                    </p>
+                </div>
+                <div class="item__step">
+                    1 of 6
+                </div>
+            </div>
+            <div class="instructions__item step-2" x-cloak x-show="step === 2">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#check-sign"></use>
+                </svg>
+                <h2 class="item__title">Endorse the Check</h2>
+                <div class="item__desc">
+                    <p>
+                        To endorse the check, sign your name on the back. If your bank requires it, you can also add a
+                        "for deposit only" notice. This ensures the check is only deposited into your account.
+                    </p>
+                    <p>
+                        For more information on how to endorse a check, visit the Consumer Financial Protection Bureau's
+                        guide:
+                        <a target="_blank"
+                           href="https://www.consumerfinance.gov/ask-cfpb/what-does-it-mean-for-a-check-to-be-indorsed-for-deposit-only-en-947/">What
+                            does it mean for a check to be endorsed for deposit only?
+                        </a>
+                    </p>
+                </div>
+                <div class="item__step">
+                    2 of 6
+                </div>
+            </div>
+            <div class="instructions__item step-3" x-cloak x-show="step === 3">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#phone-app-idea"></use>
+                </svg>
+                <h2 class="item__title">Prepare for Check Deposit</h2>
+                <div class="item__desc">
+                    <p class="text-danger">
+                        <b>Warning:</b> Your bank will reject the deposit if any artifacts, reflections, or dust
+                        interfere with the photo.
+                    </p>
+                    <ul>
+                        <li>
+                            <b>Full-Screen Mode:</b>
+                            Ensure your browser window is in full-screen mode to hide all tabs, toolbars, and
+                            distractions.
+                        </li>
+                        <li>
+                            <b>Low-Glare Environment:</b>
+                            Find a low-glare environment to avoid reflections. Preferably use a dark room
+                            and set your
+                        </li>
+                        <li>
+                            <b>Avoid Moiré Pattern:</b>
+                            Adjust the screen resolution or refresh rate to avoid Moiré patterns.
+                            Focus on the distance between your phone and screen and the tilt of the screen.
+                        </li>
+                    </ul>
+                </div>
+                <div class="item__step">
+                    3 of 6
+                </div>
+            </div>
+            <div class="instructions__item step-4" x-cloak x-show="step === 4">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#app-smiley"></use>
+                </svg>
+                <h2 class="item__title">Open Bank App on Your Phone</h2>
+                <div class="item__desc">
+                    <p>
+                        Open your bank's mobile app on your smartphone and ensure you are logged in securely.
+                    </p>
+                    <p>
+                        Navigate to Check Deposit.
+                        Locate and select the "Deposit Check" or similar option from the main menu or banking services.
+                    </p>
+                    <p>
+                        Follow the app's on-screen instructions to proceed with depositing your check. This usually
+                        involves taking a photo of the front and back of the check.
+                    </p>
+                </div>
+                <div class="item__step">
+                    4 of 6
+                </div>
+            </div>
+            <div class="instructions__item step-4" x-cloak x-show="step === 5">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#panorama-camera"></use>
+                </svg>
+                <h2 class="item__title">Capture Images of the Check</h2>
+                <div class="item__desc">
+                    <p>
+                        Hold your camera at a distance to ensure the entire check is in the frame.
+                    </p>
+                    <p>
+                        After capturing the front side, click next step button proceed to capture the back side.
+                    </p>
+                </div>
+                <div class="item__step">
+                    5.1 of 6
+                </div>
+            </div>
+            <div class="instructions__item step-4" x-cloak x-show="step === 6">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#panorama-camera"></use>
+                </svg>
+                <h2 class="item__title">Capture Images of the Check</h2>
+                <div class="item__desc">
+                    <p>
+                        Hold your camera at a distance to ensure the entire check is in the frame.
+                    </p>
+                    <p>
+                        Now capture the back side of the check.
+                    </p>
+                </div>
+                <div class="item__step">
+                    5.2 of 6
+                </div>
+            </div>
+            <div class="instructions__item step-4" x-cloak x-show="step === 7">
+                <svg class="item__icon" viewBox="0 0 68 68" stroke="currentColor" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <use xlink:href="#send-email"></use>
+                </svg>
+                <h2 class="item__title">Submit the Deposit</h2>
+                <div class="item__desc">
+                    <p>
+                        Review the images to ensure they are clear and legible. Once confirmed, submit them through the
+                        bank app.
+                    </p>
+                    <p>
+                        Your money will be in your account as soon as your bank processes the check, usually within
+                        1-2 business days.
+                    </p>
+                </div>
+                <div class="item__step">
+                    6 of 6
+                </div>
+            </div>
+        </div>
+
+        <button x-cloak @click="step += 1" :class="step >= 7 && 'btn--hidden'" class="instructions__stepper-btn">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink">
+                <use xlink:href="#chevron-right"></use>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script>
+function stepsData() {
+    app.deposit = {
+        step: 1,
+    };
+    return app.deposit;
+}
+
+function onStepChange(step) {
+    if (step === 2 || step === 6) {
+        $('.flip').addClass('flipped');
+    } else {
+        $('.flip').removeClass('flipped');
+    }
+
+    if (step === 2 && !$('.endorse div[contenteditable]').text()) {
+        $('.endorse div[contenteditable]')[0].focus();
+    }
+}
+
+
+(async function () {
+    app.load('+/icons.html');
+    $('#tray .instructions').insertAfter('.send');
+    $('#tray .mobile-warning').insertAfter('.instructions');
+
+    Alpine.initTree($('.instructions').get(0));
+    $('.endorse div[contenteditable]').on('focusout', (event) => {
+        // so that the focus is propagated by now
+        setTimeout(() => {
+            // if newly focused element is again an endorsement input
+            // skip the step change and let user finish the endorsement
+            if ($('.endorse').contains(document.activeElement)) {
+                return;
+            }
+
+            if (document.activeElement.classList.contains('instructions__stepper-btn')) {
+                return;
+            }
+
+            // for advanced users we move to step if endorsement is done
+            if ($('.endorse div[contenteditable]').text() && app.deposit.$data.step <= 2) {
+                app.deposit.$data.step = 3;
+            }
+        }, 0);
+    });
+
+    /////////////////////
+    // Hide steps if user is idle for some time
+
+    let timer;
+    let disableIdleTimer = false;
+    // list of events we will listen to detect windows idle state
+    const events = ['mousemove', 'touchmove', 'click', 'scroll'];
+
+    function handleEvents(timeout) {
+        $('.instructions').attr('data-idle', false);
+
+        if (timer) {
+            window.clearTimeout(timer);
+        }
+
+        timer = window.setTimeout(() => {
+            // do not hide instructions if timer is disabled
+            // or its first 2 steps
+            if (disableIdleTimer || app.deposit.$data.step <= 2) return;
+            $('.instructions').attr('data-idle', true);
+        }, timeout);
+    }
+
+    handleEvents(3000);
+    events.forEach((event) => document.addEventListener(event, () => handleEvents(1000)));
+
+    $('.instructions__wrapper').on('mouseover', () => {
+        disableIdleTimer = true;
+    });
+
+    $('.instructions__wrapper').on('mouseout', () => {
+        disableIdleTimer = false;
+        handleEvents(3000);
+    })
+})();
+</script>

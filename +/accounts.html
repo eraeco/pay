@@ -94,7 +94,7 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
     }
 
     /* remember.html also runs this conditional onload in order to overwrite the check from the default account */
-    if(localStorage.Proprietor && $(".flip").hasClass("flipit") === false){
+    if(localStorage.Proprietor && !app.filled){
         var proprietor = await SEA.decrypt(localStorage.Proprietor, 'rest');
 
         app.accounts = proprietor.accounts || {};

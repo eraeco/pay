@@ -26,7 +26,7 @@
 
       @media print {
           html, body {
-              background: white;
+              background:  white;
           }
       }
       @font-face {
@@ -143,6 +143,8 @@
           transform: rotateX(-180deg);
       }
 
+
+
       .what {
           font-size: 0.8em;
           float: left;
@@ -180,6 +182,7 @@
           display: none;
       }
 
+
       .when {
           float: right;
           padding: 0 0em 0 0;
@@ -202,7 +205,7 @@
           width: 70%;
       }
       .fractional {
-          width: 10em;
+          width:  10em;
           float: right;
           text-align: center;
       }
@@ -232,7 +235,7 @@
       .payee .font, .payee .font + label {
           transform: scale(2) translate(3em, -2px) rotate(-1.1deg);
           letter-spacing: 0.1em;
-          width: 50%;
+          width:  50%;
       }
       .currency {
           float: left;
@@ -271,7 +274,7 @@
       .moneys .details {
           font-size: 0.5em;
           width: 7em;
-          padding-top: 0;
+          padding-top: 0em;
       }
       .moneys .lock {
           float: left;
@@ -457,7 +460,7 @@
           color: #999;
       }
 
-      .send {
+      .send, .help {
           font-family: Arial;
           clear: both;
           margin: 0 auto;
@@ -588,9 +591,7 @@
                     </div>
                   </div>
                   <div class="when">
-                    <div class="date">
-                      <div class="font Lace" contenteditable="true">&nbsp;</div>
-                    </div>
+                    <div class="date"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
                     <span class="what">DATE</span>
                   </div>
                 </div>
@@ -628,9 +629,7 @@
                 <div class="row">
                   <div class="why">
                     <div class="what">For</div>
-                    <div class="memo">
-                      <div class="font Lace" contenteditable="true">&nbsp;</div>
-                    </div>
+                    <div class="memo"><div class="font Lace" contenteditable="true">&nbsp;</div></div>
                     <div class="signature">
                       <div class="font" contenteditable="true"></div>
                       <label>signature</label>
@@ -644,20 +643,14 @@
                     <div class="inroute">
                       <input for="routing" placeholder="routing #" autocomplete="off">
                       <span class="routing">
-												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img
-                          src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img
-                          src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img
-                          src="MICR/9.png">
+												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
 											</span>
                     </div>
                     <img src="MICR/c.png">
                     <div class="inaccount">
                       <input for="account" placeholder="account #" autocomplete="off">
                       <span class="account">
-												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img
-                          src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img
-                          src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img
-                          src="MICR/9.png">
+												<img src="MICR/0.png"><img src="MICR/1.png"><img src="MICR/2.png"><img src="MICR/3.png"><img src="MICR/4.png"><img src="MICR/5.png"><img src="MICR/6.png"><img src="MICR/7.png"><img src="MICR/8.png"><img src="MICR/9.png">
 											</span>
                     </div>
                     <img src="MICR/p.png">
@@ -683,12 +676,8 @@
                       <div class="what">
                         ENDORSE HERE
                       </div>
-                      <div class="endorse">
-                        <div class="font" contenteditable="true"></div>
-                      </div>
-                      <div class="endorse">
-                        <div class="font" contenteditable="true"></div>
-                      </div>
+                      <div class="endorse"><div class="font" contenteditable="true"></div></div>
+                      <div class="endorse"><div class="font" contenteditable="true"></div></div>
                     </div>
                   </div>
                   <div class="original">
@@ -731,12 +720,8 @@
         <a class="gmail" href="#" target="_blank"><img src="./gmail.png"></a>
       </div>
       <div class="notice">
-        <p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and
-          the decryption key is never transmitted to the servers. Only the email you are sending the check to will
-          have access to the decryption key. Checks may be void after 30 days, as data may be deleted for
-          added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
-        <p class="what">Instructions: To pay someone, fill in the digital check by copying information from your
-          physical check. Then type in their email address, hit send, and choose your email provider.</p>
+        <p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and the decryption key is never transmitted to the servers. Only the email you are sending the check to will have access to the decryption key. Checks may be void after 30 days, as data may be deleted for added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
+        <p class="what">Instructions: To pay someone, fill in the digital check by copying information from your physical check. Then type in their email address, hit send, and choose your email provider.</p>
       </div>
     </div>
     <div class="end">
@@ -752,8 +737,8 @@
   <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
   <script>
-  ;(function () {
-      app.load = function load(url) {
+  ;(function(){
+      app.load = function load(url){
           $('#tray').append($('<div>').load(url));
       }
 
@@ -763,7 +748,7 @@
 
       key = hash[0].slice(1);
       code = hash[1];
-      var gun = GUN(['https://test.era.eco/gun', 'https://59.thesource.fm/gun', 'https://try.axe.eco/gun', 'https://relay.129.153.59.37.nip.io/gun']); // data is end-to-end encrypted BEFORE using these relays to send data.
+      var gun = GUN(['https://test.era.eco/gun','https://59.thesource.fm/gun','https://try.axe.eco/gun','https://relay.129.153.59.37.nip.io/gun']); // data is end-to-end encrypted BEFORE using these relays to send data.
 
       // console.warn(gun)
 
@@ -840,31 +825,18 @@
       $('.top .number').on('keyup', micr);
 
       $('[contenteditable="true"]').on('input', maybeBlank);
-      $('[contenteditable="true"]:not(.address):not(.bank):not(.fraction)').on('keydown', eve => {
-          if (eve.key == 'Enter') {
-              eve.preventDefault()
-          }
-      });
+      $('[contenteditable="true"]:not(.address):not(.bank):not(.fraction)').on('keydown', eve => {if(eve.key == 'Enter'){eve.preventDefault()}});
 
-      $('.account').on('mousedown', eve => {
-          eve.preventDefault();
-          $('input[for="account"]').focus();
-      });
-      $('.routing').on('mousedown', eve => {
-          eve.preventDefault();
-          $('input[for="routing"]').focus();
-      });
+      $('.account').on('mousedown', eve => {eve.preventDefault(); $('input[for="account"]').focus();});
+      $('.routing').on('mousedown', eve => {eve.preventDefault(); $('input[for="routing"]').focus();});
 
 
       function maybeBlank({target}){
           target.setAttribute("blank", !target.textContent.trim())
       }
 
-      function micr(eve) {
-          eve = eve || '';
-          if (!key) {
-              code += eve.timeStamp / eve.which
-          } // increase entropy
+      function micr(eve){ eve = eve || '';
+          if(!key){ code += eve.timeStamp / eve.which } // increase entropy
           var chars = $(this).val() || $(this).text();
           chars = (chars||'0000').replace(/\D/ig, '').split('');
           var as = $('.' + $(this).attr('for')).empty();
@@ -956,7 +928,7 @@
           return text.call(this);
       }
   }());
-  (function () {
+  (function(){
       app.load('./+/remember.html');
       app.load('./+/metrics.html');
       app.load('./+/marketing.html');

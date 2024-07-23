@@ -15,6 +15,25 @@
         transition-duration: 1.5s;
     }
 
+    .instructions__headline {
+        font-size: 18px;
+        color: #B4B4B4;
+        text-align: center;
+        margin-bottom: 48px;
+        position: relative;
+    }
+
+    .instructions__headline::after {
+        content: " ";
+        position: absolute;
+        inset-inline: 0;
+        margin-inline: auto;
+        bottom: -24px;
+        width: 24rem;
+        height: 1px;
+        background-color: #87B5C1;
+    }
+
     .instructions__wrapper {
         display: flex;
         justify-content: center;
@@ -85,7 +104,7 @@
 
     .item__desc {
         grid-area: desc;
-        margin-top: 6px;
+        margin-top: 8px;
         color: #F0F0F0;
         font-size: 14px;
     }
@@ -207,6 +226,10 @@
 </div>
 
 <div class="instructions">
+    <div class="instructions__headline">
+        Steps to deposit the check:
+    </div>
+
     <div class="instructions__wrapper" x-data="stepsData" x-effect="onStepChange(step)">
         <button x-cloak @click="step -= 1" :class="step <= 1 && 'btn--hidden'" class="instructions__stepper-btn">
             <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -232,7 +255,7 @@
                         <a href="mailto:checkard@era.eco">checkard@era.eco</a>.
                     </p>
                     <p>
-                        Know Your Rights: US Federal Law (2003 Check 21 Act) requires banks to accept electronic
+                        <b>Know Your Rights</b>: US Federal Law (2003 Check 21 Act) requires banks to accept electronic
                         versions of authorized checks. Enjoy going paperless!
                     </p>
                     <p>
@@ -412,10 +435,11 @@ function onStepChange(step) {
 
 
 (async function () {
+    app.load('+/icons.html');
     $('#tray .instructions').insertAfter('.send');
     $('#tray .mobile-warning').insertAfter('.instructions');
-    app.load('+/icons.html');
 
+    Alpine.initTree($('.instructions').get(0));
     $('.endorse div[contenteditable]').on('focusout', (event) => {
         // so that the focus is propagated by now
         setTimeout(() => {

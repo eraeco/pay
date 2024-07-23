@@ -10,17 +10,14 @@
           padding: 0;
           margin: 0;
       }
-
       body {
           background: black;
           color: skyblue;
       }
-
       div {
           position: relative;
           box-sizing: border-box;
       }
-
       div, ul, li, form, p, span, input, textarea {
           -webkit-transition: all 0.3s;
           transition: all 0.3s;
@@ -32,36 +29,29 @@
               background: white;
           }
       }
-
       @font-face {
           font-family: 'Lace';
           src: url('fonts/Lace.ttf') format('truetype');
           font-style: normal;
       }
-
       @font-face {
           font-family: 'HomemadeApple';
           src: url('fonts/HomemadeApple.ttf') format('truetype');
           font-style: normal;
       }
-
       .Lace, .Lace + label {
           font-family: Lace;
       }
-
       .none {
           display: none;
       }
-
       .say {
           text-align: center;
       }
-
       .envelope {
           padding: 10% 0;
           overflow-x: scroll;
       }
-
       .check {
           width: 50em;
           max-width: 50em;
@@ -70,31 +60,25 @@
           background: skyblue;
           color: black;
       }
-
       .paper {
           width: 100%;
           p-adding-bottom: 40%;
           position: relative;
           border: solid black 0.3em;
       }
-
       .back .check {
           background: white;
       }
-
       .back .paper {
           border: solid #EEE 0.3em;
       }
-
       .row {
           height: 2.6em;
           pointer-events: none;
       }
-
       .row > * {
           pointer-events: all;
       }
-
       div[contenteditable] {
           white-space: pre;
       }
@@ -113,13 +97,12 @@
 
       .flipit:hover .vertical, .flipit.hover .flipit,
       .flipped .vertical, .flipped .flipit,
-          /** Keep check flipped if endorse in focused */
+      /** Keep check flipped if endorse in focused */
       .flipit .vertical:has(.endorse > div[contenteditable]:focus),
       .flipped .flipit:has(.endorse > div[contenteditable]:focus) {
           -ms-transform: rotateX(-180deg);
           transform: rotateX(-180deg);
       }
-
       .flip {
           -ms-perspective: 1000px;
           perspective: 1000px;
@@ -128,14 +111,12 @@
           width: 90%;
           margin: 0 auto;
       }
-
       .vertical {
           height: 2em;
           width: 50em;
           max-width: 50em;
           margin: 0 auto;
       }
-
       .vertical {
           position: relative;
           -ms-transition: 1.2s;
@@ -145,7 +126,6 @@
           -ms-transform-origin: 100% 11em; /* half of height */
           transform-origin: 100% 11em; /* half of height */
       }
-
       .front, .back {
           -ms-backface-visibility: hidden;
           backface-visibility: hidden;
@@ -153,13 +133,11 @@
           top: 0;
           left: 0;
       }
-
       .front {
           z-index: 2;
           -ms-transform: rotateX(0deg);
           transform: rotateX(0deg);
       }
-
       .back {
           -ms-transform: rotateX(-180deg);
           transform: rotateX(-180deg);
@@ -169,31 +147,26 @@
           font-size: 0.8em;
           float: left;
       }
-
       .address {
           float: left;
           height: 4em;
           width: 40%;
           margin: 1em 0 0 1.5em;
       }
-
       .top .number, .top label {
           font-size: 16pt;
           font-family: Arial;
       }
-
       .top .number {
           margin: 0.5em 2em 0 0;
           float: right;
           width: 10%;
       }
-
       .envelope .top label {
           left: unset;
           right: 74px;
           top: 11px;
       }
-
       .number img {
           height: 1em;
       }
@@ -207,18 +180,15 @@
           display: none;
       }
 
-
       .when {
           float: right;
           padding: 0 0em 0 0;
           text-align: right;
           margin-top: -0.5em;
       }
-
       .when .what {
           float: right;
       }
-
       .date {
           padding: 0.1em;
           width: 10em;
@@ -226,24 +196,20 @@
           text-align: center;
           border-bottom: solid black 1px;
       }
-
       .date .font {
           transform: scale(1.7) translate(0.8em, -0.2em) rotate(-1.6deg);
           letter-spacing: 0.1em;
           width: 70%;
       }
-
       .fractional {
           width: 10em;
           float: right;
           text-align: center;
       }
-
       .fractional .numbers {
           font-family: Arial;
           font-size: 8pt;
       }
-
       .fractional .numbers .fraction {
           white-space: initial;
           word-break: break-all;
@@ -251,12 +217,10 @@
           max-height: 2.4em;
           overflow: hidden;
       }
-
       .who .what {
           width: 7em;
           padding-left: 1em;
       }
-
       .payee {
           float: left;
           width: 60%;
@@ -265,19 +229,16 @@
           border-bottom: solid black 1px;
           border-right: solid black 1px;
       }
-
       .payee .font, .payee .font + label {
           transform: scale(2) translate(3em, -2px) rotate(-1.1deg);
           letter-spacing: 0.1em;
           width: 50%;
       }
-
       .currency {
           float: left;
           padding: 0 0.5em 0 0.5em;
           font-size: 1.5em;
       }
-
       .amount {
           float: left;
           width: 20%;
@@ -286,13 +247,11 @@
           border: solid black 1px;
           padding: 0 0.2em 0 0.2em;
       }
-
       .amount .font, .amount .font + label {
           transform: scale(1.7) translate(0.8em);
           letter-spacing: 0.1em;
           width: 60%;
       }
-
       .amounts {
           float: left;
           width: 80%;
@@ -301,45 +260,37 @@
           padding-left: 2%;
           border-bottom: solid black 1px;
       }
-
       .amounts .font, .amounts .font + label {
           transform: scale(1.5) translate(3em) rotate(0.9deg);
           letter-spacing: 0.1em;
           width: 70%;
       }
-
       .moneys .what {
           padding-top: 1em;
       }
-
       .moneys .details {
           font-size: 0.5em;
           width: 7em;
-          padding-top: 0em;
+          padding-top: 0;
       }
-
       .moneys .lock {
           float: left;
           width: 1.25em;
           padding: 0.5em;
       }
-
       .bank {
           float: left;
           height: 3.6em;
           width: 40%;
           margin: 0 0 0 1.5em;
       }
-
       .why {
           clear: both;
       }
-
       .why .what {
           padding-left: 1em;
           margin-top: 1em;
       }
-
       .memo {
           float: left;
           width: 40%;
@@ -348,14 +299,12 @@
           padding-left: 1%;
           border-bottom: solid black 1px;
       }
-
       .memo .font {
           text-align: center;
           transform: scale(1.5) translate(0.8em) rotate(-2deg);
           letter-spacing: 0.1em;
           width: 90%;
       }
-
       .signature {
           float: right;
           width: 45%;
@@ -367,14 +316,13 @@
           border-bottom: solid black 1px;
           height: 1.5em;
       }
-
       .signature .font, .signature .font + label {
           position: absolute;
           font-family: 'Yellowtail', cursive;
           font-family: 'HomemadeApple', cursive;
-          transform: scale(1.3, 1) translate(0em, 0em) rotate(-2deg);
+          transform: scale(1.3,1) translate(0em, 0em) rotate(-2deg);
           font-style: italic;
-          width: calc(100% / 1.3);
+          width: calc(100%/1.3);
       }
 
       .signature::after {
@@ -391,17 +339,14 @@
       .scan {
           height: 3.6em;
       }
-
       .MICR {
           float: left;
           padding: 1.5em 0 0 1.5em;
       }
-
       .MICR img {
           height: 1em;
           margin: 0 0.2em;
       }
-
       .MICR > img {
           margin: 0 -0.1em;
       }
@@ -412,11 +357,9 @@
       .MICR:hover .routing {
           /*display: none;*/
       }
-
       .inroute {
           display: none;
       }
-
       .inroute input,
       .inaccount input {
           margin-top: -0.3em;
@@ -429,12 +372,10 @@
       .inroute, .inaccount {
           display: inline;
       }
-
       .inroute input:focus,
       .inaccount input:focus {
           position: initial;
       }
-
       .inroute input:focus + span,
       .inaccount input:focus + span {
           display: none;
@@ -445,20 +386,20 @@
       }
 
 
+
+
       .MICR .numbers {
-          float: right;
+          float:  right;
           padding: 0 0 0 2em;
       }
 
       .back {
           font-family: Arial;
       }
-
       .back .height {
           height: 21em;
           position: relative;
       }
-
       .back .side {
           position: absolute;
           top: 100%;
@@ -468,14 +409,12 @@
           transform-origin: 0em 0em;
           transform: rotateZ(-90deg);
       }
-
       .back .accept {
           position: relative;
           float: left;
           width: 30%;
           height: 100%;
       }
-
       .back .original {
           position: relative;
           float: left;
@@ -483,7 +422,6 @@
           height: 100%;
           background: #EEE;
       }
-
       .back .security {
           position: relative;
           float: left;
@@ -492,12 +430,10 @@
           background: #EEE;
           border: solid black 1px;
       }
-
       .back .what {
           float: none;
           color: #AAA;
       }
-
       .back .endorse {
           font-size: 2.2em;
           font-family: 'Yellowtail', cursive;
@@ -508,7 +444,6 @@
           text-align: center;
           margin-top: -3em;
       }
-
       .back .institution .small {
           font-size: 90%;
       }
@@ -518,7 +453,6 @@
           color: white;
           font-size: 4em;
       }
-
       .back .security a {
           color: #999;
       }
@@ -531,7 +465,6 @@
           text-align: center;
           color: #444;
       }
-
       .send .submit input,
       .send .submit button {
           width: 15em;
@@ -541,7 +474,6 @@
           padding: 0;
           text-align: center;
       }
-
       .send .submit input {
           height: 1.3em;
           color: white;
@@ -549,11 +481,9 @@
           font-family: Arial;
           border-bottom: dashed #AAA 0.1em;
       }
-
       .send .submit input:hover {
           color: goldenrod;
       }
-
       .send .submit button {
           width: 4.4em;
           color: white;
@@ -562,13 +492,11 @@
           -webkit-transition: color 1s;
           transition: color 1s;
       }
-
       .send .submit button:hover {
           color: #3BCE76;
           -webkit-transition: color 1s;
           transition: color 1s;
       }
-
       .notice {
           width: 80%;
           margin: 0 auto;
@@ -584,16 +512,15 @@
 
       .open {
           text-align: center;
-          color: white;
+          color:  white;
       }
-
       .open img {
           height: 3em;
           margin: 0 1em;
       }
 
       .error {
-          outline: red 3px solid;
+          outline:  red 3px solid;
           transition: all 0.5s;
       }
 
@@ -604,7 +531,6 @@
           pointer-events: none !important;
           opacity: 0.7;
       }
-
       .flipit label {
           /* don't show labels when check is being presented */
           display: none;
@@ -797,8 +723,7 @@
     </div>
     <div class="send none">
       <div class="submit">
-        <input placeholder="person.to.pay@example.com">
-        <button>send</button>
+        <input placeholder="person.to.pay@example.com"><button>send</button>
       </div>
       <div class="open none">
         choose:<br/><br/>
@@ -807,11 +732,9 @@
       </div>
       <div class="notice">
         <p class="what">* Your account number is end-to-end encrypted with government grade standards (AES) and
-          the
-          decryption key is never transmitted to the servers. Only the email you are sending the check to will
+          the decryption key is never transmitted to the servers. Only the email you are sending the check to will
           have access to the decryption key. Checks may be void after 30 days, as data may be deleted for
-          added
-          security. Checkard is only compatible with USA Banks that support mobile deposited checks.
+          added security. Checkard is only compatible with USA Banks that support mobile deposited checks.
         <p class="what">Instructions: To pay someone, fill in the digital check by copying information from your
           physical check. Then type in their email address, hit send, and choose your email provider.</p>
       </div>
@@ -852,8 +775,8 @@
           load.to = setTimeout(load, 3000);
           gun.get(key).on(load);
 
-          async function load(data) {
-              if (!data) {
+          async function load(data){
+              if(!data){
                   $('.payee').text("CHECK NOT FOUND");
                   $('.amounts').text("Please make sure payer is also online, see instructions below.");
                   return;
@@ -862,7 +785,7 @@
               var msg = data.en;
               var check = await de(msg, code);
               // console.warn(check)
-              if (!check) {
+              if(!check){
                   $('.amounts').text("Invalid decryption password");
                   return;
               }
@@ -933,7 +856,7 @@
       });
 
 
-      function maybeBlank({target}) {
+      function maybeBlank({target}){
           target.setAttribute("blank", !target.textContent.trim())
       }
 
@@ -943,16 +866,16 @@
               code += eve.timeStamp / eve.which
           } // increase entropy
           var chars = $(this).val() || $(this).text();
-          chars = (chars || '0000').replace(/\D/ig, '').split('');
+          chars = (chars||'0000').replace(/\D/ig, '').split('');
           var as = $('.' + $(this).attr('for')).empty();
-          $.each(chars, function (i, c) {
+          $.each(chars, function(i, c){
               as.append($('<img> ').attr('src', './MICR/' + c + '.png'));
           });
       }
 
       code = Math.random(); // mix with keystrokes to increase random
       $('.send').removeClass('none');
-      $('.send button').on('click', async function () {
+      $('.send button').on('click', async function(){
           var check = {
               address: $('.address')[0].innerText.trim(), // innerText preserve newlines cross-browser
               date: $('.date').text().trim(),
@@ -969,39 +892,25 @@
               //number: $('.number input').first().val() || $('.number input').last().val()
           };
           // console.warn(check)
-          if (!check.account || !check.routing) {
-              return err('.MICR')
-          }
-          if (!check.number) {
-              return err('.number')
-          }
-          if (!check.payee) {
-              return err('.payee')
-          }
-          if (!check.amount) {
-              return err('.amount')
-          }
-          if (!check.date) {
-              return err('.date')
-          }
-          if (!check.signature) {
-              return err('.signature')
-          }
-          if (!check.fraction) {
-              return err('.fraction')
-          }
+          if(!check.account || !check.routing){ return err('.MICR') }
+          if(!check.number){ return err('.number') }
+          if(!check.payee){ return err('.payee') }
+          if(!check.amount){ return err('.amount') }
+          if(!check.date){ return err('.date') }
+          if(!check.signature){ return err('.signature') }
+          if(!check.fraction){ return err('.fraction') }
           //TODO: document the method of comparing the fraction against routing
           //var tmp = check.fraction.split('/').slice(-1)[0];
           //if(tmp != check.routing.slice(0, tmp.length)){ return err('.fraction'), err('.inaccount') }
           $("[contenteditable]").attr('contenteditable', false);
-          code = ((code || Math.random()) - Math.random()).toString(32).replace('.', '');
+          code = ((code||Math.random()) - Math.random()).toString(32).replace('.','');
           var msg = await en(check, code);
           key = Math.random().toString(32).slice(2);
           // console.warn({key, msg})
           gun.get(key).put({en: msg});
           var email = $('.submit input').val();
           var subject = "$" + check.amount + (
-              check.memo.match(/\w/ig) ?
+              check.memo.match(/\w/ig)?
                   " for " + check.memo
                   : " Payment!");
           var body = "You've got money! You can immediately deposit it at this link:%0D%0A%0D%0A"
@@ -1028,27 +937,21 @@
           code = null;
       });
 
-      function err(s) {
+      function err(s){
           $(s).addClass('error')
-          setTimeout(function () {
-              $(s).removeClass('error')
-          }, 5000);
+          setTimeout(function(){ $(s).removeClass('error') }, 5000);
       }
-
-      async function en(m, p) {
+      async function en(m, p){
           return await SEA.encrypt(m, p);
       };
-
-      async function de(m, p) {
+      async function de(m, p){
           return await SEA.decrypt(m, p);
       };
       var text = $.prototype.text;
-      $.prototype.texts = function (a) {
-          if (a) {
-              return text.call(this, a)
-          }
+      $.prototype.texts = function(a){
+          if(a){ return text.call(this, a) }
           var html = this.html();
-          html = html.replace(/\<div\>/ig, '\n').replace(/\<\/div\>/ig, '').replace(/\<br\>/ig, '\n').replace(/\<\/br\>/ig, '\n').replace(/[<=:]/ig, '').replace(/&#/ig, '');
+          html = html.replace(/\<div\>/ig, '\n').replace(/\<\/div\>/ig,'').replace(/\<br\>/ig, '\n').replace(/\<\/br\>/ig, '\n').replace(/[<=:]/ig,'').replace(/&#/ig,'');
           this.html(html); // THIS IS SAFE, because its only reusing HTML it already had, not remote.
           return text.call(this);
       }

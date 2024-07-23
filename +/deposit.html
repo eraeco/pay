@@ -116,7 +116,95 @@
     a {
         color: skyblue;
     }
+
+    .mobile-warning {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(4px);
+        font-family: sans-serif;
+        line-height: 1.2;
+        color: white;
+    }
+
+    .mobile-warning__inner {
+        max-width: 32rem;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        background-color: #000;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        column-gap: 16px;
+    }
+
+    .mobile-warning__inner .mobile-warning__icon {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        color: #FFE629;
+        background-color: #2D2305;
+        flex-shrink: 0;
+    }
+
+    .mobile-warning__heading {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.5;
+        color: #fff;
+    }
+
+    .mobile-warning__content {
+        font-size: 16px;
+        color: #B4B4B4;
+    }
+
+    .mobile-warning__content p {
+        margin-block: 8px;
+    }
+
+    @media (pointer: none), (pointer: coarse), (max-width: 880px) {
+        .mobile-warning {
+            display: flex;
+        }
+
+        body {
+            overflow: hidden;
+        }
+    }
 </style>
+
+<div class="mobile-warning">
+    <div class="mobile-warning__inner">
+        <div class="mobile-warning__icon">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" stroke="currentColor" fill="none"
+                 xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+                <use xlink:href="#exclamation-triangle"></use>
+            </svg>
+        </div>
+        <div class="mobile-warning__content">
+            <h2 class="mobile-warning__heading">Warning</h2>
+            <p>
+                To ensure the best experience and accuracy, please make sure this check is loaded on a large display,
+                such as a laptop.
+            </p>
+            <p>
+                If you're seeing this message, it indicates you might be using a phone. For optimal
+                results, switch to a larger display to follow these instructions properly.
+            </p>
+        </div>
+    </div>
+</div>
 
 <div class="instructions">
     <div class="instructions__wrapper" x-data="stepsData" x-effect="onStepChange(step)">
@@ -217,7 +305,7 @@
                      xmlns:xlink="http://www.w3.org/1999/xlink">
                     <use xlink:href="#app-smiley"></use>
                 </svg>
-                <h2 class="item__title">Open Your Bank App</h2>
+                <h2 class="item__title">Open Bank App on Your Phone</h2>
                 <div class="item__desc">
                     <p>
                         Open your bank's mobile app on your smartphone and ensure you are logged in securely.
@@ -317,7 +405,7 @@ function onStepChange(step) {
         $('.flip').removeClass('flipped');
     }
 
-    if (step === 2) {
+    if (step === 2 && !$('.endorse div[contenteditable]').text()) {
         $('.endorse div[contenteditable]')[0].focus();
     }
 }
@@ -325,6 +413,7 @@ function onStepChange(step) {
 
 (async function () {
     $('#tray .instructions').insertAfter('.send');
+    $('#tray .mobile-warning').insertAfter('.instructions');
     app.load('+/icons.html');
 
     $('.endorse div[contenteditable]').on('focusout', (event) => {
@@ -333,6 +422,10 @@ function onStepChange(step) {
             // if newly focused element is again an endorsement input
             // skip the step change and let user finish the endorsement
             if ($('.endorse').contains(document.activeElement)) {
+                return;
+            }
+
+            if (document.activeElement.classList.contains('instructions__stepper-btn')) {
                 return;
             }
 
@@ -362,9 +455,10 @@ function onStepChange(step) {
             // do not hide instructions if timer is disabled
             // or its first 2 steps
             if (disableIdleTimer || app.deposit.$data.step <= 2) return;
-             $('.instructions').attr('data-idle', true);
+            $('.instructions').attr('data-idle', true);
         }, timeout);
     }
+
     handleEvents(3000);
     events.forEach((event) => document.addEventListener(event, () => handleEvents(1000)));
 

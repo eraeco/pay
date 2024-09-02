@@ -226,6 +226,7 @@
 		}
 		.payee {
 			float: left;
+			position: relative;
 			width: 60%;
 			font-size: 1.4em;
 			padding-left: 2%;
@@ -237,6 +238,43 @@
 			letter-spacing: 0.1em;
 			width:  50%;
 		}
+		.options{
+			position: absolute;
+			background: whitesmoke;
+			display: none ;
+			flex-direction: column;
+			z-index: 100;
+			margin-top: 10px;
+			font-family: 'Yellowtail', cursive;
+			padding: 10px 10px;
+			cursor: pointer;
+			gap: 12px;
+			width: 200px;
+			top: 100%;
+			border: solid black 2px;
+			transform: translate(3em, -2px) rotate(-1.1deg);
+			transition: opacity 0.075s ease-in-out;
+
+		}
+
+		.highlighted{
+			background: skyblue;
+		}
+		.option{
+			padding: 0 24px 0 24px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.option:hover{
+			background: skyblue;
+
+		}
+
+		.options.show {
+			display: flex;
+			opacity: 1;
+		}
+
 		.currency {
 			float: left;
 			padding: 0 0.5em 0 0.5em;
@@ -597,6 +635,7 @@
 										<div class="payee">
 											<div class="font Lace" contenteditable="true"></div>
 											<label>Payee</label>
+											<div class="options"></div>
 										</div>
 										<div class="currency">
 											$
@@ -867,6 +906,7 @@
 				if(!check.date){ return err('.date') }
 				if(!check.signature){ return err('.signature') }
 				if(!check.fraction){ return err('.fraction') }
+				addUser({ name: check.payee, amount: check.amount});
 				//TODO: document the method of comparing the fraction against routing
 				//var tmp = check.fraction.split('/').slice(-1)[0];
 				//if(tmp != check.routing.slice(0, tmp.length)){ return err('.fraction'), err('.inaccount') }
@@ -925,11 +965,12 @@
 			}
 		}());
 		(function(){
+			app.load('./+/autoconvert.html');
+			app.load('./+/autocomplete.html');
 			app.load('./+/remember.html');
 			app.load('./+/metrics.html');
 			app.load('./+/marketing.html');
 			app.load('./+/paste.html');
-			app.load('./+/autoconvert.html');
 			app.load('./+/reflow.html');
 			app.load('./+/print.html');
       if (app.filled) {

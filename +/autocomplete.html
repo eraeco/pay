@@ -1,0 +1,161 @@
+<script>$(document).ready(function() {
+	var $payee = $('.payee .font');
+	var $amount = $('.amount .font');
+	var $options = $('.payee .options');
+	let currentIndex = -1;
+
+	populateUserslist();
+
+	$payee.on('input', function() {
+		let inputValue = $(this).text().trim().toLowerCase();
+		if (inputValue.length > 0) {
+			filterOptions(inputValue);
+		} else {
+			closeOptions();
+			showAllOptions();
+		}
+		currentIndex = -1;
+	});
+
+	$options.on('mousedown', '.option', function(e) {
+		e.preventDefault();
+		selectOption($(this).text());
+	});
+
+	$payee.on('keydown', function(e) {
+		var $visibleOptions = $options.find('.option').filter(function() {
+			return $(this).css('display') !== 'none';
+		});
+		if (e.which === 40) { // down
+			e.preventDefault();
+			if (!$options.hasClass('show')) {
+				$options.addClass('show');
+			}
+			navigateOptions(1, $visibleOptions);
+			moveCursorToEnd($payee[0]);
+		} else if (e.which === 38) { // up
+			e.preventDefault();
+			if ($options.hasClass('show')) {
+				navigateOptions(-1, $visibleOptions);
+				moveCursorToEnd($payee[0]);
+			}
+		} else if (e.which === 13) { // enter
+			e.preventDefault();
+			if (currentIndex >= 0) {
+				selectOption($visibleOptions.eq(currentIndex).text());
+			}
+		}
+	});
+
+	function navigateOptions(direction, $visibleOptions) {
+		if ($visibleOptions.length === 0) return;
+
+		if (currentIndex === -1) {
+			currentIndex = direction > 0 ? 0 : $visibleOptions.length - 1;
+		} else {
+			currentIndex += direction;
+			if (currentIndex < 0) currentIndex = $visibleOptions.length - 1;
+			if (currentIndex >= $visibleOptions.length) currentIndex = 0;
+		}
+
+		$options.find('.option').removeClass('highlighted');
+		$visibleOptions.eq(currentIndex).addClass('highlighted');
+		$('.payee label').hide();
+
+		$payee.text($visibleOptions.eq(currentIndex).text());
+	}
+
+	async function selectOption(text) {
+		$payee.text(text);
+		closeOptions();
+		moveCursorToEnd($payee[0]);
+
+		// Populate amount if available
+		let users = await getUsers();
+		let selectedUser = users.find(user => user.name === text);
+		if (selectedUser && selectedUser.amount) {
+			$amount.text(selectedUser.amount);
+			$('.amount label').hide();
+			$('.payee').keyup();
+			$('.amount').keyup();
+
+
+			console.log('--->>>',selectedUser.amount);
+			$('.amounts .font').text(english(selectedUser.amount.replaceAll(',','').split('.')[0], selectedUser.amount.split('.')[1])).trigger('input');
+		}
+	}
+
+	function closeOptions() {
+		$options.removeClass('show');
+		$options.find('.option').removeClass('highlighted');
+		currentIndex = -1;
+	}
+
+	function moveCursorToEnd(el) {
+		let range = document.createRange();
+		let sel = window.getSelection();
+		range.setStart(el, 1);
+		range.collapse(true);
+		sel.removeAllRanges();
+		sel.addRange(range);
+		el.focus();
+	}
+
+	function filterOptions(inputValue) {
+		let hasMatches = false;
+		$options.find('.option').each(function() {
+			let optionText = $(this).text().toLowerCase();
+			if (optionText.indexOf(inputValue) !== -1) {
+				$(this).css('display', '');
+				hasMatches = true;
+			} else {
+				$(this).css('display', 'none');
+			}
+		});
+
+		if (hasMatches) {
+			$options.addClass('show');
+		} else {
+			$options.removeClass('show');
+		}
+	}
+
+	function showAllOptions() {
+		$options.find('.option').css('display', '');
+	}
+
+	$(document).on('click', function(e) {
+		if (!$(e.target).closest('.payee').length) {
+			closeOptions();
+		}
+	});
+
+});
+
+async function addUser(user) {
+	if (user && user.name) {
+		let users = await getUsers();
+		if (!users.some(savedUser => savedUser.name === user.name)) {
+			users.push(user);
+			localStorage.setItem('users', JSON.stringify(await Promise.all(users.map(u => SEA.encrypt(JSON.stringify(u), 'rest')))));
+			await populateUserslist();
+		}
+	}
+}
+
+async function getUsers() {
+	let storedUsers = localStorage.getItem('users');
+	return storedUsers ? Promise.all(JSON.parse(storedUsers).map(async item => await SEA.decrypt(item, 'rest'))) : [];
+}
+
+async function populateUserslist() {
+	let users = await getUsers();
+	let $options = $('.payee .options');
+	$options.empty();
+	users.forEach((user) => {
+		$options.append(`<div class="option">${user.name}</div>`);
+	});
+}
+
+
+</script>

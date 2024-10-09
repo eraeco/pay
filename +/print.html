@@ -1,0 +1,29 @@
+<style>
+    @media print {
+        @page {
+            size: landscape;
+        }
+        .envelope {
+            padding: initial;
+            overflow: hidden;
+        }
+        .front, .back {
+            position: relative;
+        }
+        .back, .flipit:hover .vertical, .flipit.hover .flipit {
+			-ms-transform: none;
+			transform: none;
+		}
+        #tray {
+            display: none;
+        }
+        #app > div:not(.envelope) {
+            display: none;
+        }
+		.mid-screen {
+            display: relative; 
+            align-items: initial;
+            justify-content: initial;
+        }
+    }
+</style>

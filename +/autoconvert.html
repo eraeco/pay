@@ -109,5 +109,8 @@
         return digitsGroup.join(' ').replace(/\s+/g, ' ') + ' and ' + cents + '/100'
 
     }; //End of numToWords function
+
+    // trigger autoconvert for paylinks:
+    if((location+'').indexOf('&amount') >= 0){ $('.amount .font').trigger('blur') }
 })();
 </script>

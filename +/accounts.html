@@ -1,0 +1,193 @@
+<style>
+    #tray .pillbox, #tray .pill {
+        display: none; /* pills are cloned and appended, hide when its sitting in the tray */
+    }
+    #pillbox {
+        padding: 8px;
+        overflow-x: scroll;
+    }
+    .pill {
+        display: inline-block;
+        background: skyblue;
+        padding: 2px;
+        height: 28px; /* forget element is 24px */
+        border-radius: 12px; /* same roundness as 24px forget orb */
+        cursor: pointer;
+    }
+    .pill .reference {
+        top: -25%;
+        margin-left: 8px;
+    }
+    .pill .reference, .pill .forget {
+        display: inline-block;
+    }
+    .pill .forget {
+        width: 24px;
+        height: 24px;
+        border: 1px solid #000;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .pill .forget:hover {
+        border: 1px solid red;
+    }
+
+    .pill .forget:hover:before,
+    .pill .forget:hover:after {
+        background: red;
+    }
+
+    .pill .forget::before,
+    .pill .forget::after {
+        content: "";
+        background: #000;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 12px;
+        height: 2px;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .pill .forget::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .pill + .pill {
+        margin-inline-start: 8px;
+    }
+</style>
+<div id="pillbox">
+
+</div>
+<div class="pill">
+    <div class="reference"><!-- fill in with account's nickname via jquery --></div>
+    <div class="forget" title="forget this account"></div>
+</div>
+<script>
+/*
+On load, we're going to grab the Proprietor blob from localstorage.
+Makes a chioce here to only pass data via encrypted localstrorage,
+so having to go through enc/dec with any state modification.
+
+For each key in Proprietor.accounts, create a pill by cloning and filling in details, and binding the interaction...
+*/
+;(async function(){
+    // insert the pillbox even if its not being used... might want to style it differently when its empty
+    $('#pillbox').insertAfter('.send .remember');
+
+    app.accounts = {};
+    app.current = null;
+
+    app.addAccount = async function () {
+        var account = app.details();
+        if(!account){
+            // then details error'd, nothing else to do here, box will be unchecked by err()
+            return;
+        }
+        // create a reference
+        var reference = app.nickname(account);
+        app.accounts[reference] = account;
+        app.current = reference;
+
+        memoizeAccounts();
+        renderAccounts();
+    }
+
+    /* remember.html also runs this conditional onload in order to overwrite the check from the default account */
+    if(localStorage.Proprietor && !app.filled){
+        var proprietor = await SEA.decrypt(localStorage.Proprietor, 'rest');
+
+        app.accounts = proprietor.accounts || {};
+        app.current = app.accounts[proprietor.current] || null;
+        renderAccounts();
+    }
+
+    $(window).on('focusout', (event) => {
+        var isCheckFocusedOut = $('.check').contains($(event.target));
+        if (!isCheckFocusedOut || !$('.remember input').prop('checked')) return;
+
+        var details = app.details();
+
+        // if there is a major change in account details
+        // uncheck remember
+        if (
+            app.current?.fraction !== details?.fraction ||
+            app.current?.routing !== details?.routing ||
+            app.current?.account !== details?.account
+        ) {
+            $('.remember input').prop('checked', false);
+        }
+        // if there is a minor change in account details
+        // update the existing account
+        else if (
+            app.current?.address !== details?.address ||
+            app.current?.bank !== details?.bank ||
+            app.current?.signature !== details?.signature ||
+            app.current?.number !== details?.number
+        ) {
+            app.addAccount();
+        }
+    });
+
+    function forget(reference){
+        delete app.accounts[reference];
+        memoizeAccounts();
+        renderAccounts();
+    }
+
+    async function memoizeAccounts() {
+        var Proprietor = {
+            current: app.current,
+            accounts: app.accounts
+        }
+
+        // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
+        // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
+        if ($('#upgrade').length && typeof localStorage.Proprietor == 'undefined') {
+            $('#upgrade').get(0).scrollIntoView();
+            localStorage.began = +new Date;
+        }
+
+        // console.warn('stashing encrypted Proprietor with placeholder PIN')
+        localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest');
+    }
+
+    function renderAccounts() {
+        $('#pillbox').empty();
+
+        for (let reference in app.accounts){
+            $('#tray .pill')
+                .clone()
+                .attr('reference', reference)
+                .attr('current', reference === app.current)
+                .click(() => {
+                    app.current = reference;
+                    app.overwrite(app.accounts[reference]);
+                    memoizeAccounts();
+                })
+                .appendTo('#pillbox')
+                .children('.reference').text(reference)
+                .siblings('.forget').click(() => forget(reference));
+        }
+    }
+
+    $.fn.contains = function(child) {
+        if (!(child instanceof Node)) {
+            child = $(child).get(0);
+        }
+
+        if (!(child instanceof Node)) {
+            return false;
+        }
+
+        for (var node of $(this).get()) {
+            if (node.contains(child)) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+})();
+</script>

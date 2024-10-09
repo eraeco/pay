@@ -148,7 +148,11 @@
 			cursor: text;
 		}
 
-		.flipit:hover .vertical, .flipit.hover .flipit {
+    .flipit:hover .vertical, .flipit.hover .flipit,
+    .flipped .vertical, .flipped .flipit,
+    /** Keep check flipped if endorse in focused */
+    .flipit .vertical:has(.endorse > div[contenteditable]:focus),
+    .flipped .flipit:has(.endorse > div[contenteditable]:focus) {
 			-ms-transform: rotateX(-180deg);
 			transform: rotateX(-180deg);
 		}
@@ -213,7 +217,7 @@
 			float: right;
 			width: 10%;
 		}
-		.top label {
+		.envelope .top label {
 			left: unset;
 			right: 74px;
 			top: 11px;
@@ -557,13 +561,6 @@
 			text-align: justify;
 			overflow: hidden;
 		}
-		.help p, ol, li {
-			margin: 0.3em auto;
-		}
-		.help {
-			transition: all 1s;
-			overflow: hidden;
-		}
 		.notice:hover {
 			font-size: 18pt;
 			color: white;
@@ -585,7 +582,7 @@
 			transition: all 0.5s;
 		}
 
-		label {
+		.envelope label {
 			position: absolute;
 			top: 0px;
 			left: 24px;
@@ -608,7 +605,7 @@
 		.amounts .font::first-letter {
 			text-transform: capitalize;
 		}
-		.mid-screen { display: flex; align-items: center; justify-content: center; height: 100vh; }
+	
 
 		#app {
 			position: fixed;
@@ -625,6 +622,16 @@
 			dis-play: none;
 			margin-top: 99vh;
 		}
+    .mid-screen {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
 	</style>
 	<div id="app">
 		<div class="envelope">
@@ -758,6 +765,7 @@
 													<li>Government grade encryption (AES)</li>
 													<li>Data loaded over secure channels (HTTPS)</li>
 													<li>Decryption keys are never sent to the servers</li>
+													<li>This is a legal copy of your check. You can use it the same way you would use the original check.</li>
 												</ul>
 											</div>
 										</div>
@@ -783,17 +791,6 @@
 				<p class="what">Instructions: To pay someone, fill in the digital check by copying information from your physical check. Then type in their email address, hit send, and choose your email provider.</p>
 			</div>
 		</div>
-		<div class="help none">
-			<div class="notice">
-				<p class="what">Checkard is powered by the US Federal Check 21 Act passed by Congress. It is safe, legal, and secure using military grade (AES) end-to-end encrypted peer-to-peer transfer.</p>
-				<p class="what">Instructions: Checkard is in beta! If the check data does not load, ask the payer to open the link from the email they sent you while you are both online at the same time, then hit refresh. If things still do not work contact us at checkard@era.eco, or have them mail it. ;)</p>
-				<ol class="what">
-					<li>Open this check on your laptop, then hover over the check and fill in your endorsement signature.</li>
-					<li>On your phone, open your mobile banking app and take pictures of the check using the deposit feature.</li>
-				</ol>
-				<p class="what">Some banking apps might reject the pictures due to the "checkered" pattern that happens when taking pictures of screens. To fix this try printing this page, or, put a piece of paper over your laptop screen in a pitch dark room and try taking the pictures again.</p>
-			</div>
-		</div>
 		<div class="end">
 			
 		</div>
@@ -801,12 +798,17 @@
 	<div id="tray">
 
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
 	<script>
 		;(function(){
+			app.load = function load(url){
+				$('#tray').append($('<div>').load(url));
+			}
+
 			//localStorage.clear();
 			// could also be: var key, code = location.hash.split(':'), or split including 
 			var hash = location.hash.split(':'), key, code;
@@ -818,7 +820,7 @@
 			// console.warn(gun)
 
 			if(key && code){
-				$('.help').removeClass('none');
+        app.filled = true;
 				$('.flip').toggleClass('flipit');
 				$('.envelope').addClass('mid-screen'); // default for now
 				$("[contenteditable]:not(.endorse .font)").attr('contenteditable', false);
@@ -826,8 +828,9 @@
 				gun.get(key).on(load);
 
 				async function load(data){
+					setTimeout(()=>$('.amount, .amounts, .memo, .payee, .signature, .endorse').trigger('keyup'),9);
 					if(!data){
-						$('.payee').text("CHECK NOT FOUND");
+						$('.payee').text(app.err = "CHECK NOT FOUND");
 						$('.amounts').text("Please make sure payer is also online, see instructions below.");
 						return;
 					}
@@ -836,7 +839,7 @@
 					var check = await de(msg, code);
 					// console.warn(check)
 					if(!check){
-						$('.amounts').text("Invalid decryption password");
+						$('.amounts').text(app.err = "Invalid decryption password");
 						return;
 					}
 					$('.address').text(check.address);
@@ -856,7 +859,9 @@
 					micr.call($('.number'));
 				};
 				return;
-			}
+			} else {
+          app.filled = false;
+      }
 
 			/* try and parse the querystring for values, convert to regular object for dot notation */
 			var params = Object.fromEntries((new URLSearchParams(location.search)).entries());
@@ -991,14 +996,17 @@
 			}
 		}());
 		(function(){
-			function load(url){$('#tray').append($('<div>').load(url));}
-			load('./+/remember.html');
-			load('./+/help/deposit.html')
-			load('./+/metrics.html');
-			//load('./+/hi.html'); // TODO: DESIGN NOT READY FOR PROD YET! HAVE TEAM UNCOMMENT THIS, LOOK AT IT, FINISH.
-			load('./+/paste.html');
-			load('./+/autoconvert.html');
-			load('./+/reflow.html');
+			app.load('./+/remember.html');
+			app.load('./+/metrics.html');
+			app.load('./+/marketing.html');
+			app.load('./+/paste.html');
+			app.load('./+/autoconvert.html');
+			app.load('./+/hi.html');
+			app.load('./+/reflow.html');
+			app.load('./+/print.html');
+      if (app.filled) {
+          app.load('./+/help/deposit.html');
+      }
 		})();
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">

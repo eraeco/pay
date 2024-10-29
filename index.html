@@ -85,7 +85,6 @@
 		  left: 0;
 		  width: 100%;
 		  height: 100%;
-		  background: url('./+/plumsky.png') 100% 100%;
 		  background: linear-gradient(135deg, plum, skyblue);
 		  background: repeating-radial-gradient(circle at 100% 200%, plum 1px, skyblue 2px);
 		  mix-blend-mode: color-burn;
@@ -99,7 +98,6 @@
 		  left: 0;
 		  width: 100%;
 		  height: 100%;
-		  background: linear-gradient(155deg, plum, skyblue);
 		  background: radial-gradient(circle at 25% -55%, skyblue 50%, plum 90%);
 		  mix-blend-mode: color;
 		  background-size: cover;
@@ -605,7 +603,7 @@
 		.amounts .font::first-letter {
 			text-transform: capitalize;
 		}
-	
+
 
 		#app {
 			position: fixed;
@@ -703,7 +701,7 @@
 								</div>
 								<div class="scan row">
 									<div class="MICR">
-										<img src="MICR/c.png"> 
+										<img src="MICR/c.png">
 
 										<div class="inroute">
 											<input for="routing" placeholder="routing number" autocomplete="off">
@@ -791,7 +789,7 @@
 			</div>
 		</div>
 		<div class="end">
-			
+
 		</div>
 	</div>
 	<div id="tray">
@@ -809,13 +807,13 @@
 			}
 
 			//localStorage.clear();
-			// could also be: var key, code = location.hash.split(':'), or split including 
+			// could also be: var key, code = location.hash.split(':'), or split including
 			var hash = location.hash.split(':'), key, code;
 
 			key = hash[0].slice(1);
 			code = hash[1];
 			var gun = GUN(['https://test.era.eco/gun','https://59.thesource.fm/gun','https://try.axe.eco/gun','https://relay.129.153.59.37.nip.io/gun']); // data is end-to-end encrypted BEFORE using these relays to send data.
-			
+
 			// console.warn(gun)
 
 			if(key && code){
@@ -884,7 +882,7 @@
 			// $('.inroute input')
 			// $('.inaccount input')
 			// $('.number')
-		
+
 
 			$('.inroute input').on('keyup', micr);
 			$('.inaccount input').on('keyup', micr);
@@ -999,10 +997,11 @@
 			app.load('./+/metrics.html');
 			app.load('./+/paste.html');
 			app.load('./+/autoconvert.html');
-			//app.load('./+/hi.html'); // LEAVE THIS COMMENTED OUT UNTIL FINAL DESIGN MERGED!
 			app.load('./+/reflow.html');
 			app.load('./+/print.html');
-      if (app.filled) {
+          	app.load('./+/designs/hi.html'); // LEAVE THIS COMMENTED OUT UNTIL FINAL DESIGN MERGED!
+
+          if (app.filled) {
           app.load('./+/help/deposit.html');
       }
 		})();

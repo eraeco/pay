@@ -1,0 +1,594 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Michroma&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+	  rel="stylesheet">
+
+
+<style>
+	@font-face {
+		font-family: 'CocosharpL';
+		src: url('/fonts/CocoSharpL-Regular.otf') format('otf');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: 'CocosharpL';
+		src: url('/fonts/CocoSharpL-Bold.otf') format('otf');
+		font-weight: bold;
+		font-style: normal;
+	}
+
+	.card {
+		border-radius: 1em 1em 0 0;
+	}
+
+
+	#home {
+		background: url('/+/designs/assets/cityhomes.png') center center;
+		background-size: cover;
+		height: 85vh;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#office {
+		background: url('/+/designs/assets/cityoffice.png') center center;
+		background-size: cover;
+	clamp(350 px, min(85 vh, 1100 px), 1200 px);
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.middle {
+		width: 100%;
+		max-width: 604px;
+		padding: 0 24px;
+		min-width: 352px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.paid {
+		width: 100%;
+		max-width: 345px;
+	}
+
+	.money {
+		width: 100%;
+
+		max-width: clamp(350px, 45vw, 490px);
+	}
+
+	.glass {
+		width: 100%;
+		padding: 60px 0;
+		background-color: #00000005;
+		box-shadow: -37.07px 37.07px 37.07px 0 #FFFFFF08 inset,
+		37.07px -37.07px 37.07px 0px #A5A5A508 inset;
+		backdrop-filter: blur(12px);
+		border: #ffffff10 2px solid;
+		border-radius: 4px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 32px;
+
+	}
+
+	.learn {
+		padding: 10px 40px;
+		background: #209BD9;
+		border-radius: 38px;
+		width: auto;
+		min-height: 52px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: "CocoSharp L", sans-serif;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 20px;
+		color: white;
+
+	}
+
+	.glass .text {
+
+		color: white;
+		font-size: clamp(14px, 1vw, 16px);
+		line-height: 23px;
+		font-family: "CocoSharp L", sans-serif;
+		display: flex;
+
+	}
+
+
+	.glass .info {
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		gap: 8px;
+	}
+
+	.info p:before {
+		content: url("/+/designs/assets/tick.svg");
+		height: 23px;
+		margin-top: -8px;
+		margin-right: -6px;
+
+	}
+
+	.premium {
+		color: white;
+		font-size: 40px;
+		line-height: 44px;
+		font-weight: bold;
+		font-family: "CocoSharp L", sans-serif;
+	}
+
+	.coming {
+		font-size: clamp(0.4em, 2vw, 0.6em);
+		margin-top: clamp(-1px, -0.5vw, -2px);
+		margin-left: clamp(5px, 1vw, 10px);
+		text-wrap: nowrap;
+	}
+
+	.inner {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	.outer {
+		display: flex;
+		gap: 24px;
+		width: 100%;
+		padding: 0px 24px;
+		max-width: 1184px;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+
+	.make {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		max-width: 1288px;
+		padding: 72px 24px;
+	}
+
+	.form {
+		padding: 32px;
+		background: linear-gradient(81.09deg, rgba(25, 53, 64, 0.8) 0.84%, rgba(0, 15, 18, 0.8) 97.22%);
+		width: 100%;
+		max-width: 600px;
+		border: 2px solid #FFFFFF4D;
+		border-radius: 24px;
+	}
+
+	.textbox {
+		font-family: "CocoSharp L", sans-serif;
+		border: 1px solid #A3A5A6;
+		border-radius: 6px;
+		font-size: 14px;
+		color: #929899;
+		width: 100%;
+		max-width: 200px;
+		padding: 11px 16px;
+	}
+
+
+	.label {
+		font-size: 12px;
+		font-family: "CocoSharp L", sans-serif;
+		color: #F3FDFF;
+	}
+
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+
+	.Proprietary {
+		font-family: "CocoSharp L", sans-serif;
+		font-size: 14px;
+		color: white;
+	}
+
+
+	.plan {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		margin-bottom: 40px;
+		gap: 24px;
+	}
+
+
+	.wrapper {
+		max-width: 420px;
+		display: flex;
+		gap: 16px 12px;
+		flex-wrap: wrap;
+	}
+
+
+	.neon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		width: 150px;
+		height: 52.4px;
+	}
+
+	.ellipse {
+		position: absolute;
+		width: 100%;
+		height: 62.4px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: rgba(255, 55, 162, 0.35);
+		mix-blend-mode: hard-light;
+		filter: blur(28px);
+	}
+
+	.layer1,
+	.layer2,
+	.layer3,
+	.layer4,
+	.layer5 {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 50%;
+		left: 50%;
+		border-radius: 8px;
+		transform: translate(-50%, -50%);
+		box-sizing: border-box;
+	}
+
+	.layer1 {
+		border: 3.9px solid #F32E9E;
+		filter: blur(9px);
+		mix-blend-mode: hard-light;
+	}
+
+	.layer2 {
+		border: 5.1px solid #FF26C2;
+		filter: blur(3px);
+		mix-blend-mode: hard-light;
+	}
+
+	.layer3 {
+		border: 3.9px solid rgba(255, 55, 225, 0.2);
+		box-shadow: inset -1px 1.5px 2px rgba(255, 255, 255, 0.1),
+		0px 4px 4px rgba(153, 0, 153, 0.1),
+		0px 3px 3px rgba(77, 0, 66, 0.9);
+		filter: drop-shadow(0px 4px 4px #4D0042) drop-shadow(0px 3px 3px rgba(77, 0, 66, 0.9));
+	}
+
+	.layer4 {
+		border: 2.4px solid #FF37E110;
+		filter: blur(0.3px);
+	}
+
+	.layer5 {
+		border: 1.2px solid #FFFFFF;
+		filter: blur(0.2px);
+	}
+
+	.access {
+		width: 100%;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 700;
+		font-size: 16px;
+		text-align: center;
+		text-transform: uppercase;
+		color: #FFFFFF;
+	}
+
+	.price {
+		width: 100%;
+		height: 82px;
+		margin: -8px;
+	}
+
+	.horizontal {
+		display: flex;
+	}
+
+	.footer {
+		padding-top: 100px;
+		background-color: #081012;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 400;
+		flex-wrap: wrap;
+		gap: 40px;
+		width: 100%;
+		max-width: 1320px;
+		margin: 0 auto;
+	}
+
+	.first {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		max-width: 350px;
+		width: 100%;
+	}
+
+	.logo {
+		font-family: "Times New Roman", Times, serif;
+		color: #FFFFFF;
+		opacity: 90%;
+		font-size: 32px;
+		line-height: 36px;
+	}
+
+	.footer .tagline {
+		font-size: 14px;
+		line-height: 20px;
+		color: #FFFFFF70;
+
+	}
+
+	.social {
+		display: flex;
+		gap: 12px;
+	}
+
+	.company {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 400;
+	}
+
+
+	.product {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 400;
+	}
+
+	.resources {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 400;
+	}
+
+
+	.Htext {
+		font-family: 'CocoSharp L', sans-serif;
+		font-size: 16px;
+		color: #FFFFFF;
+		opacity: 90%;
+	}
+
+	.links {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.link {
+		font-size: 14px;
+		line-height: 20px;
+		color: #FFFFFF50;
+	}
+
+	.items {
+		display: flex;
+		justify-content: space-between;
+		gap: 40px;
+		max-width: 488px;
+		width: 100%;
+		flex-wrap: wrap;
+	}
+
+	.toplogo {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		padding: 27px 40px;
+	}
+
+	.toplogo .logo {
+		font-size: 22px;
+		line-height: 25px;
+	}
+
+	.copyrights {
+		height: 84px;
+		font-family: 'CocoSharp L', sans-serif;
+		font-size: 14px;
+		line-height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #FFFFFF60;
+		background-color: #081012;
+		border-top: 1px solid #FFFFFF1A;
+		gap: 12px;
+		width: 100%;
+		max-width: 1320px;
+		margin: 0 60px;
+	}
+
+	.bg {
+		width: 100%;
+		background-color: #081012;
+		display: flex;
+		flex-direction: column;
+		justify-items: center;
+		align-items: center;
+		gap: 80px;
+		padding: 0px 24px;
+	}
+
+</style>
+
+
+<div id="home" class="card">
+	<div class="toplogo">
+		<img src="/+/designs/assets/c.svg">
+		<p class="logo">Checkard</p>
+
+	</div>
+	<div class="middle">
+		<img src="/+/designs/assets/getpaid.svg" class="paid" alt="">
+		<div class="glass">
+			<div class="info">
+				<p class="text">Easy, Direct Bank-to-Bank payments</p>
+				<p class="text">Safe & Private with End-to-End Encryption</p>
+				<p class="text">No Fees. Just Fast Payments.</p>
+			</div>
+			<div class="learn">LEARN MORE</div>
+		</div>
+	</div>
+</div>
+
+<div id="office" class="">
+	<div class="make ">
+		<img src="/+/designs/assets/makemoney.svg" class="money" alt="">
+		<div class="glass">
+			<div class="outer">
+				<div class="inner">
+					<p class="premium">Go Premium</p>
+					<div class="info">
+						<p class="text">Concierge Revenue Services</p>
+						<p class="text">Simplified Payment Solutions</p>
+						<p class="text">"Remember Me" Feature</p>
+						<p class="text">Unlimited Birthday Cards <sup class="coming"> Coming soon</sup></p>
+						<p class="text">Real-Time Financial Forecasting<span class="coming"> Coming soon</span></p>
+						<p class="text">Custom-Designed Checks<span class="coming"> Coming soon</span></p>
+					</div>
+				</div>
+				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"
+					  class="form">
+					<p class="Proprietary">Proprietary Plan</p>
+
+
+					<div class="plan">
+						<div class="horizontal">
+							<img src="/+/designs/assets/price.svg" class="price" alt="">
+						</div>
+						<div class="neon">
+							<div class="ellipse"></div>
+							<div class="layer1"></div>
+							<div class="layer2"></div>
+							<div class="layer3"></div>
+							<div class="layer4"></div>
+							<div class="layer5"></div>
+							<div class="access">Get Access</div>
+						</div>
+					</div>
+
+					<div class="wrapper">
+
+						<div class="field">
+							<label for="fullName" class="label">Full Name</label>
+							<input id="fullName" type="text" class="textbox" placeholder="Your full name">
+						</div>
+
+						<div class="field">
+							<label for="businessName" class="label">Business Name</label>
+							<input id="businessName" type="text" class="textbox" placeholder="Your business name">
+						</div>
+
+						<div class="field">
+							<label for="email" class="label">Email</label>
+							<input id="email" type="email" class="textbox" placeholder="you@example.com">
+						</div>
+
+						<div class="field">
+							<label for="phone" class="label">Phone no.</label>
+							<input id="phone" type="tel" class="textbox" placeholder="(555) 123-4567">
+						</div>
+
+
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class='bg'>
+
+	<div class="footer">
+		<div class='first'>
+			<p class="logo">Checkard</p>
+			<div class="tagline">Any slogan or tagline here. Lorem Ipsum Any slogan or tagline here. Lorem Ipsum</div>
+
+			<div class="social">
+				<img src="/+/designs/assets/insta.svg">
+				<img src="/+/designs/assets/linkdin.svg">
+				<img src="/+/designs/assets/facebook.svg">
+			</div>
+		</div>
+		<div class='items'>
+			<div class="company">
+				<div class="Htext">Company</div>
+				<div class="links">
+					<div class="link">About Us</div>
+					<div class="link">Career</div>
+					<div class="link">Contact Us</div>
+				</div>
+			</div>
+
+			<div class="product">
+
+				<div class="Htext">Product</div>
+				<div class="links">
+					<div class="link">Features</div>
+					<div class="link">Privacy Policy</div>
+					<div class="link">Terms of Services</div>
+				</div>
+
+			</div>
+			<div class="resources">
+
+				<div class="Htext">Company</div>
+				<div class="links">
+					<div class="link">Help Center</div>
+					<div class="link">Blogs</div>
+					<div class="link">Privacy Policy</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class='copyrights'>
+		&copy;
+		<div>Copyrights 2024. All rights reserved</div>
+	</div>
+</div>

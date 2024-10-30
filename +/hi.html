@@ -7,14 +7,14 @@
 <style>
 	@font-face {
 		font-family: 'CocosharpL';
-		src: url('/fonts/CocoSharpL-Regular.otf') format('otf');
+		src: url('/+/fonts/CocoSharpL-Regular.otf') format('otf');
 		font-weight: normal;
 		font-style: normal;
 	}
 
 	@font-face {
 		font-family: 'CocosharpL';
-		src: url('/fonts/CocoSharpL-Bold.otf') format('otf');
+		src: url('/+/fonts/CocoSharpL-Bold.otf') format('otf');
 		font-weight: bold;
 		font-style: normal;
 	}
@@ -420,15 +420,14 @@
 		align-items: center;
 		justify-content: center;
 		gap: 12px;
-		padding: 0.4em 0.6em;
+		padding: 0.4em 0.1em;
 	}
 
-	.toplogo .logo {
+	.toplogo .title {
 		font-family: 'Lora', sans-serif;
-
 		font-size: 150%;
 		line-height: 32px;
-		color:black;
+		color: black;
 
 	}
 
@@ -461,18 +460,13 @@
 	}
 
 
-	.c {
-		width: 0.55em;
-	}
-
 </style>
 
 
 <div id="home" class="card">
 	<div class="toplogo">
-		<img class="c" src="/MICR/c.png">
-		<p class="logo">Checkard</p>
-
+		<p class="loud title left" style="padding: 0.4em 0.6em;"><img src="./MICR/c.png" style="width:0.55em;"> Checkard
+		</p>
 	</div>
 	<div class="middle">
 		<img src="/+/icons/getpaid.svg" class="paid" alt="">

@@ -7,7 +7,7 @@
     margin-inline: auto;
     opacity: 100%;
     transition: opacity cubic-bezier(0.4, 0, 0.2, 1) 150ms;
-    margin-top: -10em;
+    margin-top: -4.5em;
     position: relative;
 
   }
@@ -18,7 +18,7 @@
   }
 
   .instruction:before {
-    width: 100%;
+    width: 88%;
     max-width: 40rem;
     content: " ";
     height: 3px;
@@ -29,7 +29,7 @@
     );
   }
 
-  .wrapper {
+  .instruct {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -120,7 +120,7 @@
     font-size: 14px;
     position: absolute;
     top: -38px;
-    right: -6rem;
+    right: 0em;
   }
 
   .golden {
@@ -149,7 +149,7 @@
 <div class="instructions">
 
   <div
-    class="wrapper"
+    class="instruct"
     x-data="stepsData"
     x-effect="onStepChange(step)"
   >
@@ -428,11 +428,11 @@
       document.addEventListener(event, () => handleEvents(1000))
     );
 
-    $(".wrapper").on("mouseover", () => {
+    $(".instruct").on("mouseover", () => {
       idleState.disableIdleTimer = true;
     });
 
-    $(".wrapper").on("mouseout", () => {
+    $(".instruct").on("mouseout", () => {
       idleState.disableIdleTimer = false;
       handleEvents(3000);
     });

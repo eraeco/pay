@@ -1,167 +1,631 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Michroma&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Michroma&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+	  rel="stylesheet">
+
+
 <style>
-    #feature {
-        padding: 2em 6em;
-        background: #dadada;
-        color: black;
-        margin: 3em auto;
-        display:  none;
-    }
-    .card {
-        border-radius: 1em 1em 0 0;
+	@font-face {
+		font-family: 'CocosharpL';
+		src: url('/+/fonts/CocoSharpL-Regular.otf') format('otf');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: 'CocosharpL';
+		src: url('/+/fonts/CocoSharpL-Bold.otf') format('otf');
+		font-weight: bold;
+		font-style: normal;
+	}
+
+	.card {
+		border-radius: 1em 1em 0 0;
+	}
+
+
+	#home {
+		background-image: linear-gradient(rgba(0, 0, 0, 0.125), rgba(0, 0, 0, 0.125)),
+		url('/+/homecity.jpg');
+		background-position: center;
+		background-size: cover;
+		height: 85vh;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+	}
+
+	#make {
+		background-image: linear-gradient(180deg, rgba(6, 21, 31, 0.16) 0%, rgba(6, 21, 31, 0.32) 100%),
+		url('/+/cityoffice.jpg');
+		background-position: center;
+		background-size: cover;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.middle {
+		width: 100%;
+		max-width: 604px;
+		padding: 0 24px;
+		min-width: 352px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.paid {
+		width: 100%;
+		max-width: 345px;
+	}
+
+	.money {
+		width: 100%;
+
+		max-width: clamp(350px, 45vw, 490px);
+	}
+
+	.glass {
+		width: 100%;
+		padding: 60px 0;
+		background-color: #00000005;
+		box-shadow: -37.07px 37.07px 37.07px 0 #FFFFFF08 inset,
+		37.07px -37.07px 37.07px 0px #A5A5A508 inset;
+		backdrop-filter: blur(12px);
+		border: #ffffff10 2px solid;
+		border-radius: 4px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 32px;
+
+	}
+
+	.learn {
+		padding: 0px 40px;
+		background: #209BD9;
+		border-radius: 38px;
+		width: auto;
+		min-height: 52px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: "CocoSharp L", sans-serif;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 20px;
+		color: white;
+
+	}
+
+	.glass .text {
+
+		color: white;
+		font-size: clamp(14px, 1vw, 16px);
+		line-height: 23px;
+		font-family: "CocoSharp L", sans-serif;
+		display: flex;
+
+	}
+
+
+	.glass .info {
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		gap: 8px;
+	}
+
+
+	.premium {
+		color: white;
+		font-size: 40px;
+		line-height: 44px;
+		font-weight: bold;
+		font-family: "CocoSharp L", sans-serif;
+	}
+
+	.coming {
+		font-size: clamp(0.4em, 2vw, 0.6em);
+		margin-top: clamp(-1px, -0.5vw, -2px);
+		margin-left: clamp(5px, 1vw, 10px);
+		text-wrap: nowrap;
+	}
+
+	.inner {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	.outer {
+		display: flex;
+		gap: 24px;
+		width: 100%;
+		padding: 0px 24px;
+		max-width: 1024px;
+		align-items: center;
+		justify-content: space-evenly;
+		flex-wrap: wrap;
+	}
+
+	.office {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		max-width: 1024px;
+		padding: 72px 24px;
+	}
+
+	.form {
+		padding: 32px;
+		background: linear-gradient(81.09deg, rgba(25, 53, 64, 0.8) 0.84%, rgba(0, 15, 18, 0.8) 97.22%);
+		width: 100%;
+		max-width: 600px;
+		border: 2px solid #FFFFFF4D;
+		border-radius: 24px;
+	}
+
+	.textbox {
+		font-family: "CocoSharp L", sans-serif;
+		border: 1px solid #A3A5A6;
+		border-radius: 6px;
+		font-size: 14px;
+		color: #929899;
+		width: 100%;
+		max-width: 200px;
+		padding: 11px 16px;
+	}
+
+
+	.label {
+		font-size: 12px;
+		font-family: "CocoSharp L", sans-serif;
+		color: #F3FDFF;
+	}
+
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+
+	.Proprietary {
+		font-family: "CocoSharp L", sans-serif;
+		font-size: 14px;
+		color: white;
+	}
+
+	.plan {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		margin-bottom: 40px;
+		gap: 24px;
+	}
+
+
+	.wrapper {
+		max-width: 420px;
+		display: flex;
+		gap: 16px 12px;
+		flex-wrap: wrap;
+	}
+
+
+	.neon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		width: 150px;
+		height: 52.4px;
+	}
+
+	.ellipse {
+		position: absolute;
+		width: 100%;
+		height: 62.4px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: rgba(255, 55, 162, 0.35);
+		mix-blend-mode: hard-light;
+		filter: blur(28px);
+	}
+
+	.layer1,
+	.layer2,
+	.layer3,
+	.layer4,
+	.layer5 {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 50%;
+		left: 50%;
+		border-radius: 8px;
+		transform: translate(-50%, -50%);
+		box-sizing: border-box;
+	}
+
+	.layer1 {
+		border: 3.9px solid #F32E9E;
+		filter: blur(9px);
+		mix-blend-mode: hard-light;
+	}
+
+	.layer2 {
+		border: 5.1px solid #FF26C2;
+		filter: blur(3px);
+		mix-blend-mode: hard-light;
+	}
+
+	.layer3 {
+		border: 3.9px solid rgba(255, 55, 225, 0.2);
+		box-shadow: inset -1px 1.5px 2px rgba(255, 255, 255, 0.1),
+		0px 4px 4px rgba(153, 0, 153, 0.1),
+		0px 3px 3px rgba(77, 0, 66, 0.9);
+		filter: drop-shadow(0px 4px 4px #4D0042) drop-shadow(0px 3px 3px rgba(77, 0, 66, 0.9));
+	}
+
+	.layer4 {
+		border: 2.4px solid #FF37E110;
+		filter: blur(0.3px);
+	}
+
+	.layer5 {
+		border: 1.2px solid #FFFFFF;
+		filter: blur(0.2px);
+	}
+
+	.access {
+		width: 100%;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 700;
+		font-size: 16px;
+		text-align: center;
+		text-transform: uppercase;
+		color: #FFFFFF;
+	}
+
+	.price {
+		width: 100%;
+		height: 82px;
+		margin: -8px;
+	}
+
+	.horizontal {
+		display: flex;
+	}
+
+	.footer {
+		padding-top: 100px;
+		background-color: #081012;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 400;
+		flex-wrap: wrap;
+		gap: 40px;
+		width: 100%;
+		max-width: 1320px;
+		margin: 0 auto;
+	}
+
+	.first {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		max-width: 350px;
+		width: 100%;
+	}
+
+	.logo {
+		font-family: "Times New Roman", Times, serif;
+		color: #FFFFFF;
+		opacity: 90%;
+		font-size: 32px;
+		line-height: 36px;
+	}
+
+	.footer .tagline {
+		font-size: 14px;
+		line-height: 20px;
+		color: #FFFFFF70;
+
+	}
+
+	.socials {
+		display: flex;
+		gap: 12px;
+	}
+
+	.social {
+		display: flex;
+		justify-items: center;
+		align-items: center;
+	}
+
+	.company {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 400;
+	}
+
+
+	.product {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 400;
+	}
+
+	.resources {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+		font-family: 'CocoSharp L', sans-serif;
+		font-weight: 400;
+	}
+
+
+	.Htext {
+		font-family: 'CocoSharp L', sans-serif;
+		font-size: 16px;
+		color: #FFFFFF;
+		opacity: 90%;
+	}
+
+	.links {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.link {
+		font-size: 14px;
+		line-height: 20px;
+        transition: all 0.5s;
+	}
+    .link:hover {
+        transform: scale(1.1);
+        filter: brightness(1.2);
     }
 
-    #feature button {
-        display: block;
-        background: lightgreen;
-    }
-    .title {
-        font-family: "Lora", "Playfair Display", serif;
-    }
-    .title img {
-        vertical-align: baseline;
-    }
-    .thick {
-      font-family: "Plus Jakarta Sans", sans-serif;
-    }
-    .michr {
-      font-family: Arial, sans-serif;
-    }
-    #hi {
-        background: skyblue;
-        background: url('/+/homecity.jpg') center center;
-        background-size: cover;
-        height: 85vh;
-    }
+	.items {
+		display: flex;
+		justify-content: space-between;
+		gap: 40px;
+		max-width: 488px;
+		width: 100%;
+		flex-wrap: wrap;
+	}
 
-.stroke {
-  font-size: 12vh;
-  height: 2em;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  mix-blend-mode: hard-light;
-  transform: rotate(-3deg);
-}
-.stroke.pink {
-    font-size: 16vmin;
-}
-.stroke.invert span {
-  color: #6eaacf;
-  color: steelblue;
-  color: skyblue;
-}
-.stroke.invert.pink span {
-    color: plum;
-}
-.stroke.invert span::before {
-  -webkit-text-stroke: 0.1em var(--color);
-}
-.stroke span {
-  --color: black;
-  font-weight: 700;
-  font-style: italic;
-  display: block;
-  position: absolute;
-  letter-spacing: -0.03em;
-}
-.stroke span::before, .stroke span::after {
-  content: attr(data-text);
-  display: block;
-  position: relative;
-  padding: 0 0.1em;
-  z-index: 1;
-}
-.stroke span::before {
-  position: absolute;
-  -webkit-text-stroke: 0.1em var(--color);
-  z-index: 0;
-}
-.stroke span:first-child {
-  transform: translate(-0.8em, -0.25em);
-}
-.stroke span:last-child {
-  transform: translate(0.47em, 0.289em);
-  letter-spacing: -0.1em;
-}
-.stroke.pink span:first-child {
-    transform: translate(-1.4em, 0.1em) rotate(-17deg)
-}
-.stroke.pink span:last-child {
-    transform: translate(0.85em,0.5em) rotate(4deg);
-}
+	.toplogo {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		padding: 0.4em 0.1em;
+	}
 
-.layer {
-    background:  rgb(135, 206, 235, 0.8);
-    background:  rgb(0,0,0, 0.6);
-    color:  skyblue;
-    font-family: Arial;
-}
-#make {
-    background: skyblue;
-    background: url('/+/cityoffice.jpg') center top;
-    background-size: cover;
-    height: 100vh;
-}
+	.toplogo .title {
+		font-family: 'Lora', sans-serif;
+		font-size: 150%;
+		line-height: 32px;
+		color: black;
 
-.go {
-    color: black;
-    background: skyblue;
-    opacity: 75%;
-    padding: 0.5em 1.5em;
-    font-size: 10pt;
-    transition: all 0.5s;
-    display: inline-block;
-    margin: 0.3em;
-    border: 0px black solid;
-    outline: 0px skyblue solid;
+	}
 
-    opacity: 100%;
-    background: rgb(135, 206, 235, 0.5); /* skyblue! */
-    backdrop-filter: blur(9px);
-}
-.go:hover {
-    opacity: 90%;
-}
-#make .go {
-    background: plum;
-    outline: 0px plum solid;
-}
+	.copyrights {
+		height: 84px;
+		font-family: 'CocoSharp L', sans-serif;
+		font-size: 14px;
+		line-height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #FFFFFF60;
+		background-color: #081012;
+		border-top: 1px solid #FFFFFF1A;
+		gap: 12px;
+		width: 100%;
+		max-width: 1320px;
+		margin: 0 60px;
+	}
+
+	.bg {
+		width: 100%;
+		background-color: #081012;
+		display: flex;
+		flex-direction: column;
+		justify-items: center;
+		align-items: center;
+		gap: 80px;
+		padding: 0px 24px;
+	}
 </style>
-<!-- for educational sites, consider starting with a nice full screen welcome message -->
-<div id="hi" class="card center row hold blackt">
-    <p class="loud title left" style="padding: 0.4em 0.6em;"><img src="./MICR/c.png" style="width:0.55em;"> Checkard</p>
-    <div class="row" style="height: 6.4em;"></div>
-    <div class="thick stroke invert"><span data-text="GET"></span><span data-text="PAID."></span></div>
-    <div style="height: 2.5em;"></div>
-    <a class="go title">Easy, direct, bank-to-bank payments</a>
-    <a class="go title">Safe, private, end-to-end encrypted</a>
-    <a class="go title">0% fee</a>
+
+
+<div id="home" class="card">
+	<div class="toplogo">
+		<p class="loud title left" style="padding: 0.4em 0.6em;"><img src="./MICR/c.png" style="width:0.55em;"> Checkard
+		</p>
+	</div>
+	<div class="middle">
+		<img src="/+/icons/getpaid.svg" class="paid" alt="">
+		<div class="glass">
+			<div class="info">
+				<p class="text">&check; Easy, Direct Bank-to-Bank payments</p>
+				<p class="text">&check; Secure & Private with End-to-End Encryption</p>
+				<p class="text">&check; No Fees. Just Fast Payments.</p>
+			</div>
+            <a class="link learn" href="#buy">LEARN MORE</a>
+		</div>
+	</div>
 </div>
-<div id="make" class="center row hold full blackt">
-    <div class="row" style="height: 2.5em;"></div>
-    <div class="thick stroke invert pink"><span data-text="MAKE"></span><span data-text="MONEY!"></span></div>
-    <div style="height: 2.5em;"></div>
-    <a class="go title">Concierge revenue services</a>
-    <a class="go title">Simplified payments solution</a>
-    <a class="go title">$99/mo Proprietor Plan</a>
-    <a class="go title">Remember Me™ Features</a>
-    <a class="go title">Custom Designer™ Checks</a>
-    <a class="go title">Unlimited Birthday Cards™</a>
-    <a class="go title">Dispute™ Insurance</a>
-    <a class="go title">Realtime Financial Forecast™</a>
+
+<div id="make" class="">
+	<div class="office">
+		<img src="/+/icons/makemoney.svg" class="money" alt="">
+		<div class="glass">
+			<div class="outer">
+				<div class="inner">
+					<p class="premium">Go Premium</p>
+					<div class="info">
+						<p class="text">&check; Concierge Revenue Services</p>
+						<p class="text">&check; Simplified Payment Solutions</p>
+						<p class="text">&check; "Remember Me" Feature</p>
+						<p class="text">&check; Unlimited Birthday Cards <sup class="coming"> Coming soon</sup></p>
+						<p class="text">&check; Real-Time Financial Forecasting<span class="coming"> Coming soon</span>
+						</p>
+						<p class="text">&check; Custom Designer Checks<span class="coming"> Coming soon</span></p>
+					</div>
+				</div>
+				<form id="buy" class="form">
+					<p class="Proprietary">Proprietary Plan</p>
+
+
+					<div class="plan">
+						<div class="horizontal">
+							<img src="/+/icons/price.svg" class="price" alt="">
+						</div>
+						<a id="access" class="neon link" href="https://checkard.com/?to=pay@checkard.com&pay=ERA%20INC.&amount=99&memo=Checkard%20Proprietary%20Plan" target="_blank">
+							<div class="ellipse"></div>
+							<div class="layer1"></div>
+							<div class="layer2"></div>
+							<div class="layer3"></div>
+							<div class="layer4"></div>
+							<div class="layer5"></div>
+                            <div id="accessed" class="access">GET ACCESS</div>
+						</a>
+					</div>
+
+					<div class="wrapper">
+
+						<div class="field">
+							<label for="Name" class="label">Full Name</label>
+							<input id="Name" type="text" class="textbox" placeholder="Your full name">
+						</div>
+
+						<div class="field">
+							<label for="brand" class="label">Brand Name</label>
+							<input id="brand" type="text" class="textbox" placeholder="Your business name">
+						</div>
+
+						<div class="field">
+							<label for="email" class="label">Email</label>
+							<input id="email" type="email" class="textbox" placeholder="email@example.com">
+						</div>
+
+						<div class="field">
+							<label for="phone" class="label">Phone no.</label>
+							<input id="phone" type="tel" class="textbox" placeholder="+1 (234) 567-8910">
+						</div>
+
+
+					</div>
+				</form>
+                <script>
+                app.pub = 'lG5jXRwG2a3L223v5XB3wmC0dq6VvGZWnc0ZzEWjq84.vrGSs8etweLYQ7Lp7yd1DW9Fn9tEGHauSWvK1Xqu46U';
+                app.epub = '2k8FXYz2lD2Fo3_yV0YRh30I4MP5FHeOcVmUoE_uHqA.niauGlbcBewnNb415nBGtzhNCkFTAHX3rtTrYfifhg4';
+                if(localStorage.began){
+                	$(buy).css({'pointer-events':'none', opacity: 0.4});
+                	accessed.textContent = "you're in!";
+            	}
+                buy.onsubmit = function(eve){ return false }
+                access.onclick = async function(eve){
+                	if(!Name.value || !brand.value || !email.value || !phone.value){
+                		eve.preventDefault();
+                		eve = accessed.textContent;
+                		accessed.textContent = 'error';
+                		setTimeout(function(){ accessed.textContent = eve },999*2);
+                		return;
+                	}
+                	var m = [Name.value, brand.value, email.value, phone.value].join('|');
+                	$(buy).css({'pointer-events':'none', opacity: 0.4});
+                	localStorage.began = localStorage.began || +new Date;
+                	var pad = await SEA.pair(), hash;
+                	m = await SEA.encrypt(m, await SEA.secret(app.epub, pad));
+                	hash = await SEA.work(m=pad.epub+'='+m, null, null, {name: "SHA-256"});
+                	app.gun.back('opt.mesh').say({dam: 'tag', email: 'pay@checkard.com', src: 'https://checkard.com/+/notify#'+m});
+                	app.gun.get('@checkard#').get((new Date).toISOString().split('T')[0]+'#'+hash).put(m, function(ack){
+                		if(ack.err){ accessed.textContent = 'error'; return }
+                		accessed.textContent = 'success';
+                	});
+                }
+                </script>
+			</div>
+		</div>
+	</div>
 </div>
-<div id="bot" class="row blackt" style="background: skyblue;">
-    <p></p>
-</div>
-<div id="feature">
-    <h1> Unlock Convenient Peer-to-Peer Payments with Bank Details at Your Fingertips! </h1>
-    <p>Introducing the next level of peer-to-peer payments: our revolutionary platform allows you to effortlessly send money using digitally rendered checks, complete with the recipient's banking details and payment information. But that's not all! We're excited to bring you an exclusive upsell that will make your payment experience even more seamless and convenient.</p>
-    <p>Say goodbye to the hassle of repeatedly entering banking details for future transactions. With our premium "Remember Me" feature, you can securely store your own banking information and the details of your frequently paid recipients. It's like having your own personal digital vault, accessible whenever you need it. No more digging through papers or searching for account numbers. We've got you covered.</p>
-    <p>Imagine the time and effort you'll save by simply selecting a recipient from your personalized list and making a payment with just a few taps. Our "Remember Me" function ensures that your transactions are not only quick and easy, but also accurate and secure. Your sensitive information is protected with robust encryption, giving you peace of mind while enjoying the convenience of seamless payments.</p>
-    <p>Don't miss out on this incredible opportunity to take your peer-to-peer payment experience to a whole new level. Join our growing community of satisfied users who have already discovered the power of our platform. Get started today and enjoy the freedom of hassle-free payments with our cutting-edge features.</p>
-    <button id="upgrade">UPGRAY'D</button>
+
+<div class='bg'>
+
+	<div class="footer">
+		<div class='first'>
+			<p class="logo">Checkard</p>
+			<div class="tagline">Totally slay payments for grandma & brats. Why are you reading corporate footer slogans?</div>
+
+			<div class="socials">
+				<a class="social" href="https://x.com/marknadal/status/1746329123805598078" target="_blank"><img src="/+/icons/insta.svg"></a>
+				<a class="social" href="https://x.com/marknadal/status/1746329123805598078" target="_blank"><img src="/+/icons/linkdin.svg"></a>
+				<a class="social" href="https://x.com/marknadal/status/1746329123805598078" target="_blank"><img src="/+/icons/facebook.svg"></a>
+			</div>
+		</div>
+		<div class='items'>
+			<div class="company">
+				<div class="Htext">Company</div>
+				<div class="links">
+					<a class="link" href="https://era.eco/">About Us</a>
+					<a class="link" href="https://github.com/eraeco/pay">Career</a>
+					<a class="link" href="https://wa.me/17606892468?text=Checkard!" target="_blank">Contact Us</a>
+				</div>
+			</div>
+
+			<div class="product">
+
+				<div class="Htext">Product</div>
+				<div class="links">
+					<a class="link" href="#home">Features</a>
+					<a class="link" href="#buy">Pricing</a>
+					<a class="link" href="https://github.com/eraeco/pay">Open Source</a>
+				</div>
+
+			</div>
+			<div class="resources">
+
+				<div class="Htext">Resources</div>
+				<div class="links">
+					<a class="link" href="https://x.com/marknadal/status/1746329123805598078">Blogs</a>
+					<a class="link" href="mailto:help@checkard.com?subject=Help">Help Center</a>
+					<a class="link" href="https://github.com/eraeco/pay/blob/main/LICENSE">Terms of Services</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class='copyrights'>
+		&copy;
+		<div>Copyrights <span id="copyright">2024</span>. All rights reserved</div>
+        <script>;copyright.innerText = (new Date).getFullYear();</script>
+	</div>
+	<script async defer src="https://cdn.jsdelivr.net/npm/gun/lib/fun.js"></script>
 </div>

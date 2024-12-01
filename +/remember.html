@@ -60,8 +60,6 @@
 
     $('#tray .remember').insertBefore('.send .submit');
 
-    $('.remember input').prop('checked', !!localStorage.Proprietor);
-
     $('.remember input').on('change', async function(eve){
         if (!eve.target.checked) {
             localStorage.Proprietor = ""; 
@@ -72,12 +70,16 @@
 
     // this ASSUMES that if Proprietor exists+is truthy, so does everything else - everything will exist if you've ever made out a check, including one to checkard. 
     // might want to check that all these fields are non-empty / match schema before stashing
-    if (localStorage.Proprietor && !app.filled) {
+    ;(async function start(){
+        if(app.filled){ return } // filled check to deposit, no need to remember.
+        if(!localStorage.began){ return } // free trial or paid not started.
+        if(!localStorage.Proprietor){ return } // no data?? 
+        $('.remember input').prop('checked', !!localStorage.Proprietor);
         var {accounts, current} = await SEA.decrypt(localStorage.Proprietor, 'rest');
         if (accounts && current in accounts) {
             app.overwrite(accounts[current])
         }
-    }
+    }());
 
     function err(s){
         // the locally defined err function immediately unchecks the box and doesn't save anything

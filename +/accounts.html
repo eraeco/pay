@@ -94,13 +94,15 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
     }
 
     /* remember.html also runs this conditional onload in order to overwrite the check from the default account */
-    if(localStorage.Proprietor && !app.filled){
+    ;(async function start(){
+        if(app.filled){ return } // filled check to deposit, no need to remember.
+        if(!localStorage.began){ return } // free trial or paid not started.
+        if(!localStorage.Proprietor){ return } // no data?? 
         var proprietor = await SEA.decrypt(localStorage.Proprietor, 'rest');
-
         app.accounts = proprietor.accounts || {};
         app.current = app.accounts[proprietor.current] || null;
         renderAccounts();
-    }
+    }());
 
     $(window).on('focusout', (event) => {
         var isCheckFocusedOut = $('.check').contains($(event.target));
@@ -143,11 +145,9 @@ For each key in Proprietor.accounts, create a pill by cloning and filling in det
 
         // scroll to button#upgrade after checking that a match is made (length will be 1). if marketing.html isn't loaded, no big deal.
         // scroll to button only if Proprietor property doesn't exist, indicating the save function has never been used
-        if ($('#upgrade').length && typeof localStorage.Proprietor == 'undefined') {
-            $('#upgrade').get(0).scrollIntoView();
-            localStorage.began = +new Date;
+        if ($('#make').length && !localStorage.began) {
+            $('#make').get(0).scrollIntoView({behavior: 'smooth'});
         }
-
         // console.warn('stashing encrypted Proprietor with placeholder PIN')
         localStorage.Proprietor = await SEA.encrypt(Proprietor, 'rest');
     }

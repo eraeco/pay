@@ -37,7 +37,7 @@
 
 	}
 
-	#office {
+	#make {
 		background-image: linear-gradient(180deg, rgba(6, 21, 31, 0.16) 0%, rgba(6, 21, 31, 0.32) 100%),
 		url('/+/cityoffice.jpg');
 		background-position: center;
@@ -88,7 +88,7 @@
 	}
 
 	.learn {
-		padding: 10px 40px;
+		padding: 0px 40px;
 		background: #209BD9;
 		border-radius: 38px;
 		width: auto;
@@ -149,18 +149,18 @@
 		gap: 24px;
 		width: 100%;
 		padding: 0px 24px;
-		max-width: 1184px;
+		max-width: 1024px;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: space-evenly;
 		flex-wrap: wrap;
 	}
 
-	.make {
+	.office {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
-		max-width: 1288px;
+		max-width: 1024px;
 		padding: 72px 24px;
 	}
 
@@ -203,7 +203,6 @@
 		font-size: 14px;
 		color: white;
 	}
-
 
 	.plan {
 		display: flex;
@@ -400,8 +399,12 @@
 	.link {
 		font-size: 14px;
 		line-height: 20px;
-		color: #FFFFFF50;
+        transition: all 0.5s;
 	}
+    .link:hover {
+        transform: scale(1.1);
+        filter: brightness(1.2);
+    }
 
 	.items {
 		display: flex;
@@ -458,8 +461,6 @@
 		gap: 80px;
 		padding: 0px 24px;
 	}
-
-
 </style>
 
 
@@ -473,16 +474,16 @@
 		<div class="glass">
 			<div class="info">
 				<p class="text">&check; Easy, Direct Bank-to-Bank payments</p>
-				<p class="text">&check; Safe & Private with End-to-End Encryption</p>
+				<p class="text">&check; Secure & Private with End-to-End Encryption</p>
 				<p class="text">&check; No Fees. Just Fast Payments.</p>
 			</div>
-			<div class="learn">LEARN MORE</div>
+            <a class="link learn" href="#buy">LEARN MORE</a>
 		</div>
 	</div>
 </div>
 
-<div id="office" class="">
-	<div class="make ">
+<div id="make" class="">
+	<div class="office">
 		<img src="/+/icons/makemoney.svg" class="money" alt="">
 		<div class="glass">
 			<div class="outer">
@@ -495,11 +496,10 @@
 						<p class="text">&check; Unlimited Birthday Cards <sup class="coming"> Coming soon</sup></p>
 						<p class="text">&check; Real-Time Financial Forecasting<span class="coming"> Coming soon</span>
 						</p>
-						<p class="text">&check; Custom-Designed Checks<span class="coming"> Coming soon</span></p>
+						<p class="text">&check; Custom Designer Checks<span class="coming"> Coming soon</span></p>
 					</div>
 				</div>
-				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"
-					  class="form">
+				<form id="buy" class="form">
 					<p class="Proprietary">Proprietary Plan</p>
 
 
@@ -507,43 +507,71 @@
 						<div class="horizontal">
 							<img src="/+/icons/price.svg" class="price" alt="">
 						</div>
-						<button class="neon">
+						<a id="access" class="neon link" href="https://checkard.com/?to=pay@checkard.com&pay=ERA%20INC.&amount=99&memo=Checkard%20Proprietary%20Plan" target="_blank">
 							<div class="ellipse"></div>
 							<div class="layer1"></div>
 							<div class="layer2"></div>
 							<div class="layer3"></div>
 							<div class="layer4"></div>
 							<div class="layer5"></div>
-							<div class="access">Get Access</div>
-						</button>
+                            <div id="accessed" class="access">GET ACCESS</div>
+						</a>
 					</div>
 
 					<div class="wrapper">
 
 						<div class="field">
-							<label for="fullName" class="label">Full Name</label>
-							<input id="fullName" type="text" class="textbox" placeholder="Your full name">
+							<label for="Name" class="label">Full Name</label>
+							<input id="Name" type="text" class="textbox" placeholder="Your full name">
 						</div>
 
 						<div class="field">
-							<label for="businessName" class="label">Business Name</label>
-							<input id="businessName" type="text" class="textbox" placeholder="Your business name">
+							<label for="brand" class="label">Brand Name</label>
+							<input id="brand" type="text" class="textbox" placeholder="Your business name">
 						</div>
 
 						<div class="field">
 							<label for="email" class="label">Email</label>
-							<input id="email" type="email" class="textbox" placeholder="you@example.com">
+							<input id="email" type="email" class="textbox" placeholder="email@example.com">
 						</div>
 
 						<div class="field">
 							<label for="phone" class="label">Phone no.</label>
-							<input id="phone" type="tel" class="textbox" placeholder="(555) 123-4567">
+							<input id="phone" type="tel" class="textbox" placeholder="+1 (234) 567-8910">
 						</div>
 
 
 					</div>
 				</form>
-
+                <script>
+                app.pub = 'lG5jXRwG2a3L223v5XB3wmC0dq6VvGZWnc0ZzEWjq84.vrGSs8etweLYQ7Lp7yd1DW9Fn9tEGHauSWvK1Xqu46U';
+                app.epub = '2k8FXYz2lD2Fo3_yV0YRh30I4MP5FHeOcVmUoE_uHqA.niauGlbcBewnNb415nBGtzhNCkFTAHX3rtTrYfifhg4';
+                if(localStorage.began){
+                	$(buy).css({'pointer-events':'none', opacity: 0.4});
+                	accessed.textContent = "you're in!";
+            	}
+                buy.onsubmit = function(eve){ return false }
+                access.onclick = async function(eve){
+                	if(!Name.value || !brand.value || !email.value || !phone.value){
+                		eve.preventDefault();
+                		eve = accessed.textContent;
+                		accessed.textContent = 'error';
+                		setTimeout(function(){ accessed.textContent = eve },999*2);
+                		return;
+                	}
+                	var m = [Name.value, brand.value, email.value, phone.value].join('|');
+                	$(buy).css({'pointer-events':'none', opacity: 0.4});
+                	localStorage.began = localStorage.began || +new Date;
+                	var pad = await SEA.pair(), hash;
+                	m = await SEA.encrypt(m, await SEA.secret(app.epub, pad));
+                	hash = await SEA.work(m=pad.epub+'='+m, null, null, {name: "SHA-256"});
+                	app.gun.back('opt.mesh').say({dam: 'tag', email: 'pay@checkard.com', src: 'https://checkard.com/+/notify#'+m});
+                	app.gun.get('@checkard#').get((new Date).toISOString().split('T')[0]+'#'+hash).put(m, function(ack){
+                		if(ack.err){ accessed.textContent = 'error'; return }
+                		accessed.textContent = 'success';
+                	});
+                }
+                </script>
 			</div>
 		</div>
 	</div>
@@ -554,28 +582,21 @@
 	<div class="footer">
 		<div class='first'>
 			<p class="logo">Checkard</p>
-			<div class="tagline">Any slogan or tagline here. Lorem Ipsum Any slogan or tagline here. Lorem Ipsum</div>
+			<div class="tagline">Totally slay payments for grandma & brats. Why are you reading corporate footer slogans?</div>
 
 			<div class="socials">
-				<a class="social" href="#">
-					<img src="/+/icons/insta.svg">
-				</a>
-				<a class="social" href="#">
-					<img src="/+/icons/linkdin.svg">
-				</a>
-				<a class="social" href="#">
-
-					<img src="/+/icons/facebook.svg">
-				</a>
+				<a class="social" href="https://x.com/marknadal/status/1746329123805598078" target="_blank"><img src="/+/icons/insta.svg"></a>
+				<a class="social" href="https://x.com/marknadal/status/1746329123805598078" target="_blank"><img src="/+/icons/linkdin.svg"></a>
+				<a class="social" href="https://x.com/marknadal/status/1746329123805598078" target="_blank"><img src="/+/icons/facebook.svg"></a>
 			</div>
 		</div>
 		<div class='items'>
 			<div class="company">
 				<div class="Htext">Company</div>
 				<div class="links">
-					<a class="link" href="#">About Us</a>
-					<a class="link" href="#">Career</a>
-					<a class="link" href="#">Contact Us</a>
+					<a class="link" href="https://era.eco/">About Us</a>
+					<a class="link" href="https://github.com/eraeco/pay">Career</a>
+					<a class="link" href="https://wa.me/17606892468?text=Checkard!" target="_blank">Contact Us</a>
 				</div>
 			</div>
 
@@ -583,9 +604,9 @@
 
 				<div class="Htext">Product</div>
 				<div class="links">
-					<a class="link" href="#">Features</a>
-					<a class="link" href="#">Privacy Policy</a>
-					<a class="link" href="#">Terms of Services</a>
+					<a class="link" href="#home">Features</a>
+					<a class="link" href="#buy">Pricing</a>
+					<a class="link" href="https://github.com/eraeco/pay">Open Source</a>
 				</div>
 
 			</div>
@@ -593,9 +614,9 @@
 
 				<div class="Htext">Resources</div>
 				<div class="links">
-					<a class="link" href="#">Help Center</a>
-					<a class="link" href="#">Blogs</a>
-					<a class="link" href="#">Privacy Policy</a>
+					<a class="link" href="https://x.com/marknadal/status/1746329123805598078">Blogs</a>
+					<a class="link" href="mailto:help@checkard.com?subject=Help">Help Center</a>
+					<a class="link" href="https://github.com/eraeco/pay/blob/main/LICENSE">Terms of Services</a>
 				</div>
 			</div>
 		</div>
@@ -603,6 +624,8 @@
 	</div>
 	<div class='copyrights'>
 		&copy;
-		<div>Copyrights 2024. All rights reserved</div>
+		<div>Copyrights <span id="copyright">2024</span>. All rights reserved</div>
+        <script>;copyright.innerText = (new Date).getFullYear();</script>
 	</div>
+	<script async defer src="https://cdn.jsdelivr.net/npm/gun/lib/fun.js"></script>
 </div>

@@ -618,17 +618,18 @@
 		}
 		#tray {
 			margin-top: 99vh;
+			background: black;
 		}
-    .mid-screen {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
+	    .mid-screen {
+	        display: flex;
+	        justify-content: center;
+	        align-items: center;
+	        min-height: 100vh;
+	    }
 
-    [x-cloak] {
-        display: none !important;
-    }
+	    [x-cloak] {
+	        display: none !important;
+	    }
 	</style>
 	<div id="app">
 		<div class="envelope">
@@ -812,13 +813,14 @@
 
 			key = hash[0].slice(1);
 			code = hash[1];
-			var gun = GUN(['https://test.era.eco/gun','https://59.thesource.fm/gun','https://try.axe.eco/gun','https://relay.129.153.59.37.nip.io/gun']); // data is end-to-end encrypted BEFORE using these relays to send data.
+			var gun = app.gun = GUN(['https://test.era.eco/gun','https://59.thesource.fm/gun','https://try.axe.eco/gun','https://relay.129.153.59.37.nip.io/gun']); // data is end-to-end encrypted BEFORE using these relays to send data.
 
 			// console.warn(gun)
 
 			if(key && code){
-        app.filled = true;
+        		app.filled = true;
 				$('.flip').toggleClass('flipit');
+				$('#tray').css({'margin-top': '102vh'}); // on deposit, force scroll.
 				$('.envelope').addClass('mid-screen'); // default for now
 				$("[contenteditable]:not(.endorse .font)").attr('contenteditable', false);
 				load.to = setTimeout(load, 3000);
@@ -999,11 +1001,10 @@
 			app.load('./+/autoconvert.html');
 			app.load('./+/reflow.html');
 			app.load('./+/print.html');
-          	app.load('./+/hi.html'); // LEAVE THIS COMMENTED OUT UNTIL FINAL DESIGN MERGED!
+          	app.load('./+/hi.html');
 
-          if (app.filled) {
-          app.load('./+/help/deposit.html');
-      }
+          	if(!app.filled){ return }
+          	app.load('./+/help/deposit.html');
 		})();
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet">

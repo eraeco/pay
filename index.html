@@ -829,7 +829,6 @@
 				gun.get(key).on(load);
 
 				async function load(data){
-					setTimeout(()=>$('.amount, .amounts, .memo, .payee, .signature, .endorse').trigger('keyup'),9);
 					if(!data){
 						$('.payee').text(app.err = "CHECK NOT FOUND");
 						$('.amounts').text("Please make sure payer is also online, see instructions below.");
@@ -838,6 +837,7 @@
 					clearTimeout(load.to);
 					var msg = data.en;
 					var check = await de(msg, code);
+					setTimeout(()=>$('.amount, .amounts, .memo, .payee, .signature, .endorse').trigger('keyup'),9);
 					// console.warn(check)
 					if(!check){
 						$('.amounts').text(app.err = "Invalid decryption password");

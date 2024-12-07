@@ -779,7 +779,7 @@
 		</div>
 		<div class="send none">
 			<div class="submit">
-				<input placeholder="person.to.pay@example.com"><button>send</button>
+				<input placeholder="person.to.pay@example.com"><a id="go" target="_blank"><button>send</button></a>
 			</div>
 			<div class="open none">
 				choose:<br/><br/>
@@ -799,7 +799,7 @@
 
 	</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
@@ -860,9 +860,7 @@
 					micr.call($('.number'));
 				};
 				return;
-			} else {
-          app.filled = false;
-      }
+			} else { app.filled = false }
 
 			/* try and parse the querystring for values, convert to regular object for dot notation */
 			var params = Object.fromEntries((new URLSearchParams(location.search)).entries());
@@ -944,16 +942,24 @@
 				//if(tmp != check.routing.slice(0, tmp.length)){ return err('.fraction'), err('.inaccount') }
 				$("[contenteditable]").attr('contenteditable', false);
 				code = ((code||Math.random()) - Math.random()).toString(32).replace('.','');
-				var msg = await en(check, code);
 				key = Math.random().toString(32).slice(2);
-				// console.warn({key, msg})
+				emailize(check.amount, check.memo);
+				$('.submit').addClass('none');
+				$('.open').removeClass('none');
+				if(screen.width < screen.height){
+					$('#go').attr('href', $('.email').attr('href'));
+				}
+				var msg = await en(check, code);
 				gun.get(key).put({en: msg});
+				code = null;
+			});
+			function emailize(amount, memo){
 				var email = $('.submit input').val();
-				var subject = "$" + check.amount + (
-					check.memo.match(/\w/ig)?
-					" for " + check.memo
+				var subject = "$" + amount + (
+					memo.match(/\w/ig)?
+					" for " + memo
 					: " Payment!");
-				var body = "You've got money! You can immediately deposit it at this link:%0D%0A%0D%0A"
+				var body = "You've got money! You can immediately deposit it by opening this link on your computer:%0D%0A%0D%0A"
 				+ "https://checkard.com/%23" + key + ':' + code
 				+ "%0D%0A%0D%0AInstructions: Open checkard on your computer to endorse the check, then on your phone open your bank's official app and use it to take a picture of the front and back of the check to mobile deposit it."
 				+ "%0D%0A%0D%0AWarning: Do not forward this email to anyone, as it contains the decryption keys for confidential information. The encrypted check may be deleted and become void after 30 days for security reasons."
@@ -972,10 +978,7 @@
 					+ "&body="
 					+ body
 				);
-				$('.submit').addClass('none');
-				$('.open').removeClass('none');
-				code = null;
-			});
+			};
 
 			function err(s){
 				$(s).addClass('error')

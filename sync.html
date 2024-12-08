@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- always start with these two lines to set a clean baseline for different devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gun/examples/style.css">
+<title>Sync</title>
+<link rel="icon" href="./media/icon.png">
+</head>
+<body class="black whitet">
+<style>
+	/*
+		Choose white text on a black background so you can add color in.
+		Pick your favorite font and choose a font size.
+	*/
+	html, body {
+		font-family: "Oxygen", sans-serif;
+	}
+	.unit img {
+		max-height: 90vh;
+	}
+	.board {
+		padding: 7% 1em;
+	}
+	.pill {
+	  display: inline-block;
+	  background: skyblue;
+	  background: limegreen;
+	  border-radius: 12px; /* same roundness as 24px forget orb */
+	  cursor: pointer;
+	  padding: 0.5em;
+	}
+	p {
+		padding: 1em;
+	}
+	#QR img {
+		margin:  0 auto;
+	}
+	#link {
+		text-align: center;
+		padding: 0.1em;
+		width: 80%;
+	}
+</style>
+
+<!-- for educational sites, consider starting with a nice full screen welcome message -->
+<div class="row hold full center" style="padding-top: 9%;">
+	<div class="row focus">
+		<p class="shout">Sync Account</p>
+		<p>Do you want to create a 1 time account sync link?</p>
+		<p id="err" class="redt">Warning! This link will give whoever clicks it access to all your bank account information</p>
+		<a id="sync"><button class="pill act">AUTHORIZE</button></a>
+		<p><input id="link" class="white blackt"></p>
+		<div class="center"><div id="QR"></div></div>
+	</div>
+	<div class="row focus min leak">
+		<!-- just like in real life, looking pretty attracts attention, so show off and look glamorous! -->
+		<img src="https://era.eco/media/world.png" class="row" style="position: absolute; top:0;left:0;">
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gun/lib/dom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
+<script>;(function(){ var lS = localStorage;
+	var hash = location.hash.split(':'), key, code;
+
+	key = hash[0].slice(1);
+	code = hash[1];
+	var gun = GUN(['https://test.era.eco/gun','https://59.thesource.fm/gun','https://try.axe.eco/gun','https://relay.129.153.59.37.nip.io/gun']); // data is end-to-end encrypted BEFORE using these relays to send data.
+	window.gun = gun;
+
+
+	if(key && code){
+		if(lS.began){
+			$(err).text("Warning! You already have an account!");
+			return;
+		}
+		load.to = setTimeout(load, 3000);
+		var ref = gun.get(key).on(load);
+
+		async function load(data){
+			if(ref.done){ return }
+			clearTimeout(load.to);
+			data = await SEA.decrypt((data||'')[1], code);
+			if(!data){
+				$(err).text("Accounts not found, please make sure sender is also online.");
+				return;
+			}
+			data = data.split('|');
+			localStorage.began = data[0];
+			localStorage.Proprietor = data[1];
+			ref.put({'1':ref.done=1}, function(ack){setTimeout(function(){
+				location = location.origin;
+			},9)});
+		}
+	}
+
+	if(!lS.began){
+		return;
+	}
+
+	$(sync).on('click', async function(){
+		var msg = lS.began +'|' + lS.Proprietor;
+		var key = Math.random().toString(32).slice(2);//+"<?999";
+		var code = btoa(SEA.random(21));
+		link.value = location+'#'+key+':'+code;
+		link.select();document.execCommand('copy');try{navigator.clipboard.writeText(link.value)}catch(e){};
+		new QRCode(QR, link.value);
+		msg = await SEA.encrypt(msg, code);
+		gun.get(key).put({'1': msg}).on(function(data){
+			if(1 != data['1']){ return }
+			$(sync).text("DONE");
+		});
+	});
+}());
+</script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js" integrity="sha256-xUHvBjJ4hahBW8qN9gceFBibSFUzbe9PNttUvehITzY=" crossorigin="anonymous"></script>
+</body>
+</html>

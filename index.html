@@ -835,7 +835,7 @@
 						return;
 					}
 					clearTimeout(load.to);
-					var msg = data.en;
+					var msg = data[1]||data.en;
 					var check = await de(msg, code);
 					setTimeout(()=>$('.amount, .amounts, .memo, .payee, .signature, .endorse').trigger('keyup'),9);
 					// console.warn(check)
@@ -950,7 +950,7 @@
 					$('#go').attr('href', $('.email').attr('href'));
 				}
 				var msg = await en(check, code);
-				gun.get(key).put({en: msg});
+				gun.get(key).put({'1': msg});
 				code = null;
 			});
 			function emailize(amount, memo){

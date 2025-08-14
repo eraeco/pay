@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Invoice Link Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+html, body {
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+body {
+    background: black;
+    color: skyblue;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    background-image: url('/+/sunset.gif');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.glass {
+    width: 100%;
+    padding: 60px 0;
+    background-color: #00000005;
+    box-shadow: -37.07px 37.07px 37.07px 0 #FFFFFF08 inset,
+    37.07px -37.07px 37.07px 0px #A5A5A508 inset;
+    backdrop-filter: blur(12px);
+    border: #ffffff10 2px solid;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+input::placeholder {
+}
+</style>
+</head>
+<body>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gun/examples/style.css">
+    <div class="container">
+    <center>
+        <img src="file:///Users/alive/Dropbox/Code/PAY/+/icons/getpaid.svg" class="paid pulse">
+    </center>
+        <form id="invoice-form" class="pad center" style="max-width: 14em; b-ackground: rgba(0,0,0,0.8);">
+            <input type="text" id="payee" name="payee" placeholder="your name/business" class="glass shade sap gap">
+            <input type="number" id="amount" name="amount" step="0.01" placeholder="amount ur owed" class="glass shade sap gap">
+            <input type="text" id="memo" name="memo" placeholder="memo for what" class="glass shade sap gap">
+            <input type="email" id="email" name="email" placeholder="ur email" class="glass shade sap gap">
+            <input type="date" id="date" name="date" class="glass shade sap gap">
+            <button type="button" id="generate-btn">Generate Link</button>
+        </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set default date to today
+            const dateInput = document.getElementById('date');
+            if (!dateInput.value) {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                dateInput.value = `${year}-${month}-${day}`;
+            }
+
+            const generateBtn = document.getElementById('generate-btn');
+            const resultContainer = document.getElementById('result-container');
+            const paymentLinkInput = document.getElementById('payment-link');
+
+            function numberToWords(num) {
+                if (num === null || num === undefined || num === '') return '';
+                num = parseFloat(num);
+                if (isNaN(num)) return '';
+                if (num === 0) return 'Zero and 00/100';
+
+                const a = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+                const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+                const [integerPart, decimalPart = '00'] = String(num.toFixed(2)).split('.');
+                const paddedDecimal = decimalPart.padEnd(2, '0').substring(0, 2);
+
+                function convert(n) {
+                    let words = '';
+                    if (n >= 1000) {
+                        words += convert(Math.floor(n / 1000)) + ' thousand ';
+                        n %= 1000;
+                    }
+                    if (n >= 100) {
+                        words += a[Math.floor(n / 100)] + ' hundred ';
+                        n %= 100;
+                    }
+                    if (n >= 20) {
+                        words += b[Math.floor(n / 10)];
+                        if (n % 10 !== 0) {
+                            words += '-' + a[n % 10];
+                        }
+                    } else if (n > 0) {
+                        words += a[n];
+                    }
+                    return words.trim();
+                }
+
+                let integerWords = convert(parseInt(integerPart, 10));
+                if (integerWords === '') {
+                    integerWords = 'Zero';
+                } else {
+                    integerWords = integerWords.charAt(0).toUpperCase() + integerWords.slice(1);
+                }
+                
+                return `${integerWords} and ${paddedDecimal}/100`;
+            }
+
+            generateBtn.addEventListener('click', function () {
+                const payee = document.getElementById('payee').value;
+                const amount = document.getElementById('amount').value;
+                const bank = document.getElementById('bank').value;
+                const memo = document.getElementById('memo').value;
+                const email = document.getElementById('email').value;
+                const date = document.getElementById('date').value.replace(/-/g, '/');
+
+                if (!amount) {
+                    alert('Please enter an amount.');
+                    return;
+                }
+                
+                const amounts = numberToWords(amount);
+
+                const params = new URLSearchParams({
+                    pay: payee, // 'pay' is also accepted by index.html
+                    amount: parseFloat(amount).toFixed(2),
+                    amounts: amounts,
+                    bank: bank,
+                    memo: memo,
+                    to: email,
+                    date: date
+                });
+
+                const link = `${window.location.origin}/index.html?${params.toString()}`;
+                
+                paymentLinkInput.value = link;
+                resultContainer.style.display = 'block';
+                paymentLinkInput.focus();
+                paymentLinkInput.select();
+            });
+
+            const copyBtn = document.getElementById('copy-btn');
+            copyBtn.addEventListener('click', function () {
+                const paymentLink = document.getElementById('payment-link').value;
+                if (paymentLink) {
+                    navigator.clipboard.writeText(paymentLink).then(() => {
+                        const originalText = copyBtn.textContent;
+                        copyBtn.textContent = 'Copied!';
+                        copyBtn.disabled = true;
+                        setTimeout(() => {
+                            copyBtn.textContent = originalText;
+                            copyBtn.disabled = false;
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                        alert('Failed to copy link.');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

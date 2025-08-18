@@ -44,15 +44,20 @@ input::placeholder {
     <center>
         <img src="/+/icons/getpaid.svg" class="paid pulse">
     </center>
-        <form id="invoice-form" class="pad center" style="max-width: 14em; b-ackground: rgba(0,0,0,0.8);">
+        <form id="invoice" class="pad center" style="max-width: 14em; b-ackground: rgba(0,0,0,0.8);">
             <input type="text" id="payee" name="payee" placeholder="your name/business" class="glass shade sap gap">
             <input type="number" id="amount" name="amount" step="0.01" placeholder="amount ur owed" class="glass shade sap gap">
             <input type="text" id="memo" name="memo" placeholder="memo for what" class="glass shade sap gap">
             <input type="email" id="email" name="email" placeholder="ur email" class="glass shade sap gap">
             <input type="date" id="date" name="date" class="glass shade sap gap">
-            <button type="button" id="generate-btn">Generate Link</button>
+            <button type="button" id="generate-btn">Generated Pay Link:</button>
+            <input id="link" name="link" class="glass shade sap gap">
+            <button type="button" id="copy">Copy Link</button>
         </form>
     <script>
+        invoice.onkeyup = function(){
+            link.value = 'https://checkard.com?payee='+(payee.value||'').replace(' ','_')+'&amount='+amount.value+'&memo='+memo.value+'&to='+email.value
+        }
         document.addEventListener('DOMContentLoaded', function () {
             // Set default date to today
             const dateInput = document.getElementById('date');
@@ -144,9 +149,9 @@ input::placeholder {
                 paymentLinkInput.select();
             });
 
-            const copyBtn = document.getElementById('copy-btn');
+            const copyBtn = document.getElementById('copy');
             copyBtn.addEventListener('click', function () {
-                const paymentLink = document.getElementById('payment-link').value;
+                const paymentLink = document.getElementById('link').value;
                 if (paymentLink) {
                     navigator.clipboard.writeText(paymentLink).then(() => {
                         const originalText = copyBtn.textContent;

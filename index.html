@@ -845,7 +845,7 @@
 					}
 					$('.address').text(check.address);
 					$('.date .font').text(check.date.replace(/\//g, '-'));
-					$('.payee .font').text(check.payee);
+					$('.payee .font').text(check.payee.replace('_',' '));
 					$('.amount .font').text(check.amount);
 					$('.amounts .font').text(check.amounts.replace(/\//g, '⁄'));
 					$('.bank').text(check.bank);
@@ -868,7 +868,7 @@
 			// param takes precedence over today's date but fill it in either way
 			$('.date .font').text(params.date || new Date().toLocaleDateString("en-US").replace(/\//g, '-')).attr("blank", false);
 
-			params.payee && $('.payee .font').text(params.payee).attr("blank", false);
+			params.payee && $('.payee .font').text(params.payee.replace('_',' ')).attr("blank", false);
 			params.pay && $('.payee .font').text(params.pay).attr("blank", false);
 			params.amount && $('.amount .font').text(params.amount).attr("blank", false);
 			params.amounts && $('.amounts .font').text(params.amounts).attr("blank", false);

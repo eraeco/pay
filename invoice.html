@@ -38,6 +38,7 @@ body {
     background: rgba(0,0,0,0.5);
 }
 input::placeholder {
+    opacity: 0.7;
 }
 </style>
 </head>
@@ -53,13 +54,13 @@ input::placeholder {
             <input type="text" id="memo" name="memo" placeholder="memo for what" class="glass shade sap gap">
             <input type="email" id="email" name="email" placeholder="ur email" class="glass shade sap gap">
             <button type="button" id="copy" class="glass shaded gap">Copy Pay Link:</button>
-            <input id="link" name="link" class="glass shade sap gap">
+            <input id="link" name="link" class="glass shade sap gap" style="font-size: 70%;">
         </form>
     <script>
         invoice.onkeyup = function(){
             var params = new URLSearchParams({
                 pay: payee.value.trim(),
-                amount: parseFloat(amount.value).toFixed(2),
+                amount: parseFloat(amount.value||0).toFixed(2),
                 memo: memo.value.trim()
             });
             link.value = 'https://checkard.com?'+params+'&to='+email.value.trim();

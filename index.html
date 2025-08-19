@@ -869,7 +869,7 @@
 			$('.date .font').text(params.date || new Date().toLocaleDateString("en-US").replace(/\//g, '-')).attr("blank", false);
 
 			params.payee && $('.payee .font').text(params.payee.replace('_',' ')).attr("blank", false);
-			params.pay && $('.payee .font').text(params.pay).attr("blank", false);
+			params.pay && $('.payee .font').text(params.pay.replace('_',' ')).attr("blank", false);
 			params.amount && $('.amount .font').text(params.amount).attr("blank", false);
 			params.amounts && $('.amounts .font').text(params.amounts).attr("blank", false);
 			params.bank && $('.bank').text(params.bank).attr("blank", false);

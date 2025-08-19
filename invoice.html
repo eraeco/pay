@@ -64,6 +64,18 @@ input::placeholder {
             });
             link.value = 'https://checkard.com?'+params+'&to='+email.value.trim();
         }
+        copy.onclick = link.onclick = copied;
+        function copied(){
+            navigator.clipboard.writeText(link.value||'').then(() => {
+                var text = copy.textContent;
+                copy.textContent = 'Copied!';
+                copy.disabled = true;
+                setTimeout(() => {
+                    copy.textContent = text;
+                    copy.disabled = false;
+                }, 2000);
+            }).catch(err => {});
+        };
     </script>
 </body>
 </html>

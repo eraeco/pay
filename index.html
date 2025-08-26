@@ -13,6 +13,9 @@
 		body {
 			background: black;
 			color: skyblue;
+			/* don't allow print dialog to ignore background colors */
+			-webkit-print-color-adjust:exact !important;
+  			print-color-adjust:exact !important;
 		}
 		div {
 			position: relative;

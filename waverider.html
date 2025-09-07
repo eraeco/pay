@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Waverider</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #chart-container { width: 800px; height: 400px; margin-bottom: 20px; }
+        textarea { width: 100%; height: 150px; margin-bottom: 10px; }
+        #results { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Waverider</h1>
+    
+    <div id="chart-container">
+        <canvas id="price-chart"></canvas>
+    </div>
+
+    <h2>Strategy Code</h2>
+    <textarea id="strategy-code" placeholder="Write your JavaScript code here. Use variables like 'current', 'previous', 'data', 'i'. Call buy(amount) or sell(amount). Example: if (current.close > previous.close) { buy(10); }"></textarea>
+    <button id="run-strategy">Run Strategy</button>    
+    <div id="results"></div>
+
+    <div id="stock">
+    input stock data:
+    <select id="format"><option value="csv">CSV</option><option value="json">JSON</option></select> select
+    <select id="old">
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/nvda.csv">Nvidia 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/aapl.csv">Apple 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/amzn.csv">Amazon 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/csco.csv">Cisco 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/ea.csv">EA 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/ebay.csv">eBay 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/fb.csv">Facebook 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/goog.csv">Google 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/ibm.csv">IBM 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/intc.csv">INTC 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/msft.csv">Microsoft 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/nflx.csv">Netflix 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/orcl.csv">Oracle 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/qcom.csv">Qualcomm 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/shop.csv">Shopify 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/tsla.csv">Tesla 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/twtr.csv">Twitter 2019</option>
+        <option value="https://raw.githubusercontent.com/arsenyturin/Capstone-Project/refs/heads/master/data/stocks/vmw.csv">VMWare 2019</option>
+    </select> or upload <input type="file" id="upload"><button id="render">Render</button>
+    <textarea id="paste" placeholder="or paste the data here" oninput="render.click()" style="height:2em;"></textarea>
+    <script>(old.onchange = async function(){ paste.value = await (await fetch(old.value)).text(); render.click() })()</script>
+    </div>
+    
+
+    <script>
+        var data = [];
+        var chart = null;
+        var initialCash = 10000;
+
+        function parseCSV(csv) {
+            var lines = csv.split('\n');
+            if (lines.length < 2) return [];
+            var headers = lines[0].split(',').map(function(h) { return h.trim().toLowerCase(); });
+            var result = [];
+            for (var i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                var vals = lines[i].split(',').map(function(v) { return v.trim(); });
+                if (vals.length !== headers.length) continue;
+                var obj = {};
+                for (var j = 0; j < headers.length; j++) {
+                    obj[headers[j]] = vals[j];
+                }
+                result.push(obj);
+            }
+            return result;
+        }
+
+        function loadData(text, format) {
+            if (format === 'json') {
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    alert('Invalid JSON');
+                    return;
+                }
+            } else {
+                data = parseCSV(text);
+            }
+            // Assume data has 'date' and 'close', convert close to number
+            data = data.map(function(d) {
+                d.close = parseFloat(d.close);
+                return d;
+            }).filter(function(d) { return !isNaN(d.close); });
+            renderChart();
+        }
+
+        function renderChart() {
+            var ctx = document.getElementById('price-chart').getContext('2d');
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(function(d) { return d.date; }),
+                    datasets: [{
+                        label: 'Close Price',
+                        data: data.map(function(d) { return d.close; }),
+                        borderColor: 'blue',
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { title: { display: true, text: 'Date' } },
+                        y: { title: { display: true, text: 'Price' } }
+                    }
+                }
+            });
+        }
+
+        function runStrategy() {
+            var userCode = $('#strategy-code').val();
+            if (!data.length) {
+                alert('Load data first');
+                return;
+            }
+            var cash = initialCash;
+            var shares = 0;
+            var totalCost = 0;
+            var trades = [];
+            for (var i = 1; i < data.length; i++) {
+                var previous = data[i-1];
+                var current = data[i];
+                var buy = function(amount) {
+                    amount = parseFloat(amount) || 0;
+                    if (amount <= 0) return;
+                    var cost = amount * current.close;
+                    if (cash >= cost) {
+                        cash -= cost;
+                        shares += amount;
+                        totalCost += cost;
+                        trades.push({type: 'buy', amount: amount, price: current.close, date: current.date});
+                    }
+                };
+                var sell = function(amount) {
+                    amount = parseFloat(amount) || 0;
+                    if (amount <= 0) return;
+                    if (shares >= amount) {
+                        var revenue = amount * current.close;
+                        cash += revenue;
+                        shares -= amount;
+                        trades.push({type: 'sell', amount: amount, price: current.close, date: current.date});
+                    }
+                };
+                try {
+                    eval(userCode);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+            var finalValue = cash + shares * data[data.length - 1].close;
+            var totalReturn = finalValue - initialCash;
+            var loss = totalReturn < 0 ? -totalReturn : 0;
+            var profit = totalReturn > 0 ? totalReturn : 0;
+            $('#results').html(
+                '<h3>Results</h3>' +
+                '<p>Total Cost (spent on buys): $' + num(totalCost) + '</p>' +
+                '<p>Total Return: $' + num(totalReturn) + '</p>' +
+                '<p>Profit: $' + num(profit) + '</p>' +
+                '<p>Loss: $' + num(loss) + '</p>' +
+                '<p>Final Cash: $' + num(cash) + '</p>' +
+                '<p>Final Shares: ' + num(shares) + '</p>' +
+                '<p>Final Value: $' + num(finalValue) + '</p>'
+            );
+        }
+        function num(n){ return parseFloat(n.toFixed(2)).toLocaleString() }
+
+        $(document).ready(function() {
+            $('#render').click(function() {
+                var text = $('#paste').val();
+                var format = $('#format').val();
+                if (text) {
+                    loadData(text, format);
+                }
+            });
+
+            $('#upload').change(function(e) {
+                var file = e.target.files[0];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var text = event.target.result;
+                    var format = file.name.endsWith('.json') ? 'json' : 'csv';
+                    $('#format').val(format);
+                    loadData(text, format);
+                };
+                reader.readAsText(file);
+            });
+
+            $('#run-strategy').click(runStrategy);
+        });
+    </script>
+</body>
+</html>
